@@ -11,12 +11,15 @@
     "format:check": "prettier --check ."
   },
   "dependencies": {
+    "@upstash/ratelimit": "^2.0.6",
+    "@upstash/redis": "^1.35.6",
     "contentful": "^11.8.7",
     "graphql": "^16.11.0",
     "graphql-request": "^7.3.1",
     "next": "14.2.15",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-dom": "18.2.0",
+    "uuid": "^13.0.0"
   },
   "devDependencies": {
     "@types/node": "^20",

@@ -1,0 +1,3 @@
+// Re-export all CMS functions for easy importing
+export { getPosts, type PostPropsForComponent } from "./post";
+export { getProfiles } from "./profile";
