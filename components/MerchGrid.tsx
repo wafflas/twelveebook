@@ -3,11 +3,17 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Merch } from "@/types/Merch";
 import ImageModal from "@/components/ImageModal";
 
 interface MerchGridProps {
-  items: Merch[];
+  items: {
+    id: string;
+    title: string;
+    price: number;
+    imageUrl: string;
+    slug: string;
+    inStock: boolean;
+  }[];
 }
 
 export default function MerchGrid({ items }: MerchGridProps) {

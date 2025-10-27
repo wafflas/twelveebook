@@ -1,5 +1,5 @@
-import MerchGrid from '@/components/MerchGrid'
-import React from 'react'
+import MerchGrid from "@/components/MerchGrid";
+import React from "react";
 
 import { Metadata } from "next";
 
@@ -10,9 +10,16 @@ export const metadata: Metadata = {
 
 export default function page() {
   // TODO: Replace with CMS data
-  const items: Merch[] = [
+  const items: {
+    id: string;
+    title: string;
+    price: number;
+    imageUrl: string;
+    slug: string;
+    inStock: boolean;
+  }[] = [
     {
-      id: '1',
+      id: "1",
       title: "“2012” T- Shirt",
       price: 10,
       imageUrl: "/merch/2012-tshirt.png",
@@ -20,7 +27,7 @@ export default function page() {
       inStock: true,
     },
     {
-      id: '2',
+      id: "2",
       title: "“2012” Hoodie",
       price: 20,
       imageUrl: "/merch/2012-hoodie.png",
@@ -28,7 +35,7 @@ export default function page() {
       inStock: true,
     },
     {
-      id: '3',
+      id: "3",
       title: "“2012” CD",
       price: 20,
       imageUrl: "/merch/2012-cd.png",
@@ -36,7 +43,7 @@ export default function page() {
       inStock: true,
     },
     {
-      id: '4',
+      id: "4",
       title: "“2012” Hat",
       price: 20,
       imageUrl: "/merch/2012-hat.png",
@@ -44,7 +51,7 @@ export default function page() {
       inStock: true,
     },
     {
-      id: '5',
+      id: "5",
       title: "“2012” Pants",
       price: 20,
       imageUrl: "/merch/2012-pants.png",
@@ -55,7 +62,7 @@ export default function page() {
 
   return (
     <div className="container mx-auto bg-white p-2 text-black">
-      <h1 className="text-2xl font-bold pb-5">Merchandise</h1>
+      <h1 className="pb-5 text-2xl font-bold">Merchandise</h1>
       <MerchGrid items={items} />
     </div>
   );
