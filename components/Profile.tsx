@@ -45,7 +45,7 @@ export default function Profile({
 
   // Use friends from profile if not passed as prop
   const displayFriends = friends.length > 0 ? friends : profile.friends || [];
-
+  const isOwner = nameToSlug(profileName).toLowerCase() === "twelvee";
   return (
     <div className="mx-auto max-w-6xl bg-white p-4 text-black">
       {/* Profile Header */}
@@ -69,24 +69,49 @@ export default function Profile({
 
           {/* Action Links */}
           <div className="space-y-3 pt-4">
-            <Link
-              href="#"
-              className="block text-xs text-linkblue hover:text-linkblue/80"
-            >
-              Add {firstName} as a Friend
-            </Link>
-            <Link
-              href="#"
-              className="block text-xs text-linkblue hover:text-linkblue/80"
-            >
-              View Photos of {firstName}(25)
-            </Link>
-            <Link
-              href="#"
-              className="block text-xs text-linkblue hover:text-linkblue/80"
-            >
-              View Friends of {firstName}({displayFriends.length})
-            </Link>
+            {isOwner ? (
+              <>
+                <Link
+                  href="#"
+                  className="block text-[10px] text-linkblue hover:text-linkblue/80"
+                >
+                  Edit Profile
+                </Link>
+                <Link 
+                  href="#"
+                  className="block text-[10px] text-linkblue hover:text-linkblue/80"
+                >
+                  Change Profile Picture
+                </Link>
+                <Link
+                  href="#"
+                  className="block text-[10px] text-linkblue hover:text-linkblue/80"
+                >
+                  Privacy Settings
+                </Link>
+              </>
+            ) : (
+              <>
+                <Link
+                  href="#"
+                  className="block text-[10px] text-linkblue hover:text-linkblue/80"
+                >
+                  Send Message to {firstName}
+                </Link>
+                <Link
+                  href="#"
+                  className="block text-[10px] text-linkblue hover:text-linkblue/80"
+                >
+                  View Photos of {firstName}(25)
+                </Link>
+                <Link
+                  href="#"
+                  className="block text-[10px] text-linkblue hover:text-linkblue/80"
+                >
+                  View Friends of {firstName}({displayFriends.length})
+                </Link>
+              </>
+            )}
           </div>
         </div>
       </div>

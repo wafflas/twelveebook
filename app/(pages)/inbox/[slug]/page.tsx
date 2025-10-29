@@ -96,8 +96,8 @@ export default async function ChatPage({ params }: PageProps) {
                 height={40}
                 className="object-cover"
               />
-              <div className="max-w-[95%]">
-                <div className="bg-white text-[14px] leading-5 text-black">
+              <div className="min-w-0 flex-1">
+                <div className="whitespace-pre-wrap break-words bg-white text-[14px] leading-5 text-black">
                   {m.text}
                 </div>
                 <div className="flex items-center gap-1">

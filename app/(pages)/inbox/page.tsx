@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { nameToSlug } from "@/lib/utils";
 import { Metadata } from "next";
-import { getChats } from "@/lib/cms";
+import { getChats, getChatByContact } from "@/lib/cms";
 import { formatTimestampFor2012 } from "@/lib/utils";
 
 export const metadata: Metadata = {
@@ -14,11 +14,28 @@ export const metadata: Metadata = {
 export default async function Inbox() {
   const chats = await getChats();
 
-  // Sort chats by lastMessageAt (newest first)
-  const sortedChats = [...chats].sort((a, b) => {
+  // Enrich each chat with the true last message (includes sender), then sort
+  const enrichedChats = await Promise.all(
+    chats.map(async (chat) => {
+      const { messages } = await getChatByContact(chat.contact.name);
+      if (!messages || messages.length === 0) return chat;
+
+      const last = messages[messages.length - 1]; // oldest-first upstream, so last is latest
+      const isFromMe = last?.sender?.name?.toLowerCase() === "twelvee";
+
+      return {
+        ...chat,
+        preview: `${isFromMe ? "You: " : ""}${last.text}`,
+        lastMessageAt: last.createdAt,
+      };
+    }),
+  );
+
+  // sort by lastMessageAt (newest first)
+  const sortedChats = [...enrichedChats].sort((a, b) => {
     const timeA = new Date(a.lastMessageAt).getTime();
     const timeB = new Date(b.lastMessageAt).getTime();
-    return timeB - timeA; // descending order (newest first)
+    return timeB - timeA;
   });
 
   return (
@@ -43,17 +60,24 @@ export default async function Inbox() {
                 <span className="text-base font-bold leading-5 text-black">
                   {chat.contact.name}
                 </span>
-                {chat.unread ? ( <span className="truncate text-sm leading-5 text-black font-bold">
-                  {chat.preview}
-                </span> ) : ( <span className="truncate text-sm leading-5 text-gray-700">
-                  {chat.preview}
-                </span> )}
+                {chat.unread ? (
+                  <span className="truncate text-sm font-bold leading-5 text-black">
+                    {chat.preview}
+                  </span>
+                ) : (
+                  <span className="truncate text-sm leading-5 text-gray-700">
+                    {chat.preview}
+                  </span>
+                )}
               </div>
             </div>
             <div className="flex items-start gap-2">
               {chat.unread ? (
                 <span className="whitespace-nowrap text-sm text-gray-600">
-                  <span className=" text-black">•</span> <span className="text-black font-bold">{formatTimestampFor2012(chat.lastMessageAt)}</span>
+                  <span className="text-black">•</span>{" "}
+                  <span className="font-bold text-black">
+                    {formatTimestampFor2012(chat.lastMessageAt)}
+                  </span>
                 </span>
               ) : (
                 <span className="whitespace-nowrap text-sm text-gray-600">
