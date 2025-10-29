@@ -88,12 +88,24 @@ export default function DinoGame({ onUnlock }: DinoGameProps) {
     };
 
     const handleTouch = (e: TouchEvent) => {
+      // Ensure mobile Safari allows preventDefault for touch gestures
       e.preventDefault();
       jump();
     };
 
+    const handlePointerDown = (_e: PointerEvent) => {
+      jump();
+    };
+
+    const handleMouseDown = (_e: MouseEvent) => {
+      jump();
+    };
+
     document.addEventListener("keydown", handleKeyDown);
-    canvas.addEventListener("touchstart", handleTouch);
+    // Add multiple input handlers for broader mobile support
+    canvas.addEventListener("touchstart", handleTouch, { passive: false });
+    canvas.addEventListener("pointerdown", handlePointerDown);
+    canvas.addEventListener("mousedown", handleMouseDown);
 
     const checkCollision = (a: GameObject, b: GameObject): boolean => {
       return (
@@ -126,7 +138,7 @@ export default function DinoGame({ onUnlock }: DinoGameProps) {
 
       // Draw dino (standing on ground)
       const { dino, ground } = gameDataRef.current;
-      ctx.fillStyle = "#4a5568";
+      ctx.fillStyle = "#000000";
       ctx.fillRect(dino.x, ground - dino.height, dino.width, dino.height);
 
       // Draw sample obstacles (static preview)
@@ -135,7 +147,7 @@ export default function DinoGame({ onUnlock }: DinoGameProps) {
         { x: canvas.width - 50, y: ground - 30, width: 20, height: 30 },
       ];
 
-      ctx.fillStyle = "#e53e3e";
+      ctx.fillStyle = "#000000";
       sampleObstacles.forEach((obs) => {
         ctx.fillRect(obs.x, obs.y, obs.width, obs.height);
       });
@@ -182,7 +194,7 @@ export default function DinoGame({ onUnlock }: DinoGameProps) {
         dino.isJumping = false;
       }
 
-      ctx.fillStyle = "#4a5568";
+      ctx.fillStyle = "#000000";
       ctx.fillRect(dino.x, dino.y, dino.width, dino.height);
 
       // Update and draw obstacles
@@ -190,7 +202,7 @@ export default function DinoGame({ onUnlock }: DinoGameProps) {
         const obstacle = obstacles[i];
         obstacle.x -= speed;
 
-        ctx.fillStyle = "#e53e3e";
+        ctx.fillStyle = "#000000";
         ctx.fillRect(obstacle.x, obstacle.y, obstacle.width, obstacle.height);
 
         // Check collision
@@ -239,7 +251,9 @@ export default function DinoGame({ onUnlock }: DinoGameProps) {
     return () => {
       window.removeEventListener("resize", resizeCanvas);
       document.removeEventListener("keydown", handleKeyDown);
-      canvas.removeEventListener("touchstart", handleTouch);
+      canvas.removeEventListener("touchstart", handleTouch as any);
+      canvas.removeEventListener("pointerdown", handlePointerDown as any);
+      canvas.removeEventListener("mousedown", handleMouseDown as any);
       if (gameLoopRef.current) {
         cancelAnimationFrame(gameLoopRef.current);
       }
@@ -284,7 +298,7 @@ export default function DinoGame({ onUnlock }: DinoGameProps) {
         />
 
         {gameState === "waiting" && (
-          <div className="absolute inset-0 flex items-center justify-center"></div>
+          <div className="pointer-events-none absolute inset-0 flex items-center justify-center"></div>
         )}
 
         {gameState === "won" && (

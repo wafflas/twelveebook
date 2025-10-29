@@ -1,4 +1,7 @@
 // Utility function to convert name to slug
+
+import { getChats } from "./cms";
+
 // Example: "Twelvee" -> "twelvee", "Stolou" -> "stolou"
 export function nameToSlug(name: string): string {
   return name.toLowerCase().trim();
@@ -14,7 +17,6 @@ export function slugToName(slug: string): string {
 
 // Format timestamp in 2012 Facebook style
 export function formatTimestampFor2012(timestamp: string): string {
-
   const postDate = new Date(timestamp);
 
   // Use the current date as "now"

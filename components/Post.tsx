@@ -82,8 +82,11 @@ export default function Post({
         <div className="flex flex-row items-center gap-2 py-3">
           <Image src={author.avatar} alt={author.name} width={80} height={80} />
           <div className="flex flex-col text-sm">
-            <Link href={`/profile/${nameToSlug(author.name)}`}>
-              <h2 className="pb-1 text-sm text-linkblue hover:underline">
+            <Link
+              className="w-fit"
+              href={`/profile/${nameToSlug(author.name)}`}
+            >
+              <h2 className="pb-1 text-sm text-linkblue hover:text-linkblue/80">
                 {author.name}
               </h2>
             </Link>
@@ -91,17 +94,19 @@ export default function Post({
             <p className="text-xs text-timestampgray">
               {formatTimestampFor2012(timestamp)}
             </p>
-            <div className="flex flex-row items-center gap-2 pt-2">
+            <div className="flex flex-row items-center gap-1 pt-2">
               <button
                 onClick={toggleLike}
                 disabled={loading}
                 className={`rounded px-2 py-1 text-xs ${likedByVisitor ? "bg-red-100 text-red-700" : "bg-gray-100 text-gray-700"}`}
                 aria-pressed={likedByVisitor}
               >
-                {likedByVisitor ? "♥ Liked" : "♡ Like"}
+                {likedByVisitor ? "Liked" : "Like"} 
               </button>
-              <p className="">{likes} likes</p>
-              <p className="">{comments} comments</p>
+              ·
+              <p className="">
+                {likes} likes · {comments} comments
+              </p>
             </div>
           </div>
         </div>

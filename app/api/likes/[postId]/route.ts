@@ -105,7 +105,7 @@ export async function POST(req: Request, { params }: RouteParams) {
     res.cookies.set("visitorId", visitorId, {
       httpOnly: true,
       sameSite: "lax",
-      secure: true,
+      secure: process.env.NODE_ENV === "production",
       path: "/",
       maxAge: 60 * 60 * 24 * 365, // 1 year
     });

@@ -68,22 +68,22 @@ export default function Profile({
           </h1>
 
           {/* Action Links */}
-          <div className="mt-4 space-y-1">
+          <div className="space-y-3 pt-4">
             <Link
               href="#"
-              className="block text-sm text-linkblue hover:underline"
+              className="block text-xs text-linkblue hover:text-linkblue/80"
             >
               Add {firstName} as a Friend
             </Link>
             <Link
               href="#"
-              className="block text-sm text-linkblue hover:underline"
+              className="block text-xs text-linkblue hover:text-linkblue/80"
             >
               View Photos of {firstName}(25)
             </Link>
             <Link
               href="#"
-              className="block text-sm text-linkblue hover:underline"
+              className="block text-xs text-linkblue hover:text-linkblue/80"
             >
               View Friends of {firstName}({displayFriends.length})
             </Link>
@@ -177,7 +177,7 @@ export default function Profile({
                     <p className="mb-1 text-sm">
                       <Link
                         href={`/profile/${nameToSlug(post.author)}`}
-                        className="font-semibold text-linkblue hover:underline"
+                        className="font-semibold text-linkblue hover:text-linkblue/80"
                       >
                         {post.author}
                       </Link>
@@ -187,7 +187,7 @@ export default function Profile({
                           with{" "}
                           <Link
                             href={`/profile/${nameToSlug(post.withFriend)}`}
-                            className="font-semibold text-linkblue hover:underline"
+                            className="font-semibold text-linkblue hover:text-linkblue/80"
                           >
                             {post.withFriend}
                           </Link>
@@ -198,7 +198,7 @@ export default function Profile({
                     {post.isPhoto && (
                       <Link
                         href="#"
-                        className="text-xs text-linkblue underline hover:underline"
+                        className="text-xs text-linkblue underline hover:text-linkblue/80"
                       >
                         Photo
                       </Link>
@@ -223,7 +223,7 @@ export default function Profile({
           <div className="grid grid-cols-4 sm:grid-cols-5">
             {displayFriends.map((friend, index) => (
               <Link href={`/profile/${nameToSlug(friend.name)}`} key={index}>
-                <div className="w-[88px] items-center text-center transition-opacity hover:opacity-80">
+                <div className="w-fit items-center text-center transition-opacity hover:opacity-80">
                   <Image
                     src={friend.avatarUrl}
                     alt={friend.name}
