@@ -63,15 +63,17 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className="h-full">
       <head>
         <meta charSet="utf-8" />
       </head>
       <body
-        className={`min-h-screen bg-white ${inter.className} text-black antialiased`}
+        className={`h-full bg-white ${inter.className} text-black antialiased flex flex-col`}
       >
         <Navbar />
-        {children}
+        <main className="flex-1 overflow-auto">
+          {children}
+        </main>
       </body>
     </html>
   );

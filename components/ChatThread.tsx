@@ -33,9 +33,9 @@ export default function ChatThread({
   }, [messages]);
 
   return (
-    <>
+    <div className="flex h-full flex-col">
       {/* Thread */}
-      <div className="space-y-4 px-3 py-3">
+      <div className="flex-1 space-y-4 px-3 py-3">
         {messages.map((m) => (
           <div key={m.id}>
             {/* Sender name */}
@@ -77,7 +77,7 @@ export default function ChatThread({
         <div ref={bottomRef} />
       </div>
 
-      {/* Composer */}
+      {/* Composer - stays at bottom */}
       <div className="border-t border-gray-200 px-3 py-3">
         <div className="flex items-center gap-2">
           <input
@@ -94,6 +94,6 @@ export default function ChatThread({
           </button>
         </div>
       </div>
-    </>
+    </div>
   );
 }

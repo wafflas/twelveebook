@@ -11,7 +11,20 @@ export interface Post {
   title?: string; 
   comments?: number; 
   taggedPeople?: PostAuthor[]; 
-  location?: string; 
+  location?: string;
+  commentsData?: {
+    id: string;
+    author: PostAuthor;
+    text: string;
+    timestamp: string;
+    replyCount?: number;
+    replies?: {
+      id: string;
+      author: PostAuthor;
+      text: string;
+      timestamp: string;
+    }[];
+  }[];
 }
 
 export interface ContentfulPost {
@@ -35,6 +48,36 @@ export interface ContentfulPost {
     }[];
   };
   location?: string;
+  commentsCollection?: {
+    items: {
+      sys: {
+        id: string;
+        firstPublishedAt: string;
+      };
+      text: string;
+      author: {
+        name: string;
+        avatar: {
+          url: string;
+        };
+      };
+      repliesCollection?: {
+        items: {
+          sys: {
+            id: string;
+            firstPublishedAt: string;
+          };
+          text: string;
+          author: {
+            name: string;
+            avatar: {
+              url: string;
+            };
+          };
+        }[];
+      };
+    }[];
+  };
 }
 
 
@@ -47,19 +90,40 @@ export function transformContentfulPost(contentfulPost: ContentfulPost): Post {
     },
     content: contentfulPost.content,
     timestamp: contentfulPost.sys.firstPublishedAt,
-    comments: 0,
+    comments: contentfulPost.commentsCollection?.items.length || 0,
     taggedPeople:
       contentfulPost.taggedPeopleCollection?.items.map((p) => ({
         name: p.name,
         avatar: p.avatar.url,
       })) || [],
     location: contentfulPost.location,
+    commentsData:
+      contentfulPost.commentsCollection?.items.map((c) => ({
+        id: c.sys.id,
+        author: {
+          name: c.author.name,
+          avatar: c.author.avatar.url,
+        },
+        text: c.text,
+        timestamp: c.sys.firstPublishedAt,
+        replyCount: c.repliesCollection?.items.length || 0,
+        replies:
+          c.repliesCollection?.items.map((r) => ({
+            id: r.sys.id,
+            author: {
+              name: r.author.name,
+              avatar: r.author.avatar.url,
+            },
+            text: r.text,
+            timestamp: r.sys.firstPublishedAt,
+          })) || [],
+      })) || [],
   };
 }
 
 export const GET_POSTS_QUERY = `
   query GetPosts {
-    postCollection(limit: 50) {
+    postCollection(limit: 15, order: sys_firstPublishedAt_DESC) {
       items {
         sys {
           id
@@ -75,12 +139,46 @@ export const GET_POSTS_QUERY = `
             }
           }
         }
-        taggedPeopleCollection {
+        taggedPeopleCollection(limit: 5) {
           items {
             ... on Profile {
               name
               avatar {
                 url
+              }
+            }
+          }
+        }
+        commentsCollection(limit: 10) {
+          items {
+            sys {
+              id
+              firstPublishedAt
+            }
+            text
+            author {
+              ... on Profile {
+                name
+                avatar {
+                  url
+                }
+              }
+            }
+            repliesCollection(limit: 5) {
+              items {
+                sys {
+                  id
+                  firstPublishedAt
+                }
+                text
+                author {
+                  ... on Profile {
+                    name
+                    avatar {
+                      url
+                    }
+                  }
+                }
               }
             }
           }

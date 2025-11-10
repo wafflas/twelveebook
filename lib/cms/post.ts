@@ -10,6 +10,19 @@ export type PostPropsForComponent = {
   comments: number;
   taggedPeople?: { name: string; avatar: string }[];
   location?: string;
+  commentsData?: {
+    id: string;
+    author: { name: string; avatar: string };
+    text: string;
+    timestamp: string;
+    replyCount?: number;
+    replies?: {
+      id: string;
+      author: { name: string; avatar: string };
+      text: string;
+      timestamp: string;
+    }[];
+  }[];
 };
 
 function mapToPostProps(p: ContentfulPost): PostPropsForComponent {
@@ -22,13 +35,34 @@ function mapToPostProps(p: ContentfulPost): PostPropsForComponent {
     title: "",
     content: p.content,
     timestamp: p.sys.firstPublishedAt,
-    comments: 0,
+    comments: p.commentsCollection?.items.length || 0,
     taggedPeople:
       p.taggedPeopleCollection?.items.map((person) => ({
         name: person.name,
         avatar: person.avatar.url,
       })) || [],
     location: p.location,
+    commentsData:
+      p.commentsCollection?.items.map((c) => ({
+        id: c.sys.id,
+        author: {
+          name: c.author.name,
+          avatar: c.author.avatar.url,
+        },
+        text: c.text,
+        timestamp: c.sys.firstPublishedAt,
+        replyCount: c.repliesCollection?.items.length || 0,
+        replies:
+          c.repliesCollection?.items.map((r) => ({
+            id: r.sys.id,
+            author: {
+              name: r.author.name,
+              avatar: r.author.avatar.url,
+            },
+            text: r.text,
+            timestamp: r.sys.firstPublishedAt,
+          })) || [],
+      })) || [],
   };
 }
 
