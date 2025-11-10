@@ -52,7 +52,7 @@ export const redis = createSafeRedis();
 
 export const likeRateLimit = new Ratelimit({
   redis,
-  limiter: Ratelimit.slidingWindow(10, "1 m"),
+  limiter: Ratelimit.slidingWindow(50, "1 m"),
   analytics: true,
   prefix: "rate:like",
 });
