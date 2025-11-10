@@ -61,7 +61,7 @@ export default function page() {
   ];
 
   return (
-    <div className="container mx-auto bg-white p-2 text-black">
+    <div className="bg-white p-2 text-black">
       <h1 className="pb-5 text-2xl font-bold">Merchandise</h1>
       <MerchGrid items={items} />
     </div>

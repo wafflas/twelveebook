@@ -8,6 +8,7 @@ export interface Chat {
   preview: string;
   lastMessageAt: string;
   unread?: boolean;
+  unreadSince?: string; // Timestamp when chat was marked as unread
 }
 
 // Contentful-specific types for GraphQL response
@@ -24,6 +25,7 @@ export interface ContentfulChat {
     };
   };
   unread?: boolean;
+  unreadSince?: string; // Timestamp when chat was marked as unread
   messagesCollection?: {
     items: {
       sys: { id: string; firstPublishedAt: string };
@@ -64,6 +66,7 @@ export function transformContentfulChat(contentfulChat: ContentfulChat): Chat {
     preview: lastText,
     lastMessageAt: lastAt,
     unread: contentfulChat.unread ?? false,
+    unreadSince: contentfulChat.unreadSince || undefined,
   };
 }
 
@@ -85,6 +88,7 @@ export const GET_CHATS_QUERY = `
           }
         }
         unread
+        unreadSince
         messagesCollection(limit: 50) {
           items {
             ... on Message {
@@ -120,6 +124,7 @@ export const GET_CHAT_BY_CONTACT_QUERY = `
           }
         }
         unread
+        unreadSince
         messagesCollection(limit: 100) {
           items {
             ... on Message {

@@ -17,7 +17,8 @@ interface WallPost {
   content: string;
   timestamp: string;
   isPhoto?: boolean;
-  withFriend?: string;
+  taggedPeople?: { name: string }[];
+  location?: string;
 }
 
 interface ProfileProps {
@@ -31,6 +32,22 @@ export default function Profile({
   wallPosts = [],
   friends = [],
 }: ProfileProps) {
+  const [expandedPosts, setExpandedPosts] = React.useState<Set<number>>(
+    new Set(),
+  );
+
+  const toggleTagExpansion = (postIndex: number) => {
+    setExpandedPosts((prev) => {
+      const newSet = new Set(prev);
+      if (newSet.has(postIndex)) {
+        newSet.delete(postIndex);
+      } else {
+        newSet.add(postIndex);
+      }
+      return newSet;
+    });
+  };
+
   const firstName = profile.name.split(" ")[0];
   const profileName = profile.name;
   const profilePictureUrl = profile.avatar;
@@ -47,7 +64,7 @@ export default function Profile({
   const displayFriends = friends.length > 0 ? friends : profile.friends || [];
   const isOwner = nameToSlug(profileName).toLowerCase() === "twelvee";
   return (
-    <div className="mx-auto max-w-6xl bg-white p-4 text-black">
+    <div className="bg-white p-2 text-black">
       {/* Profile Header */}
       <div className="mb-6 flex gap-6">
         {/* Profile Picture - Left Side */}
@@ -55,15 +72,15 @@ export default function Profile({
           <Image
             src={profilePictureUrl}
             alt={profileName}
-            width={200}
-            height={200}
+            width={180}
+            height={180}
             className="object-cover"
           />
         </div>
 
         {/* Profile Name - Next to Picture */}
         <div className="flex flex-col justify-center">
-          <h1 className={`text-4xl font-bold ${klavika.className}`}>
+          <h1 className={`text-2xl font-bold ${klavika.className}`}>
             {profileName}
           </h1>
 
@@ -77,7 +94,7 @@ export default function Profile({
                 >
                   Edit Profile
                 </Link>
-                <Link 
+                <Link
                   href="#"
                   className="block text-[10px] text-linkblue hover:text-linkblue/80"
                 >
@@ -116,128 +133,180 @@ export default function Profile({
         </div>
       </div>
 
-      {/* Content Section: Two Columns */}
-      <div className="mb-6 grid grid-cols-1 gap-6 lg:grid-cols-3">
-        {/* Left Column: Profile Info */}
-        <div className="space-y-6 lg:col-span-2">
-          {/* Information Section */}
+      {/* Content Section: Profile Info */}
+      <div className="mb-6 space-y-6">
+        {/* Information Section */}
+        <div className="border-b border-gray-200 pb-4">
+          <h3 className="mb-3 text-lg font-bold">Information</h3>
+          <div className="space-y-2 text-sm">
+            {birthday && (
+              <p>
+                <span className="font-semibold">Birthday:</span> {birthday}
+              </p>
+            )}
+            {city && (
+              <p>
+                <span className="font-semibold">City:</span> {city}
+              </p>
+            )}
+            {relationshipStatus && (
+              <p>
+                <span className="font-semibold">Relationship:</span>{" "}
+                {relationshipStatus}
+              </p>
+            )}
+          </div>
+        </div>
+
+        {/* Education Section */}
+        {education && (
           <div className="border-b border-gray-200 pb-4">
-            <h3 className="mb-3 text-lg font-bold">Information</h3>
+            <h3 className="mb-3 text-lg font-bold">Education</h3>
+            <p className="text-sm">{education}</p>
+          </div>
+        )}
+
+        {/* Work Section */}
+        {work && (
+          <div className="border-b border-gray-200 pb-4">
+            <h3 className="mb-3 text-lg font-bold">Work</h3>
+            <p className="text-sm">{work}</p>
+          </div>
+        )}
+
+        {/* Interests Section */}
+        {(musicInterests || favoriteMovies || favoriteQuotes) && (
+          <div className="border-b border-gray-200 pb-4">
+            <h3 className="mb-3 text-lg font-bold">Interests</h3>
             <div className="space-y-2 text-sm">
-              {birthday && (
+              {musicInterests && (
                 <p>
-                  <span className="font-semibold">Birthday:</span> {birthday}
+                  <span className="font-semibold">Music:</span>{" "}
+                  {musicInterests}
                 </p>
               )}
-              {city && (
+              {favoriteMovies && (
                 <p>
-                  <span className="font-semibold">City:</span> {city}
+                  <span className="font-semibold">Favorite Movies:</span>{" "}
+                  {favoriteMovies}
                 </p>
               )}
-              {relationshipStatus && (
+              {favoriteQuotes && (
                 <p>
-                  <span className="font-semibold">Relationship:</span>{" "}
-                  {relationshipStatus}
+                  <span className="font-semibold">Favorite Quotes:</span>{" "}
+                  <span className="italic">{favoriteQuotes}</span>
                 </p>
               )}
             </div>
           </div>
-
-          {/* Education Section */}
-          {education && (
-            <div className="border-b border-gray-200 pb-4">
-              <h3 className="mb-3 text-lg font-bold">Education</h3>
-              <p className="text-sm">{education}</p>
-            </div>
-          )}
-
-          {/* Work Section */}
-          {work && (
-            <div className="border-b border-gray-200 pb-4">
-              <h3 className="mb-3 text-lg font-bold">Work</h3>
-              <p className="text-sm">{work}</p>
-            </div>
-          )}
-
-          {/* Interests Section */}
-          {(musicInterests || favoriteMovies || favoriteQuotes) && (
-            <div className="border-b border-gray-200 pb-4">
-              <h3 className="mb-3 text-lg font-bold">Interests</h3>
-              <div className="space-y-2 text-sm">
-                {musicInterests && (
-                  <p>
-                    <span className="font-semibold">Music:</span>{" "}
-                    {musicInterests}
-                  </p>
-                )}
-                {favoriteMovies && (
-                  <p>
-                    <span className="font-semibold">Favorite Movies:</span>{" "}
-                    {favoriteMovies}
-                  </p>
-                )}
-                {favoriteQuotes && (
-                  <p>
-                    <span className="font-semibold">Favorite Quotes:</span>{" "}
-                    <span className="italic">{favoriteQuotes}</span>
-                  </p>
-                )}
-              </div>
-            </div>
-          )}
-        </div>
-
-        {/* Right Column: Wall & Mini-Feed */}
-        <div className="space-y-6">
-          {/* Wall Section */}
-          {wallPosts.length > 0 && (
-            <div className="border-b border-gray-200 pb-4">
-              <h3 className="mb-3 text-lg font-bold">Wall</h3>
-              <div className="space-y-4">
-                {wallPosts.map((post, index) => (
-                  <div
-                    key={index}
-                    className="border-b border-gray-100 pb-3 last:border-0"
-                  >
-                    <p className="mb-1 text-sm">
-                      <Link
-                        href={`/profile/${nameToSlug(post.author)}`}
-                        className="font-semibold text-linkblue hover:text-linkblue/80"
-                      >
-                        {post.author}
-                      </Link>
-                      {post.withFriend && (
-                        <>
-                          {" "}
-                          with{" "}
-                          <Link
-                            href={`/profile/${nameToSlug(post.withFriend)}`}
-                            className="font-semibold text-linkblue hover:text-linkblue/80"
-                          >
-                            {post.withFriend}
-                          </Link>
-                        </>
-                      )}
-                      : {post.content}
-                    </p>
-                    {post.isPhoto && (
-                      <Link
-                        href="#"
-                        className="text-xs text-linkblue underline hover:text-linkblue/80"
-                      >
-                        Photo
-                      </Link>
-                    )}
-                    <p className="mt-1 text-xs text-gray-500">
-                      {post.timestamp}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-        </div>
+        )}
       </div>
+
+      {/* Wall Section - Full Width */}
+      {wallPosts.length > 0 && (
+        <div className="mb-6 border-b border-gray-200 pb-4">
+          <h3 className="mb-3 text-lg font-bold">Wall</h3>
+          <div className="space-y-4">
+            {wallPosts.map((post, index) => {
+              const showAllTags = expandedPosts.has(index);
+              const taggedPeople = post.taggedPeople || [];
+
+              return (
+                <div
+                  key={index}
+                  className="border-b border-gray-100 pb-3 last:border-0"
+                >
+                  <div className="mb-1 text-sm">
+                    <Link
+                      href={`/profile/${nameToSlug(post.author)}`}
+                      className="font-semibold text-linkblue hover:text-linkblue/80"
+                    >
+                      {post.author}
+                    </Link>
+
+                    {/* Tagged People */}
+                    {taggedPeople.length > 0 && (
+                      <span className="text-gray-600">
+                        {" "}
+                        with{" "}
+                        {taggedPeople.length <= 2 ? (
+                          taggedPeople.map((person, idx) => (
+                            <span key={idx}>
+                              <Link
+                                href={`/profile/${nameToSlug(person.name)}`}
+                                className="text-linkblue hover:text-linkblue/80"
+                              >
+                                {person.name}
+                              </Link>
+                              {idx < taggedPeople.length - 1 &&
+                                (idx === taggedPeople.length - 2
+                                  ? " and "
+                                  : ", ")}
+                            </span>
+                          ))
+                        ) : showAllTags ? (
+                          taggedPeople.map((person, idx) => (
+                            <span key={idx}>
+                              <Link
+                                href={`/profile/${nameToSlug(person.name)}`}
+                                className="text-linkblue hover:text-linkblue/80"
+                              >
+                                {person.name}
+                              </Link>
+                              {idx < taggedPeople.length - 1 && ", "}
+                            </span>
+                          ))
+                        ) : (
+                          <>
+                            <Link
+                              href={`/profile/${nameToSlug(taggedPeople[0].name)}`}
+                              className="text-linkblue hover:text-linkblue/80"
+                            >
+                              {taggedPeople[0].name}
+                            </Link>
+                            {" and "}
+                            <button
+                              onClick={() => toggleTagExpansion(index)}
+                              className="text-linkblue hover:text-linkblue/80"
+                            >
+                              +{taggedPeople.length - 1} more
+                            </button>
+                          </>
+                        )}
+                      </span>
+                    )}
+
+                    {/* Location */}
+                    {post.location && (
+                      <span className="text-gray-600">
+                        {" "}
+                        at{" "}
+                        <span className="font-semibold text-black">
+                          {post.location}
+                        </span>
+                      </span>
+                    )}
+
+                    <span>: {post.content}</span>
+                  </div>
+
+                  {post.isPhoto && (
+                    <Link
+                      href="#"
+                      className="text-xs text-linkblue underline hover:text-linkblue/80"
+                    >
+                      Photo
+                    </Link>
+                  )}
+                  <p className="mt-1 text-xs text-gray-500">
+                    {post.timestamp}
+                  </p>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
 
       {/* Friends Section */}
       {displayFriends.length > 0 && (
@@ -245,7 +314,7 @@ export default function Profile({
           <h3 className="text-lg font-bold">
             Friends({displayFriends.length})
           </h3>
-          <div className="grid grid-cols-4 sm:grid-cols-5">
+          <div className="grid grid-cols-4 gap-2 sm:grid-cols-5 md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-10">
             {displayFriends.map((friend, index) => (
               <Link href={`/profile/${nameToSlug(friend.name)}`} key={index}>
                 <div className="w-fit items-center text-center transition-opacity hover:opacity-80">

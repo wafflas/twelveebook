@@ -10,9 +10,9 @@ interface WallPost {
   content: string;
   timestamp: string;
   isPhoto?: boolean;
-  withFriend?: string;
+  taggedPeople?: { name: string }[];
+  location?: string;
 }
-
 
 interface ProfilePageProps {
   params: Promise<{ slug: string }>;
@@ -26,7 +26,9 @@ export async function generateMetadata({
   const profile = profiles.find((p) => nameToSlug(p.name) === slug);
 
   return {
-    title: profile ? ` Twelveebook | ${profile.name} ` : "Profile | Twelveebook",
+    title: profile
+      ? ` Twelveebook | ${profile.name} `
+      : "Profile | Twelveebook",
     description: "0.twelveebook.com",
   };
 }
@@ -51,16 +53,15 @@ export default async function ProfilePage({ params }: ProfilePageProps) {
       content: post.content,
       timestamp: formatTimestampFor2012(post.timestamp),
       isPhoto: false,
+      taggedPeople: post.taggedPeople,
+      location: post.location,
     }));
 
-
   return (
-    <div className="min-h-screen bg-white">
-      <Profile
-        profile={profile}
-        wallPosts={wallPosts}
-        friends={profile.friends || []}
-      />
-    </div>
+    <Profile
+      profile={profile}
+      wallPosts={wallPosts}
+      friends={profile.friends || []}
+    />
   );
 }

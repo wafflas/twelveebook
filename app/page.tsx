@@ -80,11 +80,13 @@ export default async function Home() {
   const posts = await getPosts(); // Contentful
 
   return (
-    <div className="container mx-auto bg-white p-2 text-black">
-      <h1 className="text-2xl font-bold">News Feed</h1>
-      {posts.map((post) => (
-        <Post key={post.id} {...post} />
-      ))}
+    <div className="bg-white p-2 text-black">
+      <h1 className="mb-4 text-2xl font-bold">News Feed</h1>
+      <div className="divide-y divide-gray-100">
+        {posts.map((post) => (
+          <Post key={post.id} {...post} />
+        ))}
+      </div>
     </div>
   );
 }

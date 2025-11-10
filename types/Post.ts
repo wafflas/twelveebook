@@ -8,10 +8,11 @@ export interface Post {
   author: PostAuthor;
   content: string;
   timestamp: string;
-  title?: string; // optional for backward compatibility
-  comments?: number; // optional; defaulted to 0 in transform
+  title?: string; 
+  comments?: number; 
+  taggedPeople?: PostAuthor[]; 
+  location?: string; 
 }
-
 
 export interface ContentfulPost {
   sys: {
@@ -25,9 +26,18 @@ export interface ContentfulPost {
     };
   };
   content: string;
+  taggedPeopleCollection?: {
+    items: {
+      name: string;
+      avatar: {
+        url: string;
+      };
+    }[];
+  };
+  location?: string;
 }
 
-// helper function to transform Contentful data to Post
+
 export function transformContentfulPost(contentfulPost: ContentfulPost): Post {
   return {
     id: contentfulPost.sys.id,
@@ -38,9 +48,14 @@ export function transformContentfulPost(contentfulPost: ContentfulPost): Post {
     content: contentfulPost.content,
     timestamp: contentfulPost.sys.firstPublishedAt,
     comments: 0,
+    taggedPeople:
+      contentfulPost.taggedPeopleCollection?.items.map((p) => ({
+        name: p.name,
+        avatar: p.avatar.url,
+      })) || [],
+    location: contentfulPost.location,
   };
 }
-
 
 export const GET_POSTS_QUERY = `
   query GetPosts {
@@ -51,11 +66,22 @@ export const GET_POSTS_QUERY = `
           firstPublishedAt
         }
         content
+        location
         author {
           ... on Profile {
             name
             avatar {
               url
+            }
+          }
+        }
+        taggedPeopleCollection {
+          items {
+            ... on Profile {
+              name
+              avatar {
+                url
+              }
             }
           }
         }

@@ -5,42 +5,100 @@ import { nameToSlug } from "@/lib/utils";
 import { Metadata } from "next";
 import { getChats, getChatByContact } from "@/lib/cms";
 import { formatTimestampFor2012 } from "@/lib/utils";
+import { cookies } from "next/headers";
+import { redis } from "@/lib/redis";
 
-export const metadata: Metadata = {
-  title: "Twelveebook | Inbox",
-  description: "0.twelveebook.com",
-};
+// Helper function to check if visitor has read a chat since it was marked unread
+async function hasVisitorReadSinceMarkedUnread(
+  chatId: string,
+  unreadSince?: string,
+): Promise<boolean> {
+  const cookieStore = cookies();
+  const visitorId = cookieStore.get("visitorId")?.value;
+
+  if (!visitorId) return false;
+
+
+  const lastReadTime = await redis.hget(`chat:lastread:${chatId}`, visitorId);
+
+  if (!lastReadTime) return false;
+
+  if (!unreadSince) return true;
+
+  try {
+    return new Date(lastReadTime as string) >= new Date(unreadSince);
+  } catch (error) {
+    console.error("Error comparing timestamps:", error);
+    return false;
+  }
+}
+
+// Dynamic metadata with unread count
+export async function generateMetadata(): Promise<Metadata> {
+  const chats = await getChats();
+
+  let unreadCount = 0;
+
+  // Count unread chats
+  for (const chat of chats) {
+    if (chat.unread) {
+      const hasRead = await hasVisitorReadSinceMarkedUnread(
+        chat.id,
+        chat.unreadSince,
+      );
+      if (!hasRead) {
+        unreadCount++;
+      }
+    }
+  }
+
+  const title =
+    unreadCount > 0
+      ? `Twelveebook | Inbox (${unreadCount})`
+      : "Twelveebook | Inbox";
+
+  return {
+    title,
+    description: "0.twelveebook.com",
+  };
+}
 
 export default async function Inbox() {
   const chats = await getChats();
 
-  // Enrich each chat with the true last message (includes sender), then sort
   const enrichedChats = await Promise.all(
     chats.map(async (chat) => {
       const { messages } = await getChatByContact(chat.contact.name);
       if (!messages || messages.length === 0) return chat;
 
-      const last = messages[messages.length - 1]; // oldest-first upstream, so last is latest
+      const last = messages[messages.length - 1];
       const isFromMe = last?.sender?.name?.toLowerCase() === "twelvee";
+
+      const hasRead = await hasVisitorReadSinceMarkedUnread(
+        chat.id,
+        chat.unreadSince,
+      );
 
       return {
         ...chat,
         preview: `${isFromMe ? "You: " : ""}${last.text}`,
         lastMessageAt: last.createdAt,
+        unread: chat.unread && !hasRead,
       };
     }),
   );
 
-  // sort by lastMessageAt (newest first)
   const sortedChats = [...enrichedChats].sort((a, b) => {
     const timeA = new Date(a.lastMessageAt).getTime();
     const timeB = new Date(b.lastMessageAt).getTime();
     return timeB - timeA;
   });
 
+  const unreadCount = sortedChats.filter((chat) => chat.unread).length;
+
   return (
-    <div className="container mx-auto bg-white p-2 text-black">
-      <h1 className="mb-2 text-2xl font-bold">Inbox ({sortedChats.length})</h1>
+    <div className="bg-white p-2 text-black">
+      <h1 className="mb-2 text-2xl font-bold">Inbox</h1>
       <div className="divide-y">
         {sortedChats.map((chat) => (
           <Link

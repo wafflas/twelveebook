@@ -1,9 +1,10 @@
 import React from "react";
-import Image from "next/image";
 import Link from "next/link";
 import { slugToName, nameToSlug, formatTimestampFor2012 } from "@/lib/utils";
-import { getProfiles, getMessagesByContact } from "@/lib/cms";
+import { getProfiles, getMessagesByContact, getChatByContact } from "@/lib/cms";
 import { Message as CMSMessage } from "@/types/Message";
+import ChatThread from "@/components/ChatThread";
+import ChatReadMarker from "@/components/ChatReadMarker";
 
 type Message = {
   id: string;
@@ -29,6 +30,11 @@ export default async function ChatPage({ params }: PageProps) {
   );
   const contactAvatar = contactProfile?.avatar || `/avatars/${slug}.png`;
 
+
+
+  const { chat } = await getChatByContact(contactName);
+  const chatId = chat?.id || "";
+
   const cmsMessages = await getMessagesByContact(contactName);
 
   // Sort messages chronologically (oldest first)
@@ -49,9 +55,11 @@ export default async function ChatPage({ params }: PageProps) {
   });
 
   return (
-    <div className="mx-auto w-full max-w-3xl bg-white p-0 text-black">
-      {/* Top bar */}
-      <div className="flex items-center justify-between border-b border-gray-200 bg-[#f6f7f9] px-3 py-2 text-sm">
+    <div className="bg-white p-2 text-black">
+      {/* Auto-mark chat as read when page loads */}
+      {chatId && <ChatReadMarker chatId={chatId} />}
+
+      <div className="sticky top-[60px] z-40 -mx-2 flex items-center justify-between border-b border-gray-200 bg-[#f6f7f9] px-3 py-2 text-sm shadow-sm">
         <div>
           <span className="font-semibold">Conversation with </span>
           <Link
@@ -66,71 +74,13 @@ export default async function ChatPage({ params }: PageProps) {
         </Link>
       </div>
 
-      {/* Controls */}
-      <div className="flex items-center gap-3 border-b border-gray-200 px-3 py-2 text-sm">
-        <Link href="#" className="text-linkblue hover:underline">
-          See Older Messages
-        </Link>
-      </div>
-
-      {/* Thread */}
-      <div className="space-y-4 px-3 py-3">
-        {messages.map((m) => (
-          <div key={m.id}>
-            {/* Sender name */}
-            {m.from === "me" ? (
-              <div className="text-[13px] font-semibold text-black">You</div>
-            ) : (
-              <Link
-                href={`/profile/${nameToSlug(contactName)}`}
-                className="text-[13px] font-semibold text-linkblue hover:text-linkblue/80"
-              >
-                {contactName}
-              </Link>
-            )}
-            <div className="mt-1 flex items-start gap-2">
-              <Image
-                src={m.from === "me" ? myAvatar : contactAvatar}
-                alt={m.from === "me" ? "Twelvee" : contactName}
-                width={40}
-                height={40}
-                className="object-cover"
-              />
-              <div className="min-w-0 flex-1">
-                <div className="whitespace-pre-wrap break-words bg-white text-[14px] leading-5 text-black">
-                  {m.text}
-                </div>
-                <div className="flex items-center gap-1">
-                  <div className="mt-1 text-[11px] text-gray-500">
-                    {m.when} ·
-                  </div>
-                  <div className="mt-1 text-[11px] text-linkblue">
-                    Sent from Twelveebook
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
-
-      {/* Composer */}
-      <div className="border-t border-gray-200 px-3 py-3">
-        <div className="flex items-center gap-2">
-          <input
-            type="text"
-            className="w-full rounded border border-gray-300 px-2 py-2 text-sm outline-none"
-            placeholder={`Write a message…`}
-            readOnly
-          />
-          <button
-            className="rounded bg-linkblue px-3 py-2 text-sm text-white opacity-60"
-            disabled
-          >
-            Send
-          </button>
-        </div>
-      </div>
+      {/* Thread with auto-scroll */}
+      <ChatThread
+        messages={messages}
+        contactName={contactName}
+        myAvatar={myAvatar}
+        contactAvatar={contactAvatar}
+      />
     </div>
   );
 }

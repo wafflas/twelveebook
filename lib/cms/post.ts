@@ -8,6 +8,8 @@ export type PostPropsForComponent = {
   timestamp: string;
   likes?: number;
   comments: number;
+  taggedPeople?: { name: string; avatar: string }[];
+  location?: string;
 };
 
 function mapToPostProps(p: ContentfulPost): PostPropsForComponent {
@@ -21,6 +23,12 @@ function mapToPostProps(p: ContentfulPost): PostPropsForComponent {
     content: p.content,
     timestamp: p.sys.firstPublishedAt,
     comments: 0,
+    taggedPeople:
+      p.taggedPeopleCollection?.items.map((person) => ({
+        name: person.name,
+        avatar: person.avatar.url,
+      })) || [],
+    location: p.location,
   };
 }
 
