@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { nameToSlug, formatTimestampFor2012 } from "@/lib/utils";
 import TextWithMentions from "@/components/TextWithMentions";
+import { useLikeSound } from "@/lib/useLikeSound";
 
 interface Comment {
   id: string;
@@ -41,6 +42,7 @@ export default function CommentsSection({
 }: CommentsSectionProps) {
   const [showAllComments, setShowAllComments] = useState(false);
   const [showRepliesFor, setShowRepliesFor] = useState<Set<string>>(new Set());
+  const { playLikeSound } = useLikeSound();
 
   // Track likes for comments and replies
   const [commentLikes, setCommentLikes] = useState<
@@ -98,6 +100,9 @@ export default function CommentsSection({
     if (current?.loading) return;
 
     const action = current?.liked ? "unlike" : "like";
+    
+    // Play sound immediately for instant feedback
+    playLikeSound();
 
     // Optimistic update
     setCommentLikes((prev) => ({

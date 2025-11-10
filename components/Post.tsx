@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { nameToSlug, formatTimestampFor2012 } from "@/lib/utils";
 import TextWithMentions from "@/components/TextWithMentions";
+import { useLikeSound } from "@/lib/useLikeSound";
 import "@/styles/globals.css";
 
 interface PostProps {
@@ -50,6 +51,7 @@ export default function Post({
   const [likedByVisitor, setLikedByVisitor] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const [showAllTags, setShowAllTags] = useState<boolean>(false);
+  const { playLikeSound } = useLikeSound();
 
   useEffect(() => {
     let ignore = false;
@@ -76,6 +78,10 @@ export default function Post({
     if (loading) return;
     setLoading(true);
     const action = likedByVisitor ? "unlike" : "like";
+    
+    // Play sound immediately for instant feedback
+    playLikeSound();
+    
     // optimistic update
     setLikedByVisitor(!likedByVisitor);
     setLikes((l) => Math.max(0, l + (action === "like" ? 1 : -1)));
