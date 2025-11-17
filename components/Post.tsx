@@ -74,15 +74,16 @@ export default function Post({
     };
   }, [id]);
 
-  async function toggleLike() {
+  async function toggleLike(e: React.MouseEvent<HTMLButtonElement>) {
     if (loading) return;
+
+    e.currentTarget.blur();
+
     setLoading(true);
     const action = likedByVisitor ? "unlike" : "like";
-    
-    // Play sound immediately for instant feedback
+
     playLikeSound();
-    
-    // optimistic update
+
     setLikedByVisitor(!likedByVisitor);
     setLikes((l) => Math.max(0, l + (action === "like" ? 1 : -1)));
     try {

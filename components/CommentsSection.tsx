@@ -174,7 +174,7 @@ export default function CommentsSection({
                       alt={comment.author.name}
                       width={40}
                       height={40}
-                      className="rounded-sm object-cover"
+                      className=" object-cover"
                     />
                   </Link>
                   <div className="flex-1">
@@ -242,7 +242,7 @@ export default function CommentsSection({
                               alt={reply.author.name}
                               width={32}
                               height={32}
-                              className="rounded-sm object-cover"
+                              className="object-cover"
                             />
                           </Link>
                           <div className="flex-1">
