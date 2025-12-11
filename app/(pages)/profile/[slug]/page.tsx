@@ -52,7 +52,7 @@ export default async function ProfilePage({ params }: ProfilePageProps) {
       author: post.author.name,
       content: post.content,
       timestamp: formatTimestampFor2012(post.timestamp),
-      isPhoto: false,
+      isPhoto: Boolean(post.photoUrl),
       taggedPeople: post.taggedPeople,
       location: post.location,
     }));

@@ -20,17 +20,20 @@ interface PostProps {
   comments?: number;
   taggedPeople?: { name: string; avatar: string }[];
   location?: string;
+  photoUrl?: string;
   commentsData?: {
     id: string;
     author: { name: string; avatar: string };
     text: string;
     timestamp: string;
     replyCount?: number;
+    photoUrl?: string;
     replies?: {
       id: string;
       author: { name: string; avatar: string };
       text: string;
       timestamp: string;
+      photoUrl?: string;
     }[];
   }[];
 }
@@ -45,6 +48,7 @@ export default function Post({
   comments = 0,
   taggedPeople = [],
   location,
+  photoUrl,
   commentsData = [],
 }: PostProps) {
   const [likes, setLikes] = useState<number>(initialLikes ?? 0);
@@ -184,6 +188,20 @@ export default function Post({
           </div>
 
           <TextWithMentions text={content} className="break-words" />
+
+          {/* Display photo if present */}
+          {photoUrl && (
+            <div className="mt-2">
+              <Image
+                src={photoUrl}
+                alt="Post photo"
+                width={300}
+                height={200}
+                className="max-w-full rounded object-cover"
+              />
+            </div>
+          )}
+
           <p className="text-s text-timestampgray">
             {formatTimestampFor2012(timestamp)}
           </p>

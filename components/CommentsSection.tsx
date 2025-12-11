@@ -17,6 +17,7 @@ interface Comment {
   timestamp: string;
   likes?: number;
   replyCount?: number;
+  photoUrl?: string;
   replies?: {
     id: string;
     author: {
@@ -26,6 +27,7 @@ interface Comment {
     text: string;
     timestamp: string;
     likes?: number;
+    photoUrl?: string;
   }[];
 }
 
@@ -100,7 +102,7 @@ export default function CommentsSection({
     if (current?.loading) return;
 
     const action = current?.liked ? "unlike" : "like";
-    
+
     // Play sound immediately for instant feedback
     playLikeSound();
 
@@ -174,7 +176,7 @@ export default function CommentsSection({
                       alt={comment.author.name}
                       width={40}
                       height={40}
-                      className=" object-cover"
+                      className="object-cover"
                     />
                   </Link>
                   <div className="flex-1">
@@ -191,6 +193,18 @@ export default function CommentsSection({
                         text={comment.text}
                         className="break-words text-sm text-black"
                       />
+                      {/* Display photo if present */}
+                      {comment.photoUrl && (
+                        <div className="mt-2">
+                          <Image
+                            src={comment.photoUrl}
+                            alt="Comment photo"
+                            width={200}
+                            height={150}
+                            className="max-w-full rounded object-cover"
+                          />
+                        </div>
+                      )}
                       <div className="mt-2 text-xs text-gray-500">
                         {formatTimestampFor2012(comment.timestamp)}
                       </div>
@@ -259,6 +273,18 @@ export default function CommentsSection({
                                 text={reply.text}
                                 className="break-words text-xs text-black"
                               />
+                              {/* Display photo if present */}
+                              {reply.photoUrl && (
+                                <div className="mt-1.5">
+                                  <Image
+                                    src={reply.photoUrl}
+                                    alt="Reply photo"
+                                    width={150}
+                                    height={100}
+                                    className="max-w-full rounded object-cover"
+                                  />
+                                </div>
+                              )}
                               <div className="mt-1.5 text-[10px] text-gray-500">
                                 {formatTimestampFor2012(reply.timestamp)}
                               </div>

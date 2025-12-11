@@ -10,17 +10,20 @@ export type PostPropsForComponent = {
   comments: number;
   taggedPeople?: { name: string; avatar: string }[];
   location?: string;
+  photoUrl?: string;
   commentsData?: {
     id: string;
     author: { name: string; avatar: string };
     text: string;
     timestamp: string;
     replyCount?: number;
+    photoUrl?: string;
     replies?: {
       id: string;
       author: { name: string; avatar: string };
       text: string;
       timestamp: string;
+      photoUrl?: string;
     }[];
   }[];
 };
@@ -33,9 +36,10 @@ function mapToPostProps(p: ContentfulPost): PostPropsForComponent {
       avatar: p.author?.avatar?.url || "/avatars/twelvee.png",
     },
     title: "",
-    content: p.content,
+    content: p.text,
     timestamp: p.sys.firstPublishedAt,
     comments: p.commentsCollection?.items.length || 0,
+    photoUrl: p.photos?.url,
     taggedPeople:
       p.taggedPeopleCollection?.items.map((person) => ({
         name: person.name,
@@ -51,6 +55,7 @@ function mapToPostProps(p: ContentfulPost): PostPropsForComponent {
         },
         text: c.text,
         timestamp: c.sys.firstPublishedAt,
+        photoUrl: c.photos?.url,
         replyCount: c.repliesCollection?.items.length || 0,
         replies:
           c.repliesCollection?.items.map((r) => ({
@@ -61,6 +66,7 @@ function mapToPostProps(p: ContentfulPost): PostPropsForComponent {
             },
             text: r.text,
             timestamp: r.sys.firstPublishedAt,
+            photoUrl: r.photos?.url,
           })) || [],
       })) || [],
   };

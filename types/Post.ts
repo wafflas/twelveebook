@@ -8,21 +8,24 @@ export interface Post {
   author: PostAuthor;
   content: string;
   timestamp: string;
-  title?: string; 
-  comments?: number; 
-  taggedPeople?: PostAuthor[]; 
+  title?: string;
+  comments?: number;
+  taggedPeople?: PostAuthor[];
   location?: string;
+  photoUrl?: string;
   commentsData?: {
     id: string;
     author: PostAuthor;
     text: string;
     timestamp: string;
     replyCount?: number;
+    photoUrl?: string;
     replies?: {
       id: string;
       author: PostAuthor;
       text: string;
       timestamp: string;
+      photoUrl?: string;
     }[];
   }[];
 }
@@ -38,7 +41,10 @@ export interface ContentfulPost {
       url: string;
     };
   };
-  content: string;
+  text: string;
+  photos?: {
+    url: string;
+  };
   taggedPeopleCollection?: {
     items: {
       name: string;
@@ -55,6 +61,9 @@ export interface ContentfulPost {
         firstPublishedAt: string;
       };
       text: string;
+      photos?: {
+        url: string;
+      };
       author: {
         name: string;
         avatar: {
@@ -68,6 +77,9 @@ export interface ContentfulPost {
             firstPublishedAt: string;
           };
           text: string;
+          photos?: {
+            url: string;
+          };
           author: {
             name: string;
             avatar: {
@@ -80,7 +92,6 @@ export interface ContentfulPost {
   };
 }
 
-
 export function transformContentfulPost(contentfulPost: ContentfulPost): Post {
   return {
     id: contentfulPost.sys.id,
@@ -88,9 +99,10 @@ export function transformContentfulPost(contentfulPost: ContentfulPost): Post {
       name: contentfulPost.author.name,
       avatar: contentfulPost.author.avatar.url,
     },
-    content: contentfulPost.content,
+    content: contentfulPost.text,
     timestamp: contentfulPost.sys.firstPublishedAt,
     comments: contentfulPost.commentsCollection?.items.length || 0,
+    photoUrl: contentfulPost.photos?.url,
     taggedPeople:
       contentfulPost.taggedPeopleCollection?.items.map((p) => ({
         name: p.name,
@@ -106,6 +118,7 @@ export function transformContentfulPost(contentfulPost: ContentfulPost): Post {
         },
         text: c.text,
         timestamp: c.sys.firstPublishedAt,
+        photoUrl: c.photos?.url,
         replyCount: c.repliesCollection?.items.length || 0,
         replies:
           c.repliesCollection?.items.map((r) => ({
@@ -116,6 +129,7 @@ export function transformContentfulPost(contentfulPost: ContentfulPost): Post {
             },
             text: r.text,
             timestamp: r.sys.firstPublishedAt,
+            photoUrl: r.photos?.url,
           })) || [],
       })) || [],
   };
@@ -129,8 +143,11 @@ export const GET_POSTS_QUERY = `
           id
           firstPublishedAt
         }
-        content
+        text
         location
+        photos {
+          url
+        }
         author {
           ... on Profile {
             name
@@ -156,6 +173,9 @@ export const GET_POSTS_QUERY = `
               firstPublishedAt
             }
             text
+            photos {
+              url
+            }
             author {
               ... on Profile {
                 name
@@ -171,6 +191,9 @@ export const GET_POSTS_QUERY = `
                   firstPublishedAt
                 }
                 text
+                photos {
+                  url
+                }
                 author {
                   ... on Profile {
                     name
