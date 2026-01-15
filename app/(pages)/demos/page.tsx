@@ -1,5 +1,5 @@
 import React from "react";
-import DemosClient from "../../../components/DemosClient";
+import { DemosClient } from "@/components/demos/DemosClient";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {

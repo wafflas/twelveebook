@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import ImageModal from "@/components/ImageModal";
+import { ImageModal } from "@/components/ui/ImageModal";
 
 interface MerchGridProps {
   items: {
@@ -16,7 +16,7 @@ interface MerchGridProps {
   }[];
 }
 
-export default function MerchGrid({ items }: MerchGridProps) {
+export function MerchGrid({ items }: MerchGridProps) {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
   const openModal = (imageUrl: string) => {
@@ -54,7 +54,7 @@ export default function MerchGrid({ items }: MerchGridProps) {
               )}
               <Link
                 href={item.slug}
-                className="text-linkblue pt-5 text-sm underline"
+                className="pt-5 text-sm text-linkblue underline"
               >
                 Buy
               </Link>
@@ -63,7 +63,7 @@ export default function MerchGrid({ items }: MerchGridProps) {
         ))}
 
         <div className="pt-6 text-center">
-          <Link href="#" className="text-linkblue text-sm underline">
+          <Link href="#" className="text-sm text-linkblue underline">
             View more
           </Link>
         </div>

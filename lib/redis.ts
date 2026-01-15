@@ -1,12 +1,10 @@
 import { Redis } from "@upstash/redis";
 import { Ratelimit } from "@upstash/ratelimit";
 
-// Create a safe Redis client with in-memory fallback (useful in local dev)
 function createSafeRedis() {
   try {
     return Redis.fromEnv();
   } catch {
-    // Minimal in-memory implementation for local development
     const kv = new Map<string, number | string>();
     const sets = new Map<string, Set<string>>();
     return {

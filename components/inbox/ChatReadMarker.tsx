@@ -10,7 +10,7 @@ interface ChatReadMarkerProps {
 /**
  * Invisible component that marks a chat as read when the page is loaded
  */
-export default function ChatReadMarker({ chatId }: ChatReadMarkerProps) {
+export function ChatReadMarker({ chatId }: ChatReadMarkerProps) {
   const markedRef = useRef(false);
   const router = useRouter();
 

@@ -10,7 +10,12 @@ interface ImageModalProps {
   alt?: string;
 }
 
-export default function ImageModal({ imageUrl, isOpen, onClose, alt = "Image" }: ImageModalProps) {
+export function ImageModal({
+  imageUrl,
+  isOpen,
+  onClose,
+  alt = "Image",
+}: ImageModalProps) {
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
@@ -33,30 +38,28 @@ export default function ImageModal({ imageUrl, isOpen, onClose, alt = "Image" }:
 
   return (
     <div
-      className="fixed inset-0 bg-black bg-opacity-75 z-50 flex items-center justify-center p-4 animate-fade-in"
+      className="fixed inset-0 z-50 flex animate-fade-in items-center justify-center bg-black bg-opacity-75 p-4"
       onClick={onClose}
     >
-      <div className="relative max-w-4xl max-h-[90vh] w-full h-full flex items-center justify-center">
-        
-
+      <div className="relative flex h-full w-full max-h-[90vh] max-w-4xl items-center justify-center">
         {/* Image */}
-        <div className="w-full h-full flex items-center justify-center">
+        <div className="flex h-full w-full items-center justify-center">
           <Image
             src={imageUrl}
             alt={alt}
             width={600}
             height={600}
-            className="object-contain max-w-full max-h-full"
+            className="max-h-full max-w-full object-contain"
             onClick={(e) => e.stopPropagation()}
           />
         </div>
         {/* Close Button */}
         <button
           onClick={onClose}
-          className="absolute bottom-1 left-0 right-0 mx-auto z-10 "
+          className="absolute bottom-1 left-0 right-0 z-10 mx-auto"
           aria-label="Close modal"
         >
-          <p className="text-white text-sm underline">Close</p>
+          <p className="text-sm text-white underline">Close</p>
         </button>
       </div>
     </div>

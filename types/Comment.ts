@@ -3,12 +3,23 @@ export interface CommentAuthor {
   avatar: string;
 }
 
+export interface Reply {
+  id: string;
+  author: CommentAuthor;
+  text: string;
+  timestamp: string;
+  photoUrl?: string;
+  likes?: number;
+}
+
 export interface Comment {
   id: string;
   author: CommentAuthor;
   text: string;
   timestamp: string;
-  replies?: Comment[];
+  photoUrl?: string;
+  likes?: number;
+  replies?: Reply[];
   replyCount?: number;
 }
 

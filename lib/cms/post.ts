@@ -1,34 +1,8 @@
-import { GET_POSTS_QUERY, ContentfulPost } from "@/types/Post";
+import { GET_POSTS_QUERY, ContentfulPost, Post } from "@/types/Post";
 
-export type PostPropsForComponent = {
-  id: string;
-  author: { name: string; avatar: string };
-  title: string;
-  content: string;
-  timestamp: string;
-  likes?: number;
-  comments: number;
-  taggedPeople?: { name: string; avatar: string }[];
-  location?: string;
-  photoUrl?: string;
-  commentsData?: {
-    id: string;
-    author: { name: string; avatar: string };
-    text: string;
-    timestamp: string;
-    replyCount?: number;
-    photoUrl?: string;
-    replies?: {
-      id: string;
-      author: { name: string; avatar: string };
-      text: string;
-      timestamp: string;
-      photoUrl?: string;
-    }[];
-  }[];
-};
+// Using Post type from @/types/Post as single source of truth
 
-function mapToPostProps(p: ContentfulPost): PostPropsForComponent {
+function mapToPostProps(p: ContentfulPost): Post {
   return {
     id: p.sys.id,
     author: {
@@ -72,7 +46,7 @@ function mapToPostProps(p: ContentfulPost): PostPropsForComponent {
   };
 }
 
-export async function getPosts(): Promise<PostPropsForComponent[]> {
+export async function getPosts(): Promise<Post[]> {
   try {
     const spaceId = process.env.CONTENTFUL_SPACE_ID;
     const accessToken = process.env.CONTENTFUL_ACCESS_TOKEN;

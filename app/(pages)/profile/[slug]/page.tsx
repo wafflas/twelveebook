@@ -1,6 +1,6 @@
 import React from "react";
 import { notFound } from "next/navigation";
-import Profile from "@/components/Profile";
+import { ProfileLayout } from "@/components/profiles/ProfileLayout";
 import { getProfiles, getPosts } from "@/lib/cms";
 import { nameToSlug, formatTimestampFor2012 } from "@/lib/utils";
 import { Metadata } from "next";
@@ -58,7 +58,7 @@ export default async function ProfilePage({ params }: ProfilePageProps) {
     }));
 
   return (
-    <Profile
+    <ProfileLayout
       profile={profile}
       wallPosts={wallPosts}
       friends={profile.friends || []}

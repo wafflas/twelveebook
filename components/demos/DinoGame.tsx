@@ -12,7 +12,7 @@ interface GameObject {
   height: number;
 }
 
-export default function DinoGame({ onUnlock }: DinoGameProps) {
+export function DinoGame({ onUnlock }: DinoGameProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [gameState, setGameState] = useState<
     "waiting" | "playing" | "won" | "lost"
@@ -88,7 +88,6 @@ export default function DinoGame({ onUnlock }: DinoGameProps) {
     };
 
     const handleTouch = (e: TouchEvent) => {
-      // Ensure mobile Safari allows preventDefault for touch gestures
       e.preventDefault();
       jump();
     };
@@ -102,7 +101,6 @@ export default function DinoGame({ onUnlock }: DinoGameProps) {
     };
 
     document.addEventListener("keydown", handleKeyDown);
-    // Add multiple input handlers for broader mobile support
     canvas.addEventListener("touchstart", handleTouch, { passive: false });
     canvas.addEventListener("pointerdown", handlePointerDown);
     canvas.addEventListener("mousedown", handleMouseDown);
@@ -128,20 +126,16 @@ export default function DinoGame({ onUnlock }: DinoGameProps) {
     };
 
     const drawPreview = () => {
-      // Clear canvas
       ctx.fillStyle = "white";
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-      // Draw ground
       ctx.fillStyle = "#333";
       ctx.fillRect(0, gameDataRef.current.ground, canvas.width, 2);
 
-      // Draw dino (standing on ground)
       const { dino, ground } = gameDataRef.current;
       ctx.fillStyle = "#000000";
       ctx.fillRect(dino.x, ground - dino.height, dino.width, dino.height);
 
-      // Draw sample obstacles (static preview)
       const sampleObstacles = [
         { x: canvas.width - 100, y: ground - 40, width: 20, height: 40 },
         { x: canvas.width - 50, y: ground - 30, width: 20, height: 30 },
@@ -152,7 +146,6 @@ export default function DinoGame({ onUnlock }: DinoGameProps) {
         ctx.fillRect(obs.x, obs.y, obs.width, obs.height);
       });
 
-      // Draw instructions
       ctx.fillStyle = "#666";
       ctx.font = "16px Arial";
       ctx.textAlign = "center";
@@ -176,15 +169,12 @@ export default function DinoGame({ onUnlock }: DinoGameProps) {
       const game = gameDataRef.current;
       const { dino, obstacles, ground, speed } = game;
 
-      // Clear canvas
       ctx.fillStyle = "#f7f7f7";
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-      // Draw ground
       ctx.fillStyle = "#333";
       ctx.fillRect(0, ground, canvas.width, 2);
 
-      // Update and draw dino
       dino.velocityY += GRAVITY;
       dino.y += dino.velocityY;
 
@@ -197,7 +187,6 @@ export default function DinoGame({ onUnlock }: DinoGameProps) {
       ctx.fillStyle = "#000000";
       ctx.fillRect(dino.x, dino.y, dino.width, dino.height);
 
-      // Update and draw obstacles
       for (let i = obstacles.length - 1; i >= 0; i--) {
         const obstacle = obstacles[i];
         obstacle.x -= speed;
@@ -205,13 +194,11 @@ export default function DinoGame({ onUnlock }: DinoGameProps) {
         ctx.fillStyle = "#000000";
         ctx.fillRect(obstacle.x, obstacle.y, obstacle.width, obstacle.height);
 
-        // Check collision
         if (checkCollision(dino, obstacle)) {
           setGameState("lost");
           return;
         }
 
-        // Remove off-screen obstacles
         if (obstacle.x + obstacle.width < 0) {
           obstacles.splice(i, 1);
           game.score += 10;
@@ -219,25 +206,21 @@ export default function DinoGame({ onUnlock }: DinoGameProps) {
         }
       }
 
-      // Spawn obstacles
       game.frameCount++;
       if (game.frameCount % 150 === 0) {
         spawnObstacle();
       }
 
-      // Increase difficulty
       if (game.frameCount % 500 === 0 && game.speed < 8) {
         game.speed += 0.3;
       }
 
-      // Check win condition
       if (game.score >= WIN_SCORE) {
         setGameState("won");
         onUnlock();
         return;
       }
 
-      // Draw score
       ctx.fillStyle = "#2d3748";
       ctx.font = "20px Arial";
       ctx.fillText(`Score: ${game.score}`, 10, 30);

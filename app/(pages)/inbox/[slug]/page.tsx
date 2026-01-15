@@ -3,8 +3,8 @@ import Link from "next/link";
 import { slugToName, nameToSlug, formatTimestampFor2012 } from "@/lib/utils";
 import { getProfiles, getMessagesByContact, getChatByContact } from "@/lib/cms";
 import { Message as CMSMessage } from "@/types/Message";
-import ChatThread from "@/components/ChatThread";
-import ChatReadMarker from "@/components/ChatReadMarker";
+import { ChatThreadView } from "@/components/inbox/ChatThreadView";
+import { ChatReadMarker } from "@/components/inbox/ChatReadMarker";
 
 type Message = {
   id: string;
@@ -74,7 +74,7 @@ export default async function ChatPage({ params }: PageProps) {
 
       {/* Thread with auto-scroll - now in a scrollable container */}
       <div className="flex-1 overflow-y-auto">
-        <ChatThread
+        <ChatThreadView
           messages={messages}
           contactName={contactName}
           myAvatar={myAvatar}

@@ -1,8 +1,8 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import DinoGame from "@/components/DinoGame";
+import { DinoGame } from "./DinoGame";
 
-export default function DemosClient() {
+export function DemosClient() {
   const [unlocked, setUnlocked] = useState(false);
   const [mounted, setMounted] = useState(false);
 

@@ -1,13 +1,14 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import "@/styles/globals.css";
 import { klavika } from "@/app/fonts";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useUnreadCount } from "@/lib/hooks";
 
 export default function Navbar() {
   const pathname = usePathname();
-  const [unreadCount, setUnreadCount] = useState<number>(0);
+  const { unreadCount } = useUnreadCount();
 
   const navItems = [
     { href: "/", label: "Home" },
@@ -16,25 +17,6 @@ export default function Navbar() {
     { href: "/demos", label: "Demos" },
     { href: "/merch", label: "Merch" },
   ];
-
-  // Fetch unread count on mount and when pathname changes
-  useEffect(() => {
-    async function fetchUnreadCount() {
-      try {
-        const res = await fetch("/api/inbox/unread-count", {
-          cache: "no-store",
-        });
-        if (res.ok) {
-          const data = await res.json();
-          setUnreadCount(data.unreadCount ?? 0);
-        }
-      } catch (error) {
-        console.error("Failed to fetch unread count:", error);
-      }
-    }
-
-    fetchUnreadCount();
-  }, [pathname]);
 
   return (
     <div className="sticky top-0 z-50 bg-brand px-1 text-white">

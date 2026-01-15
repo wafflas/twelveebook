@@ -1,8 +1,8 @@
 import React from "react";
 import Link from "next/link";
 import { getPosts } from "@/lib/cms";
-import Post from "@/components/Post";
-import CommentsSection from "@/components/CommentsSection";
+import { PostCard } from "@/components/posts/PostCard";
+import { CommentsList } from "@/components/comments/CommentsList";
 import { notFound } from "next/navigation";
 
 interface PageProps {
@@ -31,12 +31,12 @@ export default async function PostDetailPage({ params }: PageProps) {
 
       {/* Post */}
       <div className="divide-y divide-gray-100">
-        <Post {...post} />
+        <PostCard {...post} />
       </div>
 
       {/* Comments Section */}
       <div className="border-gray-200 pt-4">
-        <CommentsSection
+        <CommentsList
           postId={post.id}
           comments={post.commentsData || []}
           commentsCount={post.comments || 0}

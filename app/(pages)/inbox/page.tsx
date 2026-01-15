@@ -33,7 +33,6 @@ async function hasVisitorReadSinceMarkedUnread(
   }
 }
 
-// Dynamic metadata with unread count
 export async function generateMetadata(): Promise<Metadata> {
   const chats = await getChats();
 

@@ -1,4 +1,4 @@
-import MerchGrid from "@/components/MerchGrid";
+import { MerchGrid } from "@/components/merch/MerchGrid";
 import React from "react";
 
 import { Metadata } from "next";

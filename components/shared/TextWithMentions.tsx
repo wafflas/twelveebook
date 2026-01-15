@@ -12,7 +12,7 @@ interface TextWithMentionsProps {
 /**
  * Component that parses text and converts @mentions into clickable profile links
  **/
-export default function TextWithMentions({
+export function TextWithMentions({
   text,
   className = "",
 }: TextWithMentionsProps) {
