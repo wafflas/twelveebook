@@ -20,18 +20,24 @@ export function ProfileFriends({ friends }: ProfileFriendsProps) {
   return (
     <div className="border-gray-200 pt-6">
       <h3 className="text-lg font-bold">Friends({friends.length})</h3>
-      <div className="grid grid-cols-4 gap-2 sm:grid-cols-5 md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-10">
+      <div className="flex flex-wrap gap-2 p-1">
         {friends.map((friend, index) => (
-          <Link href={`/profile/${nameToSlug(friend.name)}`} key={index}>
-            <div className="w-fit items-center text-center transition-opacity hover:opacity-80">
+          <Link
+            key={index}
+            href={`/profile/${nameToSlug(friend.name)}`}
+            className="block w-[86px]"
+          >
+            <div className="flex flex-col items-center text-center transition-opacity hover:opacity-80">
               <Image
                 src={friend.avatarUrl}
                 alt={friend.name}
-                width={88}
-                height={88}
-                className="items-center object-cover pt-2"
+                width={86}
+                height={86}
+                className="mb-1 object-cover"
               />
-              <p className="text-sm font-semibold">{friend.name}</p>
+              <div className="w-full truncate text-xs font-bold">
+                {friend.name}
+              </div>
             </div>
           </Link>
         ))}
