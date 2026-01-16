@@ -69,7 +69,6 @@ export function MerchGrid({ items }: MerchGridProps) {
         </div>
       </div>
 
-      {/* Image Modal */}
       <ImageModal
         imageUrl={selectedImage || ""}
         isOpen={selectedImage !== null}

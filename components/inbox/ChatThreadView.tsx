@@ -26,14 +26,12 @@ export function ChatThreadView({
 }: ChatThreadViewProps) {
   const bottomRef = useRef<HTMLDivElement>(null);
 
-  // Auto-scroll to bottom on mount and when messages change
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "instant" });
   }, [messages]);
 
   return (
     <div className="flex h-full flex-col">
-      {/* Thread */}
       <div className="flex-1 space-y-4 px-3 py-3">
         {messages.map((m) => (
           <ChatMessage
@@ -51,7 +49,6 @@ export function ChatThreadView({
         <div ref={bottomRef} />
       </div>
 
-      {/* Composer - stays at bottom */}
       <ChatComposer />
     </div>
   );

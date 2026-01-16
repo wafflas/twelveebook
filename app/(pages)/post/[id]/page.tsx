@@ -22,19 +22,16 @@ export default async function PostDetailPage({ params }: PageProps) {
 
   return (
     <div className="bg-white p-2 text-black">
-      {/* Back button */}
       <div className="mb-4 justify-start">
         <Link href="/" className="text-linkblue underline">
           Back
         </Link>
       </div>
 
-      {/* Post */}
       <div className="divide-y divide-gray-100">
         <PostCard {...post} />
       </div>
 
-      {/* Comments Section */}
       <div className="border-gray-200 pt-4">
         <CommentsList
           postId={post.id}

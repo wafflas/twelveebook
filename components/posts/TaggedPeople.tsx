@@ -33,7 +33,6 @@ export function TaggedPeople({ taggedPeople }: TaggedPeopleProps) {
           </span>
         ))
       ) : showAllTags ? (
-        // Show all when expanded
         taggedPeople.map((person, idx) => (
           <span key={idx}>
             <Link
@@ -46,7 +45,6 @@ export function TaggedPeople({ taggedPeople }: TaggedPeopleProps) {
           </span>
         ))
       ) : (
-        // Show first + "X more" when collapsed
         <>
           <Link
             href={`/profile/${nameToSlug(taggedPeople[0].name)}`}

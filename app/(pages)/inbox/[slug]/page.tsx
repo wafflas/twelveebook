@@ -54,7 +54,6 @@ export default async function ChatPage({ params }: PageProps) {
 
   return (
     <div className="flex h-full flex-col bg-white text-black">
-      {/* Auto-mark chat as read when page loads */}
       {chatId && <ChatReadMarker chatId={chatId} />}
 
       <div className="sticky top-0 z-40 flex items-center justify-between border-b border-gray-200 bg-[#f6f7f9] px-3 py-2 text-sm shadow-sm">
@@ -72,7 +71,6 @@ export default async function ChatPage({ params }: PageProps) {
         </Link>
       </div>
 
-      {/* Thread with auto-scroll - now in a scrollable container */}
       <div className="flex-1 overflow-y-auto">
         <ChatThreadView
           messages={messages}
