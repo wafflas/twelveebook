@@ -57,6 +57,7 @@ export function TextWithMentions({
             key={idx}
             href={`/profile/${nameToSlug(part.name!)}`}
             className="font-semibold text-linkblue/80 hover:text-linkblue/80"
+            prefetch={true}
           >
             {part.name}
           </Link>

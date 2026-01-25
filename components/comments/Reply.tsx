@@ -31,13 +31,15 @@ export function Reply({
 }: ReplyProps) {
   return (
     <div className="flex gap-2">
-      <Link href={`/profile/${nameToSlug(author.name)}`}>
+      <Link href={`/profile/${nameToSlug(author.name)}`} prefetch={true}>
         <Image
           src={author.avatar}
-          alt={author.name}
+          alt={`${author.name}'s avatar`}
           width={32}
           height={32}
+          sizes="32px"
           className="object-cover"
+          loading="lazy"
         />
       </Link>
       <div className="flex-1">
@@ -61,7 +63,9 @@ export function Reply({
                 alt="Reply photo"
                 width={150}
                 height={100}
+                sizes="(max-width: 768px) 100vw, 150px"
                 className="max-w-full rounded object-cover"
+                loading="lazy"
               />
             </div>
           )}

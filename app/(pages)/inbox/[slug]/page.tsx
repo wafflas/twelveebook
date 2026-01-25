@@ -5,6 +5,7 @@ import { getProfiles, getMessagesByContact, getChatByContact } from "@/lib/cms";
 import { Message as CMSMessage } from "@/types/Message";
 import { ChatThreadView } from "@/components/inbox/ChatThreadView";
 import { ChatReadMarker } from "@/components/inbox/ChatReadMarker";
+import { Metadata } from "next";
 
 type Message = {
   id: string;
@@ -15,6 +16,18 @@ type Message = {
 
 interface PageProps {
   params: Promise<{ slug: string }>;
+}
+
+export async function generateMetadata({
+  params,
+}: PageProps): Promise<Metadata> {
+  const { slug } = await params;
+  const contactName = slugToName(slug);
+
+  return {
+    title: `Twelveebook | Conversation with ${contactName}`,
+    description: "0.twelveebook.com",
+  };
 }
 
 export default async function ChatPage({ params }: PageProps) {

@@ -1,20 +1,24 @@
-import React from "react";
+import React, { memo } from "react";
 import Image from "next/image";
-import { klavika } from "@/app/fonts";
 
 interface ProfileHeaderProps {
   name: string;
   avatarUrl: string;
 }
 
-export function ProfileHeader({ name, avatarUrl }: ProfileHeaderProps) {
+export const ProfileHeader = memo(function ProfileHeader({
+  name,
+  avatarUrl,
+}: ProfileHeaderProps) {
   return (
     <Image
       src={avatarUrl}
-      alt={name}
+      alt={`${name}'s profile picture`}
       width={180}
       height={180}
+      sizes="180px"
       className="object-cover"
+      priority
     />
   );
-}
+});

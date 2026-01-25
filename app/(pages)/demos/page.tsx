@@ -1,6 +1,11 @@
 import React from "react";
-import { DemosClient } from "@/components/demos/DemosClient";
+import dynamic from "next/dynamic";
 import { Metadata } from "next";
+
+const DemosClient = dynamic(
+  () => import("@/components/demos/DemosClient").then((mod) => ({ default: mod.DemosClient })),
+  { ssr: false },
+);
 
 export const metadata: Metadata = {
   title: "Twelveebook | Demos",

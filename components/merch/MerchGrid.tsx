@@ -48,7 +48,9 @@ export function MerchGrid({ items }: MerchGridProps) {
                     alt={item.title}
                     width={64}
                     height={64}
+                    sizes="64px"
                     className="object-cover transition-opacity hover:opacity-80"
+                    loading="lazy"
                   />
                 </div>
               )}

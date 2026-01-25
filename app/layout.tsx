@@ -2,7 +2,9 @@ import type { Metadata, Viewport } from "next";
 import "../styles/globals.css";
 import { klavika } from "./fonts";
 import { Inter } from "next/font/google";
-import Navbar from "@/components/Navbar";
+import dynamic from "next/dynamic";
+
+const Navbar = dynamic(() => import("@/components/Navbar"), { ssr: true });
 
 const inter = Inter({
   subsets: ["latin"],

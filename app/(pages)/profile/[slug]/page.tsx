@@ -37,7 +37,6 @@ export default async function ProfilePage({ params }: ProfilePageProps) {
   const { slug } = await params;
   const profiles = await getProfiles();
 
-  // Find profile by slug
   const profile = profiles.find((p) => nameToSlug(p.name) === slug);
 
   if (!profile) {

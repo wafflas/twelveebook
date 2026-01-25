@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useMemo } from "react";
 import "@/styles/globals.css";
 import { klavika } from "@/app/fonts";
 import Link from "next/link";
@@ -10,13 +10,16 @@ export default function Navbar() {
   const pathname = usePathname();
   const { unreadCount } = useUnreadCount();
 
-  const navItems = [
-    { href: "/", label: "Home" },
-    { href: "/profile/twelvee", label: "Profile" },
-    { href: "/inbox", label: "Inbox" },
-    { href: "/demos", label: "Demos" },
-    { href: "/merch", label: "Merch" },
-  ];
+  const navItems = useMemo(
+    () => [
+      { href: "/", label: "Home" },
+      { href: "/profile/twelvee", label: "Profile" },
+      { href: "/inbox", label: "Inbox" },
+      { href: "/demos", label: "Demos" },
+      { href: "/merch", label: "Merch" },
+    ],
+    [],
+  );
 
   return (
     <div className="sticky top-0 z-50 bg-brand px-1 text-white">

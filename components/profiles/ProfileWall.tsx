@@ -52,6 +52,7 @@ export function ProfileWall({ wallPosts }: ProfileWallProps) {
                 <Link
                   href={`/profile/${nameToSlug(post.author)}`}
                   className="font-semibold text-linkblue hover:text-linkblue/80"
+                  prefetch={true}
                 >
                   {post.author}
                 </Link>
@@ -67,6 +68,7 @@ export function ProfileWall({ wallPosts }: ProfileWallProps) {
                           <Link
                             href={`/profile/${nameToSlug(person.name)}`}
                             className="text-linkblue hover:text-linkblue/80"
+                            prefetch={true}
                           >
                             {person.name}
                           </Link>
@@ -80,6 +82,7 @@ export function ProfileWall({ wallPosts }: ProfileWallProps) {
                           <Link
                             href={`/profile/${nameToSlug(person.name)}`}
                             className="text-linkblue hover:text-linkblue/80"
+                            prefetch={true}
                           >
                             {person.name}
                           </Link>

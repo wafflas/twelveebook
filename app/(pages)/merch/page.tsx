@@ -1,7 +1,11 @@
-import { MerchGrid } from "@/components/merch/MerchGrid";
 import React from "react";
-
+import dynamic from "next/dynamic";
 import { Metadata } from "next";
+
+const MerchGrid = dynamic(
+  () => import("@/components/merch/MerchGrid").then((mod) => ({ default: mod.MerchGrid })),
+  { ssr: true },
+);
 
 export const metadata: Metadata = {
   title: "Twelveebook | Merch",

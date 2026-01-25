@@ -61,13 +61,15 @@ export function Comment({
   return (
     <div>
       <div className="flex gap-2">
-        <Link href={`/profile/${nameToSlug(author.name)}`}>
+        <Link href={`/profile/${nameToSlug(author.name)}`} prefetch={true}>
           <Image
             src={author.avatar}
-            alt={author.name}
+            alt={`${author.name}'s avatar`}
             width={40}
             height={40}
+            sizes="40px"
             className="object-cover"
+            loading="lazy"
           />
         </Link>
         <div className="flex-1">
@@ -91,7 +93,9 @@ export function Comment({
                   alt="Comment photo"
                   width={200}
                   height={150}
+                  sizes="(max-width: 768px) 100vw, 200px"
                   className="max-w-full rounded object-cover"
+                  loading="lazy"
                 />
               </div>
             )}

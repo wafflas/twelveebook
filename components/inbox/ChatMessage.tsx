@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { nameToSlug } from "@/lib/utils";
@@ -13,7 +13,7 @@ interface ChatMessageProps {
   contactAvatar: string;
 }
 
-export function ChatMessage({
+export const ChatMessage = memo(function ChatMessage({
   from,
   text,
   when,
@@ -30,6 +30,7 @@ export function ChatMessage({
         <Link
           href={`/profile/${nameToSlug(contactName)}`}
           className="text-[13px] font-semibold text-linkblue hover:text-linkblue/80"
+          prefetch={true}
         >
           {contactName}
         </Link>
@@ -37,10 +38,12 @@ export function ChatMessage({
       <div className="mt-1 flex items-start gap-2">
         <Image
           src={from === "me" ? myAvatar : contactAvatar}
-          alt={from === "me" ? "Twelvee" : contactName}
+          alt={from === "me" ? "Twelvee" : `${contactName}'s avatar`}
           width={40}
           height={40}
+          sizes="40px"
           className="object-cover"
+          loading="lazy"
         />
         <div className="min-w-0 flex-1">
           <div className="whitespace-pre-wrap break-words bg-white text-[14px] leading-5 text-black">
@@ -56,4 +59,4 @@ export function ChatMessage({
       </div>
     </div>
   );
-}
+});

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import Link from "next/link";
 import { nameToSlug } from "@/lib/utils";
 import { TaggedPeople } from "./TaggedPeople";
@@ -12,7 +12,7 @@ interface PostHeaderProps {
   location?: string;
 }
 
-export function PostHeader({
+export const PostHeader = memo(function PostHeader({
   author,
   taggedPeople = [],
   location,
@@ -22,6 +22,7 @@ export function PostHeader({
       <Link
         href={`/profile/${nameToSlug(author.name)}`}
         className="text-linkblue hover:text-linkblue/80"
+        prefetch={true}
       >
         {author.name}
       </Link>
@@ -36,4 +37,4 @@ export function PostHeader({
       )}
     </div>
   );
-}
+});

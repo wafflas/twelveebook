@@ -50,8 +50,15 @@ export function PostCard({
   return (
     <div className="bg-white">
       <div className="flex flex-row items-start gap-2 py-3">
-        <Link href={`/profile/${nameToSlug(author.name)}`}>
-          <Image src={author.avatar} alt={author.name} width={96} height={96} />
+        <Link href={`/profile/${nameToSlug(author.name)}`} prefetch={true}>
+          <Image
+            src={author.avatar}
+            alt={author.name}
+            width={96}
+            height={96}
+            sizes="96px"
+            className="object-cover"
+          />
         </Link>
 
         <div className="flex min-h-[96px] flex-1 flex-col gap-1 text-xs">

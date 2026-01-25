@@ -26,14 +26,17 @@ export function ProfileFriends({ friends }: ProfileFriendsProps) {
             key={index}
             href={`/profile/${nameToSlug(friend.name)}`}
             className="block w-[86px]"
+            prefetch={true}
           >
             <div className="flex flex-col items-center text-center transition-opacity hover:opacity-80">
               <Image
                 src={friend.avatarUrl}
-                alt={friend.name}
+                alt={`${friend.name}'s profile picture`}
                 width={86}
                 height={86}
+                sizes="86px"
                 className="mb-1 object-cover"
+                loading="lazy"
               />
               <div className="w-full truncate text-xs font-bold">
                 {friend.name}

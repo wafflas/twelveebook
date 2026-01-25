@@ -108,10 +108,12 @@ export default async function Inbox() {
             <div className="flex min-w-0 items-center gap-3">
               <Image
                 src={chat.contact.avatar}
-                alt={chat.contact.name}
+                alt={`${chat.contact.name}'s avatar`}
                 width={48}
                 height={48}
+                sizes="48px"
                 className="h-12 w-12 object-cover"
+                loading="lazy"
               />
               <div className="flex min-w-0 flex-col gap-0.5 leading-tight">
                 <span className="text-base font-bold leading-5 text-black">

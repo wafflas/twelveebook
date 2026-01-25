@@ -25,6 +25,7 @@ export function TaggedPeople({ taggedPeople }: TaggedPeopleProps) {
             <Link
               href={`/profile/${nameToSlug(person.name)}`}
               className="text-linkblue hover:text-linkblue/80"
+              prefetch={true}
             >
               {person.name}
             </Link>
@@ -38,6 +39,7 @@ export function TaggedPeople({ taggedPeople }: TaggedPeopleProps) {
             <Link
               href={`/profile/${nameToSlug(person.name)}`}
               className="text-linkblue hover:text-linkblue/80"
+              prefetch={true}
             >
               {person.name}
             </Link>
@@ -49,6 +51,7 @@ export function TaggedPeople({ taggedPeople }: TaggedPeopleProps) {
           <Link
             href={`/profile/${nameToSlug(taggedPeople[0].name)}`}
             className="text-linkblue hover:text-linkblue/80"
+            prefetch={true}
           >
             {taggedPeople[0].name}
           </Link>
