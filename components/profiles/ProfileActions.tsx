@@ -17,28 +17,28 @@ export function ProfileActions({
       {isOwner ? (
         <>
           <Link
-            href="#"
+            href="/inbox"
             className="block text-[10px] text-linkblue hover:text-linkblue/80"
           >
-            Edit Profile
+            Inbox
           </Link>
           <Link
-            href="#"
+            href="/demos"
             className="block text-[10px] text-linkblue hover:text-linkblue/80"
           >
-            Change Profile Picture
+            Demos
           </Link>
           <Link
-            href="#"
+            href="/merch"
             className="block text-[10px] text-linkblue hover:text-linkblue/80"
           >
-            Privacy Settings
+            Merch
           </Link>
         </>
       ) : (
         <>
           <Link
-            href="#"
+            href={`/inbox/${firstName}`}
             className="block text-[10px] text-linkblue hover:text-linkblue/80"
           >
             Send Message to {firstName}
@@ -50,7 +50,7 @@ export function ProfileActions({
             View Photos of {firstName}(25)
           </Link>
           <Link
-            href="#"
+            href="#friends"
             className="block text-[10px] text-linkblue hover:text-linkblue/80"
           >
             View Friends of {firstName}({friendsCount})
