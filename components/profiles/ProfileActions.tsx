@@ -1,7 +1,6 @@
 import React from "react";
 import Link from "next/link";
 import { nameToSlug } from "@/lib/utils";
-import { profile } from "console";
 
 interface ProfileActionsProps {
   isOwner: boolean;
@@ -52,7 +51,7 @@ export function ProfileActions({
             View Photos of {firstName}(25)
           </Link>
           <Link
-            href="#"
+            href="#friends"
             className="block text-[10px] text-linkblue hover:text-linkblue/80"
           >
             View Friends of {firstName}({friendsCount})

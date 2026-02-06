@@ -18,7 +18,7 @@
     "contentful": "^11.8.7",
     "graphql": "^16.11.0",
     "graphql-request": "^7.3.1",
-    "next": "14.2.35",
+    "next": "^16.1.6",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "uuid": "^13.0.0"
@@ -29,7 +29,7 @@
     "@types/react-dom": "^19",
     "autoprefixer": "^10.4.21",
     "eslint": "^8.57.0",
-    "eslint-config-next": "14.2.15",
+    "eslint-config-next": "^16.1.6",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-prettier": "^5.5.4",
     "postcss": "^8.5.6",
