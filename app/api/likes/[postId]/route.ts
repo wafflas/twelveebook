@@ -3,7 +3,7 @@ import { cookies } from "next/headers";
 import { v4 as uuidv4 } from "uuid";
 import { redis, likeRateLimit, getClientIpFromRequest } from "@/lib/redis";
 
-type RouteParams = { params: { postId: string } };
+type RouteParams = { params: Promise<{ postId: string }> };
 
 function countKey(postId: string) {
   return `likes:count:${postId}`;
@@ -14,8 +14,8 @@ function visitorsKey(postId: string) {
 }
 
 export async function GET(_req: Request, { params }: RouteParams) {
-  const { postId } = params;
-  const cookieStore = cookies();
+  const { postId } = await params;
+  const cookieStore = await cookies();
   const visitorId = cookieStore.get("visitorId")?.value;
 
   const [rawCount, likedMember] = await Promise.all([
@@ -32,7 +32,7 @@ export async function GET(_req: Request, { params }: RouteParams) {
 }
 
 export async function POST(req: Request, { params }: RouteParams) {
-  const { postId } = params;
+  const { postId } = await params;
   const ip = getClientIpFromRequest(req);
   const { success, remaining, reset } = await likeRateLimit.limit(ip);
   if (!success) {
@@ -60,7 +60,7 @@ export async function POST(req: Request, { params }: RouteParams) {
     return NextResponse.json({ error: "Invalid action" }, { status: 400 });
   }
 
-  const cookieStore = cookies();
+  const cookieStore = await cookies();
   let visitorId = cookieStore.get("visitorId")?.value;
   let setVisitorCookie = false;
   if (!visitorId) {

@@ -13,7 +13,7 @@ async function hasVisitorReadSinceMarkedUnread(
   chatId: string,
   unreadSince?: string,
 ): Promise<boolean> {
-  const cookieStore = cookies();
+  const cookieStore = await cookies();
   const visitorId = cookieStore.get("visitorId")?.value;
 
   if (!visitorId) return false;

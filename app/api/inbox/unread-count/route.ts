@@ -7,7 +7,7 @@ import { getChats } from "@/lib/cms";
  * GET: Returns the number of unread chats for the current visitor
  */
 export async function GET() {
-  const cookieStore = cookies();
+  const cookieStore = await cookies();
   const visitorId = cookieStore.get("visitorId")?.value;
 
   const chats = await getChats();

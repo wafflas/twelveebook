@@ -19,7 +19,7 @@ export async function GET(req: Request, { params }: RouteParams) {
   const url = new URL(req.url);
   const latestMessageTime = url.searchParams.get("latestMessageTime");
 
-  const cookieStore = cookies();
+  const cookieStore = await cookies();
   const visitorId = cookieStore.get("visitorId")?.value;
 
   if (!visitorId) {
@@ -46,7 +46,7 @@ export async function GET(req: Request, { params }: RouteParams) {
 export async function POST(_req: Request, { params }: RouteParams) {
   const { chatId } = await params;
 
-  const cookieStore = cookies();
+  const cookieStore = await cookies();
   let visitorId = cookieStore.get("visitorId")?.value;
   let setVisitorCookie = false;
 
