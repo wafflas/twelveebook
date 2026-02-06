@@ -35,7 +35,7 @@ export function ProfileFriends({ friends }: ProfileFriendsProps) {
                 width={86}
                 height={86}
                 sizes="86px"
-                className="mb-1 object-cover"
+                className="mb-1 h-[86px] w-[86px] min-w-[86px] shrink-0 object-cover"
                 loading="lazy"
               />
               <div className="w-full truncate text-xs font-bold">

@@ -57,7 +57,7 @@ export function PostCard({
             width={96}
             height={96}
             sizes="96px"
-            className="object-cover"
+            className="h-[96px] w-[96px] min-w-[96px] shrink-0 object-cover"
           />
         </Link>
 

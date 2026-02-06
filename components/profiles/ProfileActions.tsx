@@ -19,19 +19,19 @@ export function ProfileActions({
         <>
           <Link
             href="/inbox"
-            className="block text-[10px] text-linkblue hover:text-linkblue/80"
+            className="block text-[10px] text-linkblue hover:text-linkblue/80 md:text-[13px]"
           >
             Inbox
           </Link>
           <Link
             href="/demos"
-            className="block text-[10px] text-linkblue hover:text-linkblue/80"
+            className="block text-[10px] text-linkblue hover:text-linkblue/80 md:text-[13px]"
           >
             Demos
           </Link>
           <Link
             href="/merch"
-            className="block text-[10px] text-linkblue hover:text-linkblue/80"
+            className="block text-[10px] text-linkblue hover:text-linkblue/80 md:text-[13px]"
           >
             Merch
           </Link>
@@ -40,19 +40,19 @@ export function ProfileActions({
         <>
           <Link
             href={`/inbox/${nameToSlug(firstName)}`}
-            className="block text-[10px] text-linkblue hover:text-linkblue/80"
+            className="block text-[10px] text-linkblue hover:text-linkblue/80 md:text-[13px]"
           >
             Send Message to {firstName}
           </Link>
           <Link
             href="#"
-            className="block text-[10px] text-linkblue hover:text-linkblue/80"
+            className="block text-[10px] text-linkblue hover:text-linkblue/80 md:text-[13px]"
           >
             View Photos of {firstName}(25)
           </Link>
           <Link
             href="#friends"
-            className="block text-[10px] text-linkblue hover:text-linkblue/80"
+            className="block text-[10px] text-linkblue hover:text-linkblue/80 md:text-[13px]"
           >
             View Friends of {firstName}({friendsCount})
           </Link>
