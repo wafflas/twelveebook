@@ -31,7 +31,7 @@ export function PostFooter({
         <div className="flex flex-row items-center gap-1">
           <Link
             href={`/post/${postId}`}
-            className="text-black hover:text-linkblue/80"
+            className={`${likedByVisitor ? "text-linkblue hover:text-linkblue/80" : "text-linkblue/80 hover:text-linkblue"} `}
           >
             {comments} {comments === 1 ? "comment" : "comments"}
           </Link>
@@ -39,10 +39,10 @@ export function PostFooter({
           <button
             onClick={onToggleLike}
             disabled={loading}
-            className={` ${likedByVisitor ? "text-linkblue" : "text-black"} hover:text-linkblue/80`}
+            className={`${likedByVisitor ? "text-linkblue hover:text-linkblue/80" : "text-linkblue/80 hover:text-linkblue"} `}
             aria-pressed={likedByVisitor}
           >
-            {likedByVisitor ? "Liked" : "Like"}
+            {likedByVisitor ? "Liked <3" : "Like"}
           </button>
         </div>
         <p>{likes} people like this.</p>

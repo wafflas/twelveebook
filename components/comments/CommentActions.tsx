@@ -26,9 +26,9 @@ export function CommentActions({
         <button
           onClick={onToggleLike}
           disabled={loading}
-          className={`${liked ? "text-linkblue" : "text-gray-600"} hover:text-linkblue`}
+          className={`${liked ? "text-linkblue hover:text-linkblue/80" : "text-linkblue/80 hover:text-linkblue"} `}
         >
-          {liked ? "Liked" : "Like"}
+          {liked ? "Liked <3" : "Like"}
         </button>
         {likes > 0 && (
           <span className="text-gray-500">

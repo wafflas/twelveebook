@@ -1,5 +1,7 @@
 import React from "react";
 import Link from "next/link";
+import { nameToSlug } from "@/lib/utils";
+import { profile } from "console";
 
 interface ProfileActionsProps {
   isOwner: boolean;
@@ -17,28 +19,28 @@ export function ProfileActions({
       {isOwner ? (
         <>
           <Link
-            href="#"
+            href="/inbox"
             className="block text-[10px] text-linkblue hover:text-linkblue/80"
           >
-            Edit Profile
+            Inbox
           </Link>
           <Link
-            href="#"
+            href="/demos"
             className="block text-[10px] text-linkblue hover:text-linkblue/80"
           >
-            Change Profile Picture
+            Demos
           </Link>
           <Link
-            href="#"
+            href="/merch"
             className="block text-[10px] text-linkblue hover:text-linkblue/80"
           >
-            Privacy Settings
+            Merch
           </Link>
         </>
       ) : (
         <>
           <Link
-            href="#"
+            href={`/inbox/${nameToSlug(firstName)}`}
             className="block text-[10px] text-linkblue hover:text-linkblue/80"
           >
             Send Message to {firstName}
