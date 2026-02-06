@@ -42,7 +42,7 @@ export const ChatMessage = memo(function ChatMessage({
           width={40}
           height={40}
           sizes="40px"
-          className="object-cover"
+          className="h-[40px] w-[40px] min-w-[40px] shrink-0 object-cover"
           loading="lazy"
         />
         <div className="min-w-0 flex-1">
