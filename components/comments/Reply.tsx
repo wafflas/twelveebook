@@ -77,7 +77,7 @@ export function Reply({
           <button
             onClick={onToggleLike}
             disabled={loading}
-            className="text-linkblue/80 hover:text-linkblue"
+            className={`${liked ? "text-linkblue hover:text-linkblue/80" : "text-linkblue/80 hover:text-linkblue"} `}
           >
             {liked ? "Liked <3" : "Like"}
           </button>
