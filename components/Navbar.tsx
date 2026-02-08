@@ -15,8 +15,8 @@ export default function Navbar() {
       { href: "/", label: "Home" },
       { href: "/profile/twelvee", label: "Profile" },
       { href: "/inbox", label: "Inbox" },
-      { href: "#2", label: "Demos" },
-      { href: "#1", label: "Merch" },
+      { href: "/demos", label: "Demos" },
+      { href: "/merch", label: "Merch" },
     ],
     [],
   );
@@ -41,6 +41,7 @@ export default function Navbar() {
 
             return (
               <li key={item.href}>
+<<<<<<< HEAD
                 {item.label == "Demos" || item.label == "Merch" ? (
                   <span className="cursor-default p-0.5 opacity-30">
                     {displayLabel}
@@ -53,6 +54,18 @@ export default function Navbar() {
                     {displayLabel}
                   </Link>
                 )}
+=======
+                <Link
+                  href={item.href}
+                  className={`p-0.5 ${
+                    isActive
+                      ? "bg-white/20"
+                      : "text-white/80 hover:bg-white/10 hover:text-white"
+                  }`}
+                >
+                  {displayLabel}
+                </Link>
+>>>>>>> parent of 58e3fda (Release version done)
               </li>
             );
           })}
