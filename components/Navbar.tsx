@@ -23,9 +23,12 @@ export default function Navbar() {
 
   return (
     <div className="sticky top-0 z-50 bg-brand px-1 text-white">
-      <h1 className={`text-3xl ${klavika.className} font-bold`}>
+      <Link
+        href="/"
+        className={`text-3xl ${klavika.className} select-none font-bold`}
+      >
         twelveebook{" "}
-      </h1>
+      </Link>
       <nav className="text-m flex items-center">
         <ul className="flex space-x-1">
           {navItems.map((item) => {
@@ -38,11 +41,15 @@ export default function Navbar() {
 
             return (
               <li key={item.href}>
-                {(item.label=="Demos" || item.label=="Merch") 
-                ? 
-                (<span className="p-0.5 opacity-30 cursor-default">{displayLabel}</span> ) : 
-                (
-                  <Link href={item.href} className={`p-0.5 ${isActive ? "bg-white/20" : "text-white/80 hover:bg-white/10 hover:text-white"}`}>
+                {item.label == "Demos" || item.label == "Merch" ? (
+                  <span className="cursor-default p-0.5 opacity-30">
+                    {displayLabel}
+                  </span>
+                ) : (
+                  <Link
+                    href={item.href}
+                    className={`p-0.5 ${isActive ? "bg-white/20" : "text-white/80 hover:bg-white/10 hover:text-white"}`}
+                  >
                     {displayLabel}
                   </Link>
                 )}
