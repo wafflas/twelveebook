@@ -79,7 +79,12 @@ export default async function ChatPage({ params }: PageProps) {
             {contactName}
           </Link>
         </div>
-        <Link href="/inbox" className="text-linkblue hover:underline">
+        <Link
+          href={
+            chat?.source === "messageRequest" ? "/message-request" : "/inbox"
+          }
+          className="text-linkblue underline"
+        >
           Back
         </Link>
       </div>

@@ -7,7 +7,8 @@ export interface Chat {
   };
   preview: string;
   lastMessageAt: string;
-  unread?: boolean;
+  unread: boolean;
+  source?: "messageRequest" | "chat";
   unreadSince?: string; // Timestamp when chat was marked as unread
 }
 

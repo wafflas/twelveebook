@@ -6,6 +6,7 @@ import { getChats, getChatByContact } from "@/lib/cms";
 import { formatTimestampFor2012 } from "@/lib/utils";
 import { cookies } from "next/headers";
 import { redis } from "@/lib/redis";
+import { getUnreadMessageRequestCount } from "@/lib/unreadMessageRequests";
 
 // Helper function to check if visitor has read a chat since it was marked unread
 async function hasVisitorReadSinceMarkedUnread(
@@ -16,7 +17,6 @@ async function hasVisitorReadSinceMarkedUnread(
   const visitorId = cookieStore.get("visitorId")?.value;
 
   if (!visitorId) return false;
-
 
   const lastReadTime = await redis.hget(`chat:lastread:${chatId}`, visitorId);
 
@@ -92,11 +92,21 @@ export default async function Inbox() {
     return timeB - timeA;
   });
 
-  const unreadCount = sortedChats.filter((chat) => chat.unread).length;
+  const messageRequestCount = await getUnreadMessageRequestCount();
 
   return (
     <div className="bg-white p-2 text-black">
-      <div className="mb-2 text-sm text-linkblue bg-yellow-100 -mt-2 -ml-2 -mr-2 p-1"><Link href="/message-request" className="text-linkblue hover:text-linkblue/80">You have {} message requests</Link></div>
+      {messageRequestCount > 0 && (
+        <div className="-ml-2 -mr-2 -mt-2 mb-2 bg-yellow-100 p-1 text-sm text-linkblue">
+          <Link
+            href="/message-request"
+            className="text-linkblue hover:text-linkblue/80"
+          >
+            You have {messageRequestCount} message{" "}
+            {messageRequestCount === 1 ? "request" : "requests"}
+          </Link>
+        </div>
+      )}
 
       <h1 className="text-2xl font-bold">Inbox</h1>
       <div className="divide-y">
