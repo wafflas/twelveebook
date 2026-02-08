@@ -32,21 +32,23 @@ export function ChatThreadView({
 
   return (
     <div className="flex h-full flex-col">
-      <div className="flex-1 space-y-4 px-3 py-3">
-        {messages.map((m) => (
-          <ChatMessage
-            key={m.id}
-            id={m.id}
-            from={m.from}
-            text={m.text}
-            when={m.when}
-            contactName={contactName}
-            myAvatar={myAvatar}
-            contactAvatar={contactAvatar}
-          />
-        ))}
+      <div className="flex flex-1 flex-col-reverse space-y-4 space-y-reverse overflow-y-auto px-3 py-3">
         {/* Invisible anchor for auto-scroll */}
         <div ref={bottomRef} />
+        {messages
+          .map((m) => (
+            <ChatMessage
+              key={m.id}
+              id={m.id}
+              from={m.from}
+              text={m.text}
+              when={m.when}
+              contactName={contactName}
+              myAvatar={myAvatar}
+              contactAvatar={contactAvatar}
+            />
+          ))
+          .reverse()}
       </div>
 
       <ChatComposer />
