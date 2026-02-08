@@ -96,8 +96,9 @@ export default async function Inbox() {
 
   return (
     <div className="bg-white p-2 text-black">
-      <h1 className="mb-2 text-2xl font-bold">Inbox</h1>
-      <div className="mb-2 text-sm text-linkblue bg-yellow-100 p-1 -ml-2 -mr-2">You have 2 message requests</div>
+      <div className="mb-2 text-sm text-linkblue bg-yellow-100 -mt-2 -ml-2 -mr-2 p-1"><Link href="/message-request" className="text-linkblue hover:text-linkblue/80">You have {} message requests</Link></div>
+
+      <h1 className="text-2xl font-bold">Inbox</h1>
       <div className="divide-y">
         {sortedChats.map((chat) => (
           <Link
