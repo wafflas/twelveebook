@@ -1,4 +1,3 @@
-import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { nameToSlug } from "@/lib/utils";
@@ -98,6 +97,7 @@ export default async function Inbox() {
   return (
     <div className="bg-white p-2 text-black">
       <h1 className="mb-2 text-2xl font-bold">Inbox</h1>
+      <div className="mb-2 text-sm text-linkblue bg-yellow-100 p-1 -ml-2 -mr-2">You have 2 message requests</div>
       <div className="divide-y">
         {sortedChats.map((chat) => (
           <Link
