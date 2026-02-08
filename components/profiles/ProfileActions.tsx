@@ -1,6 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import { nameToSlug } from "@/lib/utils";
+import { Space_Mono } from "next/font/google";
 
 interface ProfileActionsProps {
   isOwner: boolean;
@@ -23,18 +24,16 @@ export function ProfileActions({
           >
             Inbox
           </Link>
-          <Link
-            href="/demos"
-            className="block text-[10px] text-linkblue hover:text-linkblue/80 md:text-[13px]"
+          <span
+            className="block text-[10px] text-linkblue hover:text-linkblue/80 md:text-[13px] opacity-30 cursor-default"
           >
             Demos
-          </Link>
-          <Link
-            href="/merch"
-            className="block text-[10px] text-linkblue hover:text-linkblue/80 md:text-[13px]"
+          </span>
+          <span
+            className="block text-[10px] text-linkblue hover:text-linkblue/80 md:text-[13px] opacity-30 cursor-default"
           >
             Merch
-          </Link>
+          </span>
         </>
       ) : (
         <>

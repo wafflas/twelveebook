@@ -15,8 +15,8 @@ export default function Navbar() {
       { href: "/", label: "Home" },
       { href: "/profile/twelvee", label: "Profile" },
       { href: "/inbox", label: "Inbox" },
-      { href: "/demos", label: "Demos" },
-      { href: "/merch", label: "Merch" },
+      { href: "#2", label: "Demos" },
+      { href: "#1", label: "Merch" },
     ],
     [],
   );
@@ -38,16 +38,14 @@ export default function Navbar() {
 
             return (
               <li key={item.href}>
-                <Link
-                  href={item.href}
-                  className={`p-0.5 ${
-                    isActive
-                      ? "bg-white/20"
-                      : "text-white/80 hover:bg-white/10 hover:text-white"
-                  }`}
-                >
-                  {displayLabel}
-                </Link>
+                {(item.label=="Demos" || item.label=="Merch") 
+                ? 
+                (<span className="p-0.5 opacity-30 cursor-default">{displayLabel}</span> ) : 
+                (
+                  <Link href={item.href} className={`p-0.5 ${isActive ? "bg-white/20" : "text-white/80 hover:bg-white/10 hover:text-white"}`}>
+                    {displayLabel}
+                  </Link>
+                )}
               </li>
             );
           })}
