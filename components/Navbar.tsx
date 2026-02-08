@@ -41,20 +41,6 @@ export default function Navbar() {
 
             return (
               <li key={item.href}>
-<<<<<<< HEAD
-                {item.label == "Demos" || item.label == "Merch" ? (
-                  <span className="cursor-default p-0.5 opacity-30">
-                    {displayLabel}
-                  </span>
-                ) : (
-                  <Link
-                    href={item.href}
-                    className={`p-0.5 ${isActive ? "bg-white/20" : "text-white/80 hover:bg-white/10 hover:text-white"}`}
-                  >
-                    {displayLabel}
-                  </Link>
-                )}
-=======
                 <Link
                   href={item.href}
                   className={`p-0.5 ${
@@ -65,7 +51,6 @@ export default function Navbar() {
                 >
                   {displayLabel}
                 </Link>
->>>>>>> parent of 58e3fda (Release version done)
               </li>
             );
           })}
