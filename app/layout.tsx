@@ -4,6 +4,8 @@ import { klavika } from "./fonts";
 import { Inter } from "next/font/google";
 import dynamic from "next/dynamic";
 
+import { Analytics } from "@vercel/analytics/react";
+
 const Navbar = dynamic(() => import("@/components/Navbar"), { ssr: true });
 
 const inter = Inter({
@@ -70,12 +72,11 @@ export default function RootLayout({
         <meta charSet="utf-8" />
       </head>
       <body
-        className={`h-full bg-white ${inter.className} text-black antialiased flex flex-col`}
+        className={`h-full bg-white ${inter.className} flex flex-col text-black antialiased`}
       >
         <Navbar />
-        <main className="flex-1 overflow-auto">
-          {children}
-        </main>
+        <main className="flex-1 overflow-auto">{children}</main>
+        <Analytics />
       </body>
     </html>
   );
