@@ -48,3 +48,14 @@ function formatDateIn2012Style(date: Date): string {
   ];
   return `${months[date.getMonth()]} ${date.getDate()}, 2012`;
 }
+
+export function formatMoney(amount: number, currencyCode: string): string {
+  try {
+    return new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: currencyCode,
+    }).format(amount);
+  } catch {
+    return `$${amount.toFixed(2)}`;
+  }
+}

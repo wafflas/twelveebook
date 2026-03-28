@@ -5,6 +5,7 @@ import { Inter } from "next/font/google";
 import dynamic from "next/dynamic";
 
 import { Analytics } from "@vercel/analytics/react";
+import { getCart } from "@/lib/shopify/cart";
 
 const Navbar = dynamic(() => import("@/components/Navbar"), { ssr: true });
 
@@ -61,11 +62,13 @@ export const viewport: Viewport = {
   themeColor: "#F3860B",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const cart = await getCart();
+
   return (
     <html lang="en" className="h-full">
       <head>
@@ -74,7 +77,7 @@ export default function RootLayout({
       <body
         className={`h-full bg-white ${inter.className} flex flex-col text-black antialiased`}
       >
-        <Navbar />
+        <Navbar cartCount={cart?.totalQuantity ?? 0} />
         <main className="flex-1 overflow-auto">{children}</main>
         <Analytics />
       </body>
