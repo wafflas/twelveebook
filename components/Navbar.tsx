@@ -15,7 +15,7 @@ export default function Navbar() {
       { href: "/", label: "Home" },
       { href: "/profile/twelvee", label: "Profile" },
       { href: "/inbox", label: "Inbox" },
-      { href: "#2", label: "Demos" },
+      { href: "/demos", label: "Demos" },
       { href: "#1", label: "Merch" },
     ],
     [],
@@ -23,7 +23,7 @@ export default function Navbar() {
 
   return (
     <div className="sticky top-0 z-50 text-white">
-      <div className="bg-brand/90 px-1 py-1  text-xs sm:text-sm">
+      <div className="bg-brand/90 px-1 py-1 text-xs sm:text-sm">
         <span className="text-white/95">
           Free access by{" "}
           <Link
@@ -33,7 +33,8 @@ export default function Navbar() {
             rel="noopener noreferrer"
           >
             WNB Records
-          </Link>.
+          </Link>
+          .
         </span>
       </div>
       <div className="bg-brand px-1">
@@ -55,7 +56,7 @@ export default function Navbar() {
 
               return (
                 <li key={item.href}>
-                  {item.label == "Demos" || item.label == "Merch" ? (
+                  {item.label == "Merch" ? (
                     <span className="cursor-default p-0.5 opacity-30">
                       {displayLabel}
                     </span>
