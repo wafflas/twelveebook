@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import DinoRunner from "@/components/demos/DinoRunner";
 
 export const metadata: Metadata = {
-  title: "Demos · Twelveebook",
+  title: "Twelveebook | Demos",
   description: "Interactive demos",
 };
 
