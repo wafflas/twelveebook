@@ -5,6 +5,7 @@ import { Inter } from "next/font/google";
 import dynamic from "next/dynamic";
 
 import { Analytics } from "@vercel/analytics/react";
+import EasterEgg from "@/components/EasterEgg";
 
 const Navbar = dynamic(() => import("@/components/Navbar"), { ssr: true });
 
@@ -74,6 +75,7 @@ export default function RootLayout({
       <body
         className={`h-full bg-white ${inter.className} flex flex-col text-black antialiased`}
       >
+        <EasterEgg />
         <Navbar />
         <main className="flex-1 overflow-auto">{children}</main>
         <Analytics />
