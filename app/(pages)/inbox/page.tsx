@@ -99,7 +99,7 @@ export default async function Inbox() {
       {messageRequestCount > 0 && (
         <div className="-ml-2 -mr-2 -mt-2 mb-2 bg-yellow-100 p-1 text-sm text-linkblue">
           <Link
-            href="/message-request"
+            href="/inbox/message-request"
             className="text-linkblue hover:text-linkblue/80"
           >
             You have {messageRequestCount} message{" "}
