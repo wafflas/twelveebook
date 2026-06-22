@@ -6,6 +6,7 @@ import {
   Chat,
 } from "@/types/Chat";
 import { Message, transformContentfulMessage } from "@/types/Message";
+import { devLog, devWarn } from "@/lib/utils/logger";
 
 export async function getChats(): Promise<Chat[]> {
   try {
@@ -14,7 +15,7 @@ export async function getChats(): Promise<Chat[]> {
     const env = process.env.CONTENTFUL_ENVIRONMENT ?? "master";
     const endpoint = `https://graphql.contentful.com/content/v1/spaces/${spaceId}/environments/${env}`;
 
-    console.log("Fetching chats from Contentful...");
+    devLog("Fetching chats from Contentful...");
 
     const fetchResponse = await fetch(endpoint, {
       method: "POST",
@@ -27,31 +28,28 @@ export async function getChats(): Promise<Chat[]> {
     });
 
     if (!fetchResponse.ok) {
-      const responseText = await fetchResponse.text();
-      console.error("Contentful returned status:", fetchResponse.status);
-      console.error("Response body:", responseText);
-      throw new Error(
-        `Contentful returned ${fetchResponse.status}: ${responseText}`,
-      );
+      console.error("Contentful chats fetch failed:", fetchResponse.status);
+      throw new Error(`Contentful returned ${fetchResponse.status}`);
     }
 
     const data = await fetchResponse.json();
 
     if (data.errors) {
-      console.error("GraphQL errors:", JSON.stringify(data.errors));
-      throw new Error(`GraphQL errors: ${JSON.stringify(data.errors)}`);
+      console.error("GraphQL errors fetching chats");
+      throw new Error("GraphQL errors fetching chats");
     }
 
     if (!data.data?.chatCollection?.items) {
-      console.warn("No chatCollection found in response");
+      devWarn("No chatCollection found in response");
       return [];
     }
 
     const chats: ContentfulChat[] = data.data.chatCollection.items;
-    console.log("Total chats fetched:", chats.length);
+    devLog("Total chats fetched:", chats.length);
     return chats.map(transformContentfulChat);
-  } catch (error: any) {
-    console.error("Contentful error:", error.message);
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : "Unknown error";
+    console.error("Contentful chats error:", message);
     return [];
   }
 }
@@ -79,19 +77,15 @@ export async function getChatByContact(
     });
 
     if (!fetchResponse.ok) {
-      const responseText = await fetchResponse.text();
-      console.error("Contentful returned status:", fetchResponse.status);
-      console.error("Response body:", responseText);
-      throw new Error(
-        `Contentful returned ${fetchResponse.status}: ${responseText}`,
-      );
+      console.error("Contentful chat fetch failed:", fetchResponse.status);
+      throw new Error(`Contentful returned ${fetchResponse.status}`);
     }
 
     const data = await fetchResponse.json();
 
     if (data.errors) {
-      console.error("GraphQL errors:", JSON.stringify(data.errors));
-      throw new Error(`GraphQL errors: ${JSON.stringify(data.errors)}`);
+      console.error("GraphQL errors fetching chat");
+      throw new Error("GraphQL errors fetching chat");
     }
 
     if (
@@ -104,7 +98,6 @@ export async function getChatByContact(
     const contentfulChat: ContentfulChat = data.data.chatCollection.items[0];
     const chat = transformContentfulChat(contentfulChat);
 
-    // Transform messages and sort chronologically (oldest first)
     const messages: Message[] =
       contentfulChat.messagesCollection?.items
         ?.map((msg: any) => {
@@ -118,15 +111,15 @@ export async function getChatByContact(
           });
         })
         .sort((a, b) => {
-          // Sort by timestamp - oldest first (chronological order)
           const timeA = new Date(a.createdAt).getTime();
           const timeB = new Date(b.createdAt).getTime();
           return timeA - timeB;
         }) || [];
 
     return { chat, messages };
-  } catch (error: any) {
-    console.error("Contentful error:", error.message);
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : "Unknown error";
+    console.error("Contentful chat error:", message);
     return { chat: null, messages: [] };
   }
 }

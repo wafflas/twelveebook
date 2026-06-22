@@ -4,6 +4,7 @@ import {
   transformContentfulProfile,
   Profile,
 } from "@/types/Profile";
+import { devLog, devWarn } from "@/lib/utils/logger";
 
 export async function getProfiles(): Promise<Profile[]> {
   try {
@@ -12,9 +13,7 @@ export async function getProfiles(): Promise<Profile[]> {
     const env = process.env.CONTENTFUL_ENVIRONMENT ?? "master";
     const endpoint = `https://graphql.contentful.com/content/v1/spaces/${spaceId}/environments/${env}`;
 
-    console.log("Fetching profiles from Contentful...");
-    console.log("Endpoint:", endpoint);
-    console.log("Query:", GET_PROFILES_QUERY);
+    devLog("Fetching profiles from Contentful...");
 
     const fetchResponse = await fetch(endpoint, {
       method: "POST",
@@ -27,32 +26,28 @@ export async function getProfiles(): Promise<Profile[]> {
     });
 
     if (!fetchResponse.ok) {
-      const responseText = await fetchResponse.text();
-      console.error("Contentful returned status:", fetchResponse.status);
-      console.error("Response body:", responseText);
-      throw new Error(
-        `Contentful returned ${fetchResponse.status}: ${responseText}`,
-      );
+      console.error("Contentful profiles fetch failed:", fetchResponse.status);
+      throw new Error(`Contentful returned ${fetchResponse.status}`);
     }
 
     const data = await fetchResponse.json();
-    console.log("Contentful response:", JSON.stringify(data, null, 2));
+    devLog("Profiles fetched:", data.data?.profileCollection?.items?.length ?? 0);
 
     if (data.errors) {
-      console.error("GraphQL errors:", JSON.stringify(data.errors));
-      throw new Error(`GraphQL errors: ${JSON.stringify(data.errors)}`);
+      console.error("GraphQL errors fetching profiles");
+      throw new Error("GraphQL errors fetching profiles");
     }
 
     if (!data.data?.profileCollection?.items) {
-      console.warn("No profileCollection found in response");
+      devWarn("No profileCollection found in response");
       return [];
     }
 
     const profiles: ContentfulProfile[] = data.data.profileCollection.items;
-    console.log("Total profiles fetched:", profiles.length);
     return profiles.map(transformContentfulProfile);
-  } catch (error: any) {
-    console.error("Contentful error:", error.message);
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : "Unknown error";
+    console.error("Contentful profiles error:", message);
     return [];
   }
 }

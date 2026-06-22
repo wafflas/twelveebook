@@ -1,4 +1,5 @@
 import { GET_POSTS_QUERY, ContentfulPost, Post } from "@/types/Post";
+import { devLog } from "@/lib/utils/logger";
 
 // Using Post type from @/types/Post as single source of truth
 
@@ -64,16 +65,15 @@ export async function getPosts(): Promise<Post[]> {
     });
 
     if (!fetchResponse.ok) {
-      const responseText = await fetchResponse.text();
-      throw new Error(
-        `Contentful returned ${fetchResponse.status}: ${responseText}`,
-      );
+      console.error("Contentful posts fetch failed:", fetchResponse.status);
+      throw new Error(`Contentful returned ${fetchResponse.status}`);
     }
 
     const data = await fetchResponse.json();
 
     if (data.errors) {
-      throw new Error(`GraphQL errors: ${JSON.stringify(data.errors)}`);
+      console.error("GraphQL errors fetching posts");
+      throw new Error("GraphQL errors fetching posts");
     }
 
     if (!data.data?.postCollection?.items) {
@@ -81,15 +81,12 @@ export async function getPosts(): Promise<Post[]> {
     }
 
     const posts: ContentfulPost[] = data.data.postCollection.items;
-    console.log("Total posts fetched:", posts.length);
-    console.log(
-      "Post IDs:",
-      posts.map((p: any) => p.sys.id),
-    );
+    devLog("Total posts fetched:", posts.length);
 
     return posts.map(mapToPostProps);
-  } catch (error: any) {
-    console.error("Contentful error:", error.message);
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : "Unknown error";
+    console.error("Contentful posts error:", message);
     return [];
   }
 }
