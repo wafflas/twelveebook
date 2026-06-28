@@ -30,7 +30,7 @@ export default function Navbar() {
           <span className="text-white/95">
             Free access by{" "}
             <Link
-              href="https://www.instagram.com/wakenbakerecords/"
+              href="https://www.youtube.com/@WakeBakeRecords"
               className="underline underline-offset-2 hover:text-white"
               target="_blank"
               rel="noopener noreferrer"
