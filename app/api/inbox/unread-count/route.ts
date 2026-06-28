@@ -1,12 +1,17 @@
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
-import { redis } from "@/lib/redis";
+import { redis, inboxRateLimit, getClientIpFromRequest } from "@/lib/redis";
 import { getChats } from "@/lib/cms";
 
 /**
  * GET: Returns the number of unread chats for the current visitor
  */
-export async function GET() {
+export async function GET(req: Request) {
+  const ip = getClientIpFromRequest(req);
+  const { success } = await inboxRateLimit.limit(ip);
+  if (!success) {
+    return NextResponse.json({ error: "Too many requests" }, { status: 429 });
+  }
   const cookieStore = await cookies();
   const visitorId = cookieStore.get("visitorId")?.value;
 

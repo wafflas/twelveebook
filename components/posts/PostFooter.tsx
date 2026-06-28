@@ -31,7 +31,7 @@ export function PostFooter({
         <div className="flex flex-row items-center gap-1">
           <Link
             href={`/post/${postId}`}
-            className={`${likedByVisitor ? "text-linkblue hover:text-linkblue/80" : "text-linkblue/80 hover:text-linkblue"} `}
+            className="text-linkblue hover:text-linkblue/80"
           >
             {comments} {comments === 1 ? "comment" : "comments"}
           </Link>

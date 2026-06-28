@@ -33,6 +33,7 @@ export function ChatThreadView({
   return (
     <div className="flex h-full flex-col">
       <div className="flex flex-1 flex-col-reverse space-y-4 space-y-reverse overflow-y-auto px-3 py-3">
+        {/* Invisible anchor for auto-scroll */}
         <div ref={bottomRef} />
         {messages
           .map((m) => (

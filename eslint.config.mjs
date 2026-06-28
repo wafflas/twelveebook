@@ -4,6 +4,8 @@ import prettierPlugin from "eslint-plugin-prettier";
 import prettierConfig from "eslint-config-prettier";
 
 export default defineConfig([
+  // Chromium offline-runner fork — third-party style, do not Prettier/lint wholesale.
+  { ignores: ["lib/dino/index.js"] },
   ...next,
   {
     files: ["**/*.{ts,tsx,js,jsx}", "**/*.mjs"],
