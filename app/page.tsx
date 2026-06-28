@@ -8,7 +8,6 @@ export const metadata: Metadata = {
 };
 
 export default async function Home() {
- 
   const posts = await getPosts(); // Contentful
 
   return (

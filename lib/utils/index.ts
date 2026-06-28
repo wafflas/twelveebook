@@ -1,4 +1,4 @@
 // Barrel export for utilities
 export { formatTimestampFor2012 } from "./formatting";
 export { nameToSlug, slugToName } from "./routing";
-export { isValidContentfulId } from "./validation";
+export { isValidDocumentId } from "./validation";

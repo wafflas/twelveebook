@@ -1,92 +1,117 @@
-import { GET_POSTS_QUERY, ContentfulPost, Post } from "@/types/Post";
+import { Post } from "@/types/Post";
+import { client } from "@/sanity/lib/client";
 import { devLog } from "@/lib/utils/logger";
 
-// Using Post type from @/types/Post as single source of truth
+const DEFAULT_AVATAR = "/avatars/twelvee.png";
 
-function mapToPostProps(p: ContentfulPost): Post {
+const AUTHOR_PROJECTION = `{ "name": name, "avatar": avatar.asset->url }`;
+
+const POSTS_QUERY = `*[_type == "post"] | order(_createdAt desc)[0...15]{
+  "id": _id,
+  title,
+  "content": text,
+  "timestamp": _createdAt,
+  location,
+  "photoUrl": photos.asset->url,
+  "author": author->${AUTHOR_PROJECTION},
+  "taggedPeople": taggedPeople[]->${AUTHOR_PROJECTION},
+  "commentsData": comments[]->{
+    "id": _id,
+    "text": text,
+    "timestamp": _createdAt,
+    "photoUrl": photos.asset->url,
+    "author": author->${AUTHOR_PROJECTION},
+    "replies": replies[]->{
+      "id": _id,
+      "text": text,
+      "timestamp": _createdAt,
+      "photoUrl": photos.asset->url,
+      "author": author->${AUTHOR_PROJECTION}
+    }
+  }
+}`;
+
+interface AuthorResult {
+  name: string | null;
+  avatar: string | null;
+}
+
+interface ReplyResult {
+  id: string;
+  text: string;
+  timestamp: string;
+  photoUrl: string | null;
+  author: AuthorResult | null;
+}
+
+interface CommentResult {
+  id: string;
+  text: string;
+  timestamp: string;
+  photoUrl: string | null;
+  author: AuthorResult | null;
+  replies: ReplyResult[] | null;
+}
+
+interface PostResult {
+  id: string;
+  title: string | null;
+  content: string;
+  timestamp: string;
+  location: string | null;
+  photoUrl: string | null;
+  author: AuthorResult | null;
+  taggedPeople: AuthorResult[] | null;
+  commentsData: CommentResult[] | null;
+}
+
+function toAuthor(a: AuthorResult | null) {
   return {
-    id: p.sys.id,
-    author: {
-      name: p.author?.name || "Unknown",
-      avatar: p.author?.avatar?.url || "/avatars/twelvee.png",
-    },
-    title: "",
-    content: p.text,
-    timestamp: p.sys.firstPublishedAt,
-    comments: p.commentsCollection?.items.length || 0,
-    photoUrl: p.photos?.url,
-    taggedPeople:
-      p.taggedPeopleCollection?.items.map((person) => ({
-        name: person.name,
-        avatar: person.avatar.url,
-      })) || [],
-    location: p.location,
-    commentsData:
-      p.commentsCollection?.items.map((c) => ({
-        id: c.sys.id,
-        author: {
-          name: c.author.name,
-          avatar: c.author.avatar.url,
-        },
-        text: c.text,
-        timestamp: c.sys.firstPublishedAt,
-        photoUrl: c.photos?.url,
-        replyCount: c.repliesCollection?.items.length || 0,
-        replies:
-          c.repliesCollection?.items.map((r) => ({
-            id: r.sys.id,
-            author: {
-              name: r.author.name,
-              avatar: r.author.avatar.url,
-            },
-            text: r.text,
-            timestamp: r.sys.firstPublishedAt,
-            photoUrl: r.photos?.url,
-          })) || [],
-      })) || [],
+    name: a?.name || "Unknown",
+    avatar: a?.avatar || DEFAULT_AVATAR,
   };
 }
 
 export async function getPosts(): Promise<Post[]> {
   try {
-    const spaceId = process.env.CONTENTFUL_SPACE_ID;
-    const accessToken = process.env.CONTENTFUL_ACCESS_TOKEN;
-    const env = process.env.CONTENTFUL_ENVIRONMENT ?? "master";
-    const endpoint = `https://graphql.contentful.com/content/v1/spaces/${spaceId}/environments/${env}`;
+    const posts = await client.fetch<PostResult[]>(
+      POSTS_QUERY,
+      {},
+      { cache: "no-store" },
+    );
+    devLog("Total posts fetched:", posts?.length ?? 0);
 
-    const fetchResponse = await fetch(endpoint, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${accessToken}`,
-      },
-      body: JSON.stringify({ query: GET_POSTS_QUERY }),
-      cache: "no-store",
-    });
-
-    if (!fetchResponse.ok) {
-      console.error("Contentful posts fetch failed:", fetchResponse.status);
-      throw new Error(`Contentful returned ${fetchResponse.status}`);
-    }
-
-    const data = await fetchResponse.json();
-
-    if (data.errors) {
-      console.error("GraphQL errors fetching posts");
-      throw new Error("GraphQL errors fetching posts");
-    }
-
-    if (!data.data?.postCollection?.items) {
-      return [];
-    }
-
-    const posts: ContentfulPost[] = data.data.postCollection.items;
-    devLog("Total posts fetched:", posts.length);
-
-    return posts.map(mapToPostProps);
+    return (posts ?? []).map((p) => ({
+      id: p.id,
+      author: toAuthor(p.author),
+      title: p.title ?? "",
+      content: p.content,
+      timestamp: p.timestamp,
+      comments: p.commentsData?.length || 0,
+      photoUrl: p.photoUrl ?? undefined,
+      taggedPeople: p.taggedPeople?.map(toAuthor) ?? [],
+      location: p.location ?? undefined,
+      commentsData:
+        p.commentsData?.map((c) => ({
+          id: c.id,
+          author: toAuthor(c.author),
+          text: c.text,
+          timestamp: c.timestamp,
+          photoUrl: c.photoUrl ?? undefined,
+          replyCount: c.replies?.length || 0,
+          replies:
+            c.replies?.map((r) => ({
+              id: r.id,
+              author: toAuthor(r.author),
+              text: r.text,
+              timestamp: r.timestamp,
+              photoUrl: r.photoUrl ?? undefined,
+            })) || [],
+        })) || [],
+    }));
   } catch (error: unknown) {
     const message = error instanceof Error ? error.message : "Unknown error";
-    console.error("Contentful posts error:", message);
+    console.error("Sanity posts error:", message);
     return [];
   }
 }

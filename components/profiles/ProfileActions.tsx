@@ -24,14 +24,10 @@ export function ProfileActions({
           >
             Inbox
           </Link>
-          <span
-            className="block text-[10px] text-linkblue hover:text-linkblue/80 md:text-[13px] opacity-30 cursor-default"
-          >
+          <span className="block cursor-default text-[10px] text-linkblue opacity-30 hover:text-linkblue/80 md:text-[13px]">
             Demos
           </span>
-          <span
-            className="block text-[10px] text-linkblue hover:text-linkblue/80 md:text-[13px] opacity-30 cursor-default"
-          >
+          <span className="block cursor-default text-[10px] text-linkblue opacity-30 hover:text-linkblue/80 md:text-[13px]">
             Merch
           </span>
         </>

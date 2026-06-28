@@ -1,62 +1,60 @@
-import {
-  GET_MESSAGE_REQUESTS_QUERY,
-  GET_MESSAGE_REQUEST_BY_ID_QUERY,
-  ContentfulMessageRequest,
-  transformContentfulMessageRequest,
-  MessageRequest,
-} from "@/types/MessageRequest";
+import { MessageRequest } from "@/types/MessageRequest";
+import { client } from "@/sanity/lib/client";
+import { devLog } from "@/lib/utils/logger";
+
+const DEFAULT_AVATAR = "/avatars/twelvee.png";
+
+const REQUEST_PROJECTION = `{
+  "id": _id,
+  name,
+  "sender": sender->{ "name": name, "avatar": avatar.asset->url },
+  "text": text,
+  "createdAt": coalesce(createdAt, _createdAt),
+  status
+}`;
+
+const REQUESTS_QUERY = `*[_type == "messageRequest" && (!defined($status) || status == $status)] | order(coalesce(createdAt, _createdAt) desc)[0...50]${REQUEST_PROJECTION}`;
+
+const REQUEST_BY_ID_QUERY = `*[_type == "messageRequest" && _id == $id][0]${REQUEST_PROJECTION}`;
+
+interface MessageRequestResult {
+  id: string;
+  name?: string | null;
+  sender: { name: string | null; avatar: string | null } | null;
+  text: string;
+  createdAt: string;
+  status: string;
+}
+
+function toMessageRequest(r: MessageRequestResult): MessageRequest {
+  return {
+    id: r.id,
+    name: r.name ?? undefined,
+    sender: {
+      name: r.sender?.name || "Unknown",
+      avatar: r.sender?.avatar || DEFAULT_AVATAR,
+    },
+    text: r.text,
+    createdAt: r.createdAt,
+    status: r.status as "pending" | "accepted" | "declined" | "ignored",
+  };
+}
 
 export async function getMessageRequests(
   status?: "pending" | "accepted" | "declined" | "ignored",
 ): Promise<MessageRequest[]> {
   try {
-    const spaceId = process.env.CONTENTFUL_SPACE_ID;
-    const accessToken = process.env.CONTENTFUL_ACCESS_TOKEN;
-    const env = process.env.CONTENTFUL_ENVIRONMENT ?? "master";
-    const endpoint = `https://graphql.contentful.com/content/v1/spaces/${spaceId}/environments/${env}`;
-
-    console.log("Fetching message requests from Contentful...");
-
-    const fetchResponse = await fetch(endpoint, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${accessToken}`,
-      },
-      body: JSON.stringify({
-        query: GET_MESSAGE_REQUESTS_QUERY,
-        variables: status ? { status } : {},
-      }),
-      cache: "no-store",
-    });
-
-    if (!fetchResponse.ok) {
-      const responseText = await fetchResponse.text();
-      console.error("Contentful returned status:", fetchResponse.status);
-      console.error("Response body:", responseText);
-      throw new Error(
-        `Contentful returned ${fetchResponse.status}: ${responseText}`,
-      );
-    }
-
-    const data = await fetchResponse.json();
-
-    if (data.errors) {
-      console.error("GraphQL errors:", JSON.stringify(data.errors));
-      throw new Error(`GraphQL errors: ${JSON.stringify(data.errors)}`);
-    }
-
-    if (!data.data?.messageRequestCollection?.items) {
-      console.warn("No messageRequestCollection found in response");
-      return [];
-    }
-
-    const requests: ContentfulMessageRequest[] =
-      data.data.messageRequestCollection.items;
-    console.log("Total message requests fetched:", requests.length);
-    return requests.map(transformContentfulMessageRequest);
-  } catch (error: any) {
-    console.error("Contentful error:", error.message);
+    devLog("Fetching message requests from Sanity...");
+    const results = await client.fetch<MessageRequestResult[]>(
+      REQUESTS_QUERY,
+      { status: status ?? null },
+      { cache: "no-store" },
+    );
+    devLog("Total message requests fetched:", results?.length ?? 0);
+    return (results ?? []).map(toMessageRequest);
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : "Unknown error";
+    console.error("Sanity message requests error:", message);
     return [];
   }
 }
@@ -65,48 +63,16 @@ export async function getMessageRequestById(
   id: string,
 ): Promise<MessageRequest | null> {
   try {
-    const spaceId = process.env.CONTENTFUL_SPACE_ID;
-    const accessToken = process.env.CONTENTFUL_ACCESS_TOKEN;
-    const env = process.env.CONTENTFUL_ENVIRONMENT ?? "master";
-    const endpoint = `https://graphql.contentful.com/content/v1/spaces/${spaceId}/environments/${env}`;
-
-    const fetchResponse = await fetch(endpoint, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${accessToken}`,
-      },
-      body: JSON.stringify({
-        query: GET_MESSAGE_REQUEST_BY_ID_QUERY,
-        variables: { id },
-      }),
-      cache: "no-store",
-    });
-
-    if (!fetchResponse.ok) {
-      const responseText = await fetchResponse.text();
-      console.error("Contentful returned status:", fetchResponse.status);
-      console.error("Response body:", responseText);
-      throw new Error(
-        `Contentful returned ${fetchResponse.status}: ${responseText}`,
-      );
-    }
-
-    const data = await fetchResponse.json();
-
-    if (data.errors) {
-      console.error("GraphQL errors:", JSON.stringify(data.errors));
-      throw new Error(`GraphQL errors: ${JSON.stringify(data.errors)}`);
-    }
-
-    if (!data.data?.messageRequest) {
-      return null;
-    }
-
-    const request: ContentfulMessageRequest = data.data.messageRequest;
-    return transformContentfulMessageRequest(request);
-  } catch (error: any) {
-    console.error("Contentful error:", error.message);
+    const result = await client.fetch<MessageRequestResult | null>(
+      REQUEST_BY_ID_QUERY,
+      { id },
+      { cache: "no-store" },
+    );
+    if (!result) return null;
+    return toMessageRequest(result);
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : "Unknown error";
+    console.error("Sanity message request error:", message);
     return null;
   }
 }

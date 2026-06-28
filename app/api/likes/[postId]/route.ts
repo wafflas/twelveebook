@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { v4 as uuidv4 } from "uuid";
 import { redis, likeRateLimit, getClientIpFromRequest } from "@/lib/redis";
-import { isValidContentfulId } from "@/lib/utils";
+import { isValidDocumentId } from "@/lib/utils";
 
 type RouteParams = { params: Promise<{ postId: string }> };
 
@@ -16,7 +16,7 @@ function visitorsKey(postId: string) {
 
 export async function GET(_req: Request, { params }: RouteParams) {
   const { postId } = await params;
-  if (!isValidContentfulId(postId)) {
+  if (!isValidDocumentId(postId)) {
     return NextResponse.json({ error: "Invalid post ID" }, { status: 400 });
   }
   const cookieStore = await cookies();
@@ -37,7 +37,7 @@ export async function GET(_req: Request, { params }: RouteParams) {
 
 export async function POST(req: Request, { params }: RouteParams) {
   const { postId } = await params;
-  if (!isValidContentfulId(postId)) {
+  if (!isValidDocumentId(postId)) {
     return NextResponse.json({ error: "Invalid post ID" }, { status: 400 });
   }
   const ip = getClientIpFromRequest(req);
