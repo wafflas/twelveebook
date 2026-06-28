@@ -1,11 +1,11 @@
-export interface Message {
+export interface MessageRequest {
   id: string;
   name?: string;
-  chat: string; // Chat ID
   sender: {
     name: string;
     avatar: string;
   };
   text: string;
   createdAt: string;
+  status: "pending" | "accepted" | "declined" | "ignored";
 }

@@ -7,6 +7,8 @@ import { ChatThreadView } from "@/components/inbox/ChatThreadView";
 import { ChatReadMarker } from "@/components/inbox/ChatReadMarker";
 import { Metadata } from "next";
 
+export const dynamic = "force-dynamic";
+
 type Message = {
   id: string;
   from: "me" | "them";
@@ -79,7 +81,14 @@ export default async function ChatPage({ params }: PageProps) {
             {contactName}
           </Link>
         </div>
-        <Link href="/inbox" className="text-linkblue hover:underline">
+        <Link
+          href={
+            chat?.source === "messageRequest"
+              ? "/inbox/message-request"
+              : "/inbox"
+          }
+          className="text-linkblue underline"
+        >
           Back
         </Link>
       </div>

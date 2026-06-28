@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { v4 as uuidv4 } from "uuid";
 import { redis, inboxRateLimit, getClientIpFromRequest } from "@/lib/redis";
-import { isValidContentfulId } from "@/lib/utils";
+import { isValidDocumentId } from "@/lib/utils";
 
 type RouteParams = { params: Promise<{ chatId: string }> };
 
@@ -12,7 +12,7 @@ function lastReadKey(chatId: string) {
 
 export async function GET(req: Request, { params }: RouteParams) {
   const { chatId } = await params;
-  if (!isValidContentfulId(chatId)) {
+  if (!isValidDocumentId(chatId)) {
     return NextResponse.json({ error: "Invalid chat ID" }, { status: 400 });
   }
 
@@ -46,7 +46,7 @@ export async function GET(req: Request, { params }: RouteParams) {
 
 export async function POST(req: Request, { params }: RouteParams) {
   const { chatId } = await params;
-  if (!isValidContentfulId(chatId)) {
+  if (!isValidDocumentId(chatId)) {
     return NextResponse.json({ error: "Invalid chat ID" }, { status: 400 });
   }
 

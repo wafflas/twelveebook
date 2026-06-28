@@ -5,6 +5,8 @@ import { getProfiles, getPosts } from "@/lib/cms";
 import { nameToSlug, formatTimestampFor2012 } from "@/lib/utils";
 import { Metadata } from "next";
 
+export const dynamic = "force-dynamic";
+
 interface WallPost {
   author: string;
   content: string;

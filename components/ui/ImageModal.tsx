@@ -38,10 +38,10 @@ export function ImageModal({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex animate-fade-in items-center justify-center bg-black bg-opacity-75 p-4"
+      className="animate-fade-in fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-75 p-4"
       onClick={onClose}
     >
-      <div className="relative flex h-full w-full max-h-[90vh] max-w-4xl items-center justify-center">
+      <div className="relative flex h-full max-h-[90vh] w-full max-w-4xl items-center justify-center">
         {/* Image */}
         <div className="flex h-full w-full items-center justify-center">
           <Image

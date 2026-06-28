@@ -37,7 +37,10 @@ export function CommentActions({
         )}
       </div>
       {replyCount > 0 && onToggleReplies && (
-        <button onClick={onToggleReplies} className="text-linkblue hover:underline">
+        <button
+          onClick={onToggleReplies}
+          className="text-linkblue hover:underline"
+        >
           {showReplies
             ? "Hide replies"
             : `View ${replyCount} ${replyCount === 1 ? "reply" : "replies"}`}

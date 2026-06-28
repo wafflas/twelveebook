@@ -6,6 +6,8 @@ import { CommentsList } from "@/components/comments/CommentsList";
 import { notFound } from "next/navigation";
 import { Metadata } from "next";
 
+export const dynamic = "force-dynamic";
+
 interface PageProps {
   params: Promise<{ id: string }>;
 }

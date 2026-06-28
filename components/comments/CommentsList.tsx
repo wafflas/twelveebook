@@ -34,10 +34,7 @@ interface CommentsListProps {
   commentsCount: number;
 }
 
-export function CommentsList({
-  comments,
-  commentsCount,
-}: CommentsListProps) {
+export function CommentsList({ comments, commentsCount }: CommentsListProps) {
   const [showAllComments, setShowAllComments] = useState(false);
   const [showRepliesFor, setShowRepliesFor] = useState<Set<string>>(new Set());
   const { playLikeSound } = useLikeSound();

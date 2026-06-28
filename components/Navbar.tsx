@@ -16,6 +16,7 @@ export default function Navbar() {
       { href: "/profile/twelvee", label: "Profile" },
       { href: "/inbox", label: "Inbox" },
       { href: "/demos", label: "Demos" },
+      { href: "/sounds", label: "Sounds" },
       { href: "#1", label: "Merch" },
     ],
     [],

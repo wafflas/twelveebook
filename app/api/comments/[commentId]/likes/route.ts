@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { redis, likeRateLimit, getClientIpFromRequest } from "@/lib/redis";
-import { isValidContentfulId } from "@/lib/utils";
+import { isValidDocumentId } from "@/lib/utils";
 
 interface RouteContext {
   params: Promise<{
@@ -11,8 +11,11 @@ interface RouteContext {
 export async function GET(request: NextRequest, context: RouteContext) {
   try {
     const { commentId } = await context.params;
-    if (!isValidContentfulId(commentId)) {
-      return NextResponse.json({ error: "Invalid comment ID" }, { status: 400 });
+    if (!isValidDocumentId(commentId)) {
+      return NextResponse.json(
+        { error: "Invalid comment ID" },
+        { status: 400 },
+      );
     }
     const ip = getClientIpFromRequest(request);
 
@@ -40,8 +43,11 @@ export async function GET(request: NextRequest, context: RouteContext) {
 export async function POST(request: NextRequest, context: RouteContext) {
   try {
     const { commentId } = await context.params;
-    if (!isValidContentfulId(commentId)) {
-      return NextResponse.json({ error: "Invalid comment ID" }, { status: 400 });
+    if (!isValidDocumentId(commentId)) {
+      return NextResponse.json(
+        { error: "Invalid comment ID" },
+        { status: 400 },
+      );
     }
     const ip = getClientIpFromRequest(request);
 
@@ -106,4 +112,3 @@ export async function POST(request: NextRequest, context: RouteContext) {
     );
   }
 }
-
