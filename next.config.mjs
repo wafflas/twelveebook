@@ -29,6 +29,27 @@ const securityHeaders = [
   },
 ];
 
+const studioSecurityHeaders = securityHeaders.map((header) => {
+  if (header.key !== "Content-Security-Policy") return header;
+
+  return {
+    key: "Content-Security-Policy",
+    value: [
+      "default-src 'self'",
+      "script-src 'self' 'unsafe-inline' 'unsafe-eval'",
+      "style-src 'self' 'unsafe-inline'",
+      "img-src 'self' data: blob: https://cdn.sanity.io",
+      "media-src 'self' blob: https://cdn.sanity.io",
+      "font-src 'self' data:",
+      "connect-src 'self' https://*.sanity.io wss://*.sanity.io https://registry.npmjs.org https://www.sanity.io",
+      "worker-src 'self' blob:",
+      "frame-ancestors 'none'",
+      "base-uri 'self'",
+      "form-action 'self'",
+    ].join("; "),
+  };
+});
+
 const nextConfig = {
   images: {
     remotePatterns: [
@@ -44,7 +65,11 @@ const nextConfig = {
   poweredByHeader: false,
   reactStrictMode: true,
   async headers() {
-    return [{ source: "/:path*", headers: securityHeaders }];
+    return [
+      { source: "/:path*", headers: securityHeaders },
+      { source: "/studio", headers: studioSecurityHeaders },
+      { source: "/studio/:path*", headers: studioSecurityHeaders },
+    ];
   },
 };
 
