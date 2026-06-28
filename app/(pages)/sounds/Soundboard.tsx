@@ -1,58 +1,37 @@
 "use client";
 
 import { useRef } from "react";
-import { klavika } from "@/app/fonts";
+import type { SoundPad } from "@/types/Soundboard";
 
-const PADS = [
-  { note: "C", freq: 261.63 },
-  { note: "D", freq: 293.66 },
-  { note: "E", freq: 329.63 },
-  { note: "F", freq: 349.23 },
-  { note: "G", freq: 392.0 },
-  { note: "A", freq: 440.0 },
-  { note: "B", freq: 493.88 },
-  { note: "C", freq: 523.25 },
-];
+interface SoundboardProps {
+  pads: SoundPad[];
+}
 
-export default function Soundboard() {
-  const ctxRef = useRef<AudioContext | null>(null);
+export default function Soundboard({ pads }: SoundboardProps) {
+  const audioCacheRef = useRef<Map<string, HTMLAudioElement>>(new Map());
 
-  const play = (freq: number) => {
-    if (!ctxRef.current) {
-      const Ctx =
-        window.AudioContext ||
-        (window as unknown as { webkitAudioContext: typeof AudioContext })
-          .webkitAudioContext;
-      ctxRef.current = new Ctx();
+  const play = (url: string) => {
+    let audio = audioCacheRef.current.get(url);
+    if (!audio) {
+      audio = new Audio(url);
+      audio.volume = 0.8;
+      audioCacheRef.current.set(url, audio);
     }
-    const ctx = ctxRef.current;
-    if (ctx.state === "suspended") void ctx.resume();
-
-    const osc = ctx.createOscillator();
-    const gain = ctx.createGain();
-    const now = ctx.currentTime;
-
-    osc.type = "sine";
-    osc.frequency.value = freq;
-
-    gain.gain.setValueAtTime(0, now);
-    gain.gain.linearRampToValueAtTime(0.3, now + 0.01);
-    gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.6);
-
-    osc.connect(gain).connect(ctx.destination);
-    osc.start(now);
-    osc.stop(now + 0.62);
+    audio.currentTime = 0;
+    void audio.play().catch((error) => {
+      console.debug("Could not play sound:", error);
+    });
   };
 
   return (
     <div className="rounded-xl p-2">
       <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
-        {PADS.map((pad, i) => (
-          <div key={`${pad.note}-${i}`} className="flex flex-col items-center">
+        {pads.map((pad) => (
+          <div key={pad.id} className="flex flex-col items-center">
             <button
               type="button"
-              onClick={() => play(pad.freq)}
-              aria-label={`Play note ${pad.note}`}
+              onClick={() => play(pad.audioUrl)}
+              aria-label="Play sound"
               className="group grid aspect-square w-full max-w-[120px] place-items-center rounded-full"
               style={{
                 padding: "9px",
@@ -63,7 +42,7 @@ export default function Soundboard() {
               }}
             >
               <span
-                className="relative grid h-full w-full place-items-center rounded-full transition-transform duration-75 group-active:translate-y-[2px] group-active:scale-[0.98]"
+                className="relative h-full w-full rounded-full transition-transform duration-75 group-active:translate-y-[2px] group-active:scale-[0.98]"
                 style={{
                   background:
                     "radial-gradient(circle at 50% 30%, #ffd489 0%, #f6a83f 22%, #f3860b 52%, #a85607 100%)",
@@ -78,16 +57,8 @@ export default function Soundboard() {
                       "linear-gradient(to bottom, rgba(255,255,255,0.9), rgba(255,255,255,0))",
                   }}
                 />
-                <span
-                  className={`${klavika.className} relative text-3xl font-bold text-white drop-shadow-[0_1px_1px_rgba(0,0,0,0.4)]`}
-                >
-                  {pad.note}
-                </span>
               </span>
             </button>
-            <span className="mt-3 text-xs font-medium text-white/70">
-              {Math.round(pad.freq)} Hz
-            </span>
           </div>
         ))}
       </div>

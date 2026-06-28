@@ -18,7 +18,7 @@ export default function Navbar() {
       { href: "/inbox", label: "Inbox" },
       { href: "/demos", label: "Demos" },
       { href: "/sounds", label: "Sounds" },
-      { href: "#1", label: "Merch" },
+      { href: "#1", label: "Merch" }, 
     ],
     [],
   );

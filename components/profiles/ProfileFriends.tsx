@@ -18,7 +18,7 @@ export function ProfileFriends({ friends }: ProfileFriendsProps) {
   }
 
   return (
-    <div className="border-gray-200 pt-6">
+    <div id="friends" className="scroll-mt-28 border-gray-200 pt-6">
       <h3 className="text-lg font-bold">Friends({friends.length})</h3>
       <div className="flex flex-wrap gap-2 p-1">
         {friends.map((friend, index) => (

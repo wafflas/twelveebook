@@ -18,6 +18,7 @@ const securityHeaders = [
       "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://va.vercel-scripts.com",
       "style-src 'self' 'unsafe-inline'",
       "img-src 'self' data: blob: https://images.ctfassets.net https://assets.ctfassets.net https://cdn.sanity.io",
+      "media-src 'self' https://cdn.sanity.io",
       "font-src 'self' data:",
       "connect-src 'self' https://va.vercel-scripts.com https://vitals.vercel-insights.com https://*.sanity.io wss://*.sanity.io",
       "worker-src 'self' blob:",

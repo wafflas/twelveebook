@@ -6,7 +6,8 @@ import { comment } from "./comment";
 import { chat } from "./chat";
 import { message } from "./message";
 import { messageRequest } from "./messageRequest";
+import { soundPad } from "./soundPad";
 
 export const schema: { types: SchemaTypeDefinition[] } = {
-  types: [profile, post, comment, chat, message, messageRequest],
+  types: [profile, post, comment, chat, message, messageRequest, soundPad],
 };

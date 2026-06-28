@@ -1,12 +1,21 @@
+"use client";
+
 import React from "react";
 import Link from "next/link";
 import { nameToSlug } from "@/lib/utils";
-import { Space_Mono } from "next/font/google";
 
 interface ProfileActionsProps {
   isOwner: boolean;
   firstName: string;
   friendsCount: number;
+}
+
+function scrollToFriends(event: React.MouseEvent<HTMLAnchorElement>) {
+  event.preventDefault();
+  document.getElementById("friends")?.scrollIntoView({
+    behavior: "smooth",
+    block: "start",
+  });
 }
 
 export function ProfileActions({
@@ -39,18 +48,13 @@ export function ProfileActions({
           >
             Send Message to {firstName}
           </Link>
-          <Link
-            href="#"
-            className="block text-[10px] text-linkblue hover:text-linkblue/80 md:text-[13px]"
-          >
-            View Photos of {firstName}(25)
-          </Link>
-          <Link
+          <a
             href="#friends"
+            onClick={scrollToFriends}
             className="block text-[10px] text-linkblue hover:text-linkblue/80 md:text-[13px]"
           >
             View Friends of {firstName}({friendsCount})
-          </Link>
+          </a>
         </>
       )}
     </div>
