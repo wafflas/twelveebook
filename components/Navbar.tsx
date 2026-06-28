@@ -18,7 +18,7 @@ export default function Navbar() {
       { href: "/inbox", label: "Inbox" },
       { href: "/demos", label: "Demos" },
       { href: "/sounds", label: "Sounds" },
-      { href: "#1", label: "Merch" }, 
+      { href: "#1", label: "Merch" },
     ],
     [],
   );
@@ -50,7 +50,7 @@ export default function Navbar() {
             twelveebook{" "}
           </Link>
         </Container>
-        <nav className="text-m flex items-center">
+        <nav className="flex items-center text-xs sm:text-sm">
           <Container>
             <div className="flex items-center justify-between gap-4">
               <ul className="flex space-x-1">
