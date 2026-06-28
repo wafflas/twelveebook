@@ -50,7 +50,7 @@ export default function Navbar() {
             twelveebook{" "}
           </Link>
         </Container>
-        <nav className="flex items-center text-xs sm:text-sm">
+        <nav className="flex items-center text-sm">
           <Container>
             <div className="flex items-center justify-between gap-4">
               <ul className="flex space-x-1">
