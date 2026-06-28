@@ -3,6 +3,7 @@
 import dynamic from "next/dynamic";
 import { usePathname } from "next/navigation";
 import EasterEgg from "@/components/EasterEgg";
+import Container from "./ui/Container";
 
 const Navbar = dynamic(() => import("@/components/Navbar"));
 
@@ -18,7 +19,9 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
     <>
       <EasterEgg />
       <Navbar />
-      <main className="flex-1 overflow-auto">{children}</main>
+      <main className="flex-1 overflow-auto">
+        <Container>{children}</Container>
+      </main>
     </>
   );
 }

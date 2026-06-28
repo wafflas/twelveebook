@@ -15,7 +15,7 @@ export default async function Home() {
   return (
     <div className="bg-white p-2 text-black">
       <h1 className="mb-4 text-2xl font-bold">News Feed</h1>
-      <div className="divide-y divide-gray-100">
+      <div className="divide-y">
         {posts.map((post) => (
           <PostCard key={post.id} {...post} />
         ))}

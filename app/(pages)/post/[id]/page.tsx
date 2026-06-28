@@ -46,7 +46,7 @@ export default async function PostDetailPage({ params }: PageProps) {
         </Link>
       </div>
 
-      <div className="divide-y divide-gray-100">
+      <div className="divide-y">
         <PostCard {...post} />
       </div>
 
