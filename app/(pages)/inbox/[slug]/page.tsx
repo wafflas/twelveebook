@@ -7,6 +7,8 @@ import { ChatThreadView } from "@/components/inbox/ChatThreadView";
 import { ChatReadMarker } from "@/components/inbox/ChatReadMarker";
 import { Metadata } from "next";
 
+export const dynamic = "force-dynamic";
+
 type Message = {
   id: string;
   from: "me" | "them";

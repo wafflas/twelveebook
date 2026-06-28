@@ -5,6 +5,8 @@ import { Metadata } from "next";
 import { getMessageRequests } from "@/lib/cms";
 import { formatTimestampFor2012 } from "@/lib/utils";
 
+export const dynamic = "force-dynamic";
+
 export async function generateMetadata(): Promise<Metadata> {
   const requests = await getMessageRequests("pending");
 

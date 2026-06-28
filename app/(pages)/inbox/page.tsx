@@ -8,6 +8,8 @@ import { cookies } from "next/headers";
 import { redis } from "@/lib/redis";
 import { getUnreadMessageRequestCount } from "@/lib/unreadMessageRequests";
 
+export const dynamic = "force-dynamic";
+
 // Helper function to check if visitor has read a chat since it was marked unread
 async function hasVisitorReadSinceMarkedUnread(
   chatId: string,
