@@ -25,7 +25,7 @@ export default function Soundboard({ pads }: SoundboardProps) {
 
   return (
     <div className="rounded-xl p-2">
-      <div className="grid grid-cols-2 gap-2 space-y-2 sm:grid-cols-3">
+      <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 sm:space-y-0">
         {pads.map((pad) => (
           <div key={pad.id} className="flex flex-col items-center">
             <button
