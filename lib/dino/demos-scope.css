@@ -1,12 +1,5 @@
 /* Scoped Chromium offline-runner styles for embedded demo (.dino-demo-root). */
 
-.dino-demo-root.dino-demo-shell {
-  position: relative;
-  width: 100%;
-  height: min(85vh, 920px);
-  overflow: hidden;
-}
-
 .dino-demo-root .icon {
   -webkit-user-select: none;
   user-select: none;
@@ -22,6 +15,10 @@
 }
 
 .dino-demo-root .hidden {
+  display: none;
+}
+
+.dino-demo-root #main-content {
   display: none;
 }
 
@@ -55,17 +52,28 @@
 }
 
 .dino-demo-root.offline .controller {
-  background: rgba(247, 247, 247, 0.1);
+  background: transparent;
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
   z-index: 1;
+  touch-action: manipulation;
 }
 
 .dino-demo-root #offline-resources {
   display: none;
+}
+
+@media (max-width: 639px) {
+  .dino-demo-root.offline .interstitial-wrapper {
+    padding-top: 8px;
+  }
+
+  .dino-demo-root.offline .runner-container {
+    top: 8px;
+  }
 }
 
 @media (max-width: 420px) {

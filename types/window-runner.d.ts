@@ -5,7 +5,16 @@ export {};
 
 declare global {
   interface Window {
-    Runner?: new (selector: string) => {
+    Runner?: new (
+      selector: string,
+      config?: {
+        demoUnlocks?: Array<{
+          id: string;
+          title: string;
+          unlockScore: number;
+        }>;
+      },
+    ) => {
       destroy(): void;
     };
   }

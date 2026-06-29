@@ -13,4 +13,5 @@ export const structure: StructureResolver = (S) =>
       S.documentTypeListItem("messageRequest").title("Message requests"),
       S.divider(),
       S.documentTypeListItem("soundPad").title("Sound pads"),
+      S.documentTypeListItem("gameDemo").title("Game demo unlocks"),
     ]);

@@ -5,3 +5,4 @@ export { getChats, getChatByContact } from "./chat";
 export { getMessagesByChat, getMessagesByContact } from "./message";
 export { getMessageRequests, getMessageRequestById } from "./messageRequest";
 export { getSoundboard } from "./soundboard";
+export { getGameDemos } from "./gameDemos";
