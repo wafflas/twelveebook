@@ -6,7 +6,7 @@ export function getUnlockedDemoIds(): string[] {
   }
 
   try {
-    const raw = sessionStorage.getItem(STORAGE_KEY);
+    const raw = localStorage.getItem(STORAGE_KEY);
     if (!raw) {
       return [];
     }
@@ -23,7 +23,7 @@ export function unlockDemoId(id: string): string[] {
   const ids = getUnlockedDemoIds();
   if (!ids.includes(id)) {
     ids.push(id);
-    sessionStorage.setItem(STORAGE_KEY, JSON.stringify(ids));
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(ids));
   }
   return ids;
 }
