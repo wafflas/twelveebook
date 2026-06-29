@@ -116,7 +116,7 @@ export default function DinoRunner({ demos }: DinoRunnerProps) {
         tabIndex={0}
         role="application"
         aria-label="T-Rex runner demo"
-        className="dino-demo-root offline relative h-[260px] w-full overflow-hidden outline-none focus-visible:ring-2 focus-visible:ring-brand sm:h-[min(55vh,520px)]"
+        className="dino-demo-root offline relative h-[min(55vh,520px)] w-full overflow-hidden outline-none focus-visible:ring-2 focus-visible:ring-brand"
       >
         <DemoUnlockToast message={toastMessage} onDismiss={dismissToast} />
         <DinoPlayHint visible={showPlayHint} />
