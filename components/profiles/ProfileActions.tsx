@@ -33,9 +33,12 @@ export function ProfileActions({
           >
             Inbox
           </Link>
-          <span className="block cursor-default text-[10px] text-linkblue opacity-30 hover:text-linkblue/80 md:text-[13px]">
+          <Link
+            href="/demos"
+            className="block text-[10px] text-linkblue hover:text-linkblue/80 md:text-[13px]"
+          >
             Demos
-          </span>
+          </Link>
           <span className="block cursor-default text-[10px] text-linkblue opacity-30 hover:text-linkblue/80 md:text-[13px]">
             Merch
           </span>
