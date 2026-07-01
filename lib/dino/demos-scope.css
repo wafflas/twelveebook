@@ -8,8 +8,8 @@
 
 .dino-demo-root .icon-offline {
   content: -webkit-image-set(
-    url(/dino/default_100_percent/100-error-offline.png) 1x,
-    url(/dino/default_200_percent/200-error-offline.png) 2x
+    url(/dino/default_100_percent/100-twelvee-error-offline.png) 1x,
+    url(/dino/default_200_percent/200-twelvee-error-offline.png) 2x
   );
   position: relative;
 }
