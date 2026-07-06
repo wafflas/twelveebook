@@ -1,19 +1,19 @@
-import type { Metadata, Viewport } from "next";
+import type { Viewport } from "next";
 import "../styles/globals.css";
 import { klavika } from "./fonts";
 import { Inter } from "next/font/google";
 
 import { Analytics } from "@vercel/analytics/react";
 import AppShell from "@/components/AppShell";
+import { rootMetadata } from "@/lib/metadata";
 
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-inter",
 });
 
-export const metadata: Metadata = {
-  title: "Twelveebook",
-  description: "0.twelveebook.com",
+export const metadata = {
+  ...rootMetadata,
   icons: {
     icon: [
       { url: "/favicon_io(1)/favicon.ico", sizes: "any" },

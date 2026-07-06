@@ -4,6 +4,7 @@ import { nameToSlug } from "@/lib/utils";
 import { Metadata } from "next";
 import { getMessageRequests } from "@/lib/cms";
 import { formatTimestampFor2012 } from "@/lib/utils";
+import { createMetadata, pageTitle } from "@/lib/metadata";
 
 export const dynamic = "force-dynamic";
 
@@ -12,13 +13,10 @@ export async function generateMetadata(): Promise<Metadata> {
 
   const title =
     requests.length > 0
-      ? `Twelveebook | Message Requests (${requests.length})`
-      : "Twelveebook | Message Requests";
+      ? pageTitle(`Message Requests (${requests.length})`)
+      : pageTitle("Message Requests");
 
-  return {
-    title,
-    description: "0.twelveebook.com",
-  };
+  return createMetadata({ title });
 }
 
 export default async function MessageRequestPage() {

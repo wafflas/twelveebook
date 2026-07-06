@@ -1,11 +1,10 @@
-import { Metadata } from "next";
 import Soundboard from "./Soundboard";
 import { getSoundboard } from "@/lib/cms";
+import { createMetadata, pageTitle } from "@/lib/metadata";
 
-export const metadata: Metadata = {
-  title: "Twelveebook | Soundboard",
-  description: "0.twelveebook.com",
-};
+export const metadata = createMetadata({
+  title: pageTitle("Soundboard"),
+});
 
 export default async function SoundsPage() {
   const { pads } = await getSoundboard();

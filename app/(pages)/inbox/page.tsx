@@ -7,6 +7,7 @@ import { formatTimestampFor2012 } from "@/lib/utils";
 import { cookies } from "next/headers";
 import { redis } from "@/lib/redis";
 import { getUnreadMessageRequestCount } from "@/lib/unreadMessageRequests";
+import { createMetadata, pageTitle } from "@/lib/metadata";
 
 export const dynamic = "force-dynamic";
 
@@ -54,13 +55,10 @@ export async function generateMetadata(): Promise<Metadata> {
 
   const title =
     unreadCount > 0
-      ? `Twelveebook | Inbox (${unreadCount})`
-      : "Twelveebook | Inbox";
+      ? pageTitle(`Inbox (${unreadCount})`)
+      : pageTitle("Inbox");
 
-  return {
-    title,
-    description: "0.twelveebook.com",
-  };
+  return createMetadata({ title });
 }
 
 export default async function Inbox() {

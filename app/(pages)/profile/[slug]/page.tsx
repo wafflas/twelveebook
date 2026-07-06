@@ -1,9 +1,10 @@
 import React from "react";
 import { notFound } from "next/navigation";
+import type { Metadata } from "next";
 import { ProfileLayout } from "@/components/profiles/ProfileLayout";
 import { getProfiles, getPosts } from "@/lib/cms";
 import { nameToSlug, formatTimestampFor2012 } from "@/lib/utils";
-import { Metadata } from "next";
+import { createMetadata, pageTitle, SITE_DESCRIPTION } from "@/lib/metadata";
 
 export const dynamic = "force-dynamic";
 
@@ -27,12 +28,10 @@ export async function generateMetadata({
   const profiles = await getProfiles();
   const profile = profiles.find((p) => nameToSlug(p.name) === slug);
 
-  return {
-    title: profile
-      ? ` Twelveebook | ${profile.name} `
-      : "Profile | Twelveebook",
-    description: "0.twelveebook.com",
-  };
+  return createMetadata({
+    title: profile ? pageTitle(profile.name) : pageTitle("Profile"),
+    description: profile?.quotes?.slice(0, 160) || SITE_DESCRIPTION,
+  });
 }
 
 export default async function ProfilePage({ params }: ProfilePageProps) {

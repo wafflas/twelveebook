@@ -1,11 +1,11 @@
-import type { Metadata } from "next";
 import DinoRunner from "@/components/demos/DinoRunner";
 import { getGameDemos } from "@/lib/cms";
+import { createMetadata, pageTitle } from "@/lib/metadata";
 
-export const metadata: Metadata = {
-  title: "Twelveebook | Demos",
+export const metadata = createMetadata({
+  title: pageTitle("Demos"),
   description: "Interactive demos",
-};
+});
 
 export default async function DemosPage() {
   const demos = await getGameDemos();

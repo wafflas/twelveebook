@@ -5,7 +5,8 @@ import { getProfiles, getMessagesByContact, getChatByContact } from "@/lib/cms";
 import { Message as CMSMessage } from "@/types/Message";
 import { ChatThreadView } from "@/components/inbox/ChatThreadView";
 import { ChatReadMarker } from "@/components/inbox/ChatReadMarker";
-import { Metadata } from "next";
+import type { Metadata } from "next";
+import { createMetadata, pageTitle } from "@/lib/metadata";
 
 export const dynamic = "force-dynamic";
 
@@ -26,10 +27,9 @@ export async function generateMetadata({
   const { slug } = await params;
   const contactName = slugToName(slug);
 
-  return {
-    title: `Twelveebook | Conversation with ${contactName}`,
-    description: "0.twelveebook.com",
-  };
+  return createMetadata({
+    title: pageTitle(`Conversation with ${contactName}`),
+  });
 }
 
 export default async function ChatPage({ params }: PageProps) {

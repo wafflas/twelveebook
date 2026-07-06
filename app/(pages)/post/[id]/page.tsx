@@ -4,7 +4,12 @@ import { getPosts } from "@/lib/cms";
 import { PostCard } from "@/components/posts/PostCard";
 import { CommentsList } from "@/components/comments/CommentsList";
 import { notFound } from "next/navigation";
-import { Metadata } from "next";
+import type { Metadata } from "next";
+import {
+  createMetadata,
+  pageTitle,
+  SITE_DESCRIPTION,
+} from "@/lib/metadata";
 
 export const dynamic = "force-dynamic";
 
@@ -19,12 +24,12 @@ export async function generateMetadata({
   const posts = await getPosts();
   const post = posts.find((p) => p.id === id);
 
-  return {
+  return createMetadata({
     title: post
-      ? `Twelveebook | ${post.author.name}'s Post`
-      : "Post | Twelveebook",
-    description: post?.content?.slice(0, 160) || "0.twelveebook.com",
-  };
+      ? pageTitle(`${post.author.name}'s Post`)
+      : pageTitle("Post"),
+    description: post?.content?.slice(0, 160) || SITE_DESCRIPTION,
+  });
 }
 
 export default async function PostDetailPage({ params }: PageProps) {

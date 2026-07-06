@@ -1,13 +1,12 @@
 import { PostCard } from "@/components/posts/PostCard";
-import { Metadata } from "next";
 import { getPosts } from "@/lib/cms";
+import { createMetadata, pageTitle } from "@/lib/metadata";
 
 export const dynamic = "force-dynamic";
 
-export const metadata: Metadata = {
-  title: "Twelveebook | Home",
-  description: "0.twelveebook.com",
-};
+export const metadata = createMetadata({
+  title: pageTitle("Home"),
+});
 
 export default async function Home() {
   const posts = await getPosts();
