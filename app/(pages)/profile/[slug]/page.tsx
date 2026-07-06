@@ -9,6 +9,7 @@ import { createMetadata, pageTitle, SITE_DESCRIPTION } from "@/lib/metadata";
 export const dynamic = "force-dynamic";
 
 interface WallPost {
+  id: string;
   author: string;
   content: string;
   timestamp: string;
@@ -49,6 +50,7 @@ export default async function ProfilePage({ params }: ProfilePageProps) {
   const wallPosts: WallPost[] = allPosts
     .filter((post) => nameToSlug(post.author.name) === slug)
     .map((post) => ({
+      id: post.id,
       author: post.author.name,
       content: post.content,
       timestamp: formatTimestampFor2012(post.timestamp),

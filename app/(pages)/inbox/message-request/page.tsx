@@ -54,7 +54,7 @@ export default async function MessageRequestPage() {
                   width={48}
                   height={48}
                   sizes="48px"
-                  className="h-12 w-12 object-cover"
+                  className="aspect-square h-[48px] w-[48px] min-w-[48px] shrink-0 object-cover"
                   loading="lazy"
                 />
                 <div className="flex min-w-0 flex-col gap-0.5 leading-tight">

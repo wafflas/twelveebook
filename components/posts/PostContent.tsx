@@ -20,10 +20,10 @@ export const PostContent = memo(function PostContent({
           <Image
             src={photoUrl}
             alt="Post photo"
-            width={300}
-            height={200}
-            sizes="(max-width: 768px) 100vw, 300px"
-            className="max-w-full object-cover"
+            width={320}
+            height={320}
+            sizes="(max-width: 768px) 100vw, 320px"
+            className="aspect-square max-w-full object-cover"
           />
         </div>
       )}

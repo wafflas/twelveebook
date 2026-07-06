@@ -17,6 +17,7 @@ interface Friend {
 }
 
 interface WallPost {
+  id: string;
   author: string;
   content: string;
   timestamp: string;

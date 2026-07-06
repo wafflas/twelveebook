@@ -54,9 +54,7 @@ export async function generateMetadata(): Promise<Metadata> {
   }
 
   const title =
-    unreadCount > 0
-      ? pageTitle(`Inbox (${unreadCount})`)
-      : pageTitle("Inbox");
+    unreadCount > 0 ? pageTitle(`Inbox (${unreadCount})`) : pageTitle("Inbox");
 
   return createMetadata({ title });
 }
@@ -123,7 +121,7 @@ export default async function Inbox() {
                 width={48}
                 height={48}
                 sizes="48px"
-                className="h-12 w-12 object-cover"
+                className="aspect-square h-[48px] w-[48px] min-w-[48px] shrink-0 object-cover"
                 loading="lazy"
               />
               <div className="flex min-w-0 flex-col gap-0.5 leading-tight">

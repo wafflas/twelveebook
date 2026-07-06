@@ -17,7 +17,7 @@ export const ProfileHeader = memo(function ProfileHeader({
       width={180}
       height={180}
       sizes="180px"
-      className="h-[180px] w-[180px] min-w-[180px] shrink-0 object-cover"
+      className="aspect-square h-[180px] w-[180px] min-w-[180px] shrink-0 object-cover"
       priority
     />
   );

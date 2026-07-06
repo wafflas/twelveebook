@@ -54,10 +54,10 @@ export function PostCard({
           <Image
             src={author.avatar}
             alt={author.name}
-            width={96}
-            height={96}
-            sizes="96px"
-            className="h-[96px] w-[96px] min-w-[96px] shrink-0 object-cover"
+            width={62}
+            height={62}
+            sizes="62px"
+            className="aspect-square h-[62px] w-[62px] min-w-[62px] shrink-0 object-cover"
           />
         </Link>
 

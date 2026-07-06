@@ -68,7 +68,7 @@ export function Comment({
             width={40}
             height={40}
             sizes="40px"
-            className="object-cover"
+            className="aspect-square h-[40px] w-[40px] min-w-[40px] shrink-0 object-cover"
             loading="lazy"
           />
         </Link>
@@ -92,9 +92,9 @@ export function Comment({
                   src={photoUrl}
                   alt="Comment photo"
                   width={200}
-                  height={150}
+                  height={200}
                   sizes="(max-width: 768px) 100vw, 200px"
-                  className="max-w-full rounded object-cover"
+                  className="aspect-square max-w-full rounded object-cover"
                   loading="lazy"
                 />
               </div>

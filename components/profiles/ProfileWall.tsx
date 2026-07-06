@@ -4,6 +4,7 @@ import Link from "next/link";
 import { nameToSlug } from "@/lib/utils";
 
 interface WallPost {
+  id: string;
   author: string;
   content: string;
   timestamp: string;
@@ -125,8 +126,9 @@ export function ProfileWall({ wallPosts }: ProfileWallProps) {
 
               {post.isPhoto && (
                 <Link
-                  href="#"
+                  href={`/post/${post.id}`}
                   className="text-xs text-linkblue underline hover:text-linkblue/80"
+                  prefetch={true}
                 >
                   Photo
                 </Link>
