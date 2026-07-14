@@ -27,14 +27,6 @@ export const profile = defineType({
       name: "relationshipStatus",
       title: "Relationship status",
       type: "string",
-      options: {
-        list: [
-          { title: "Taken", value: "Taken" },
-          { title: "Single", value: "Single" },
-          { title: "Married", value: "Married" },
-          { title: "Divorced", value: "Divorced" },
-        ],
-      },
     }),
     defineField({
       name: "education",
