@@ -21,14 +21,13 @@ export function ChatComposer() {
       <FacebookToast message={toastMessage} onDismiss={dismissToast} />
       <div className="border-t border-gray-200 px-3 py-3">
         <div className="flex items-center gap-2">
-          <input
-            type="text"
+          <button
+            type="button"
             className="w-full cursor-pointer rounded border border-gray-300 px-2 py-2 text-sm outline-none"
-            placeholder="Write a message…"
-            readOnly
             onClick={showToast}
-            onFocus={showToast}
-          />
+          >
+            Write a message…
+          </button>
           <button
             type="button"
             className="rounded bg-linkblue px-3 py-2 text-sm text-white opacity-60"
