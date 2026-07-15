@@ -1,3 +1,9 @@
+// Sanity date fields return YYYY-MM-DD; display as MM/DD/YYYY
+export function formatBirthday(isoDate: string): string {
+  const [year, month, day] = isoDate.split("-");
+  return `${day}/${month}/${year}`;
+}
+
 // Format timestamp in 2012 Facebook style
 export function formatTimestampFor2012(timestamp: string): string {
   const postDate = new Date(timestamp);

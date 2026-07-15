@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { nameToSlug } from "@/lib/utils";
+import { formatBirthday, nameToSlug } from "@/lib/utils";
 import { Profile as ProfileType } from "@/types/Profile";
 import { klavika } from "@/app/fonts";
 import { ProfileHeader } from "./ProfileHeader";
@@ -60,7 +60,9 @@ export function ProfileLayout({
       </div>
 
       <ProfileInfo
-        birthday="12/10/2003" //{profile.birthday}
+        birthday={
+          profile.birthday ? formatBirthday(profile.birthday) : undefined
+        }
         city={profile.city}
         relationshipStatus={profile.relationshipStatus}
         education={profile.education}

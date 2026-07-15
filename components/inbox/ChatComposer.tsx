@@ -1,22 +1,43 @@
-import React from "react";
+"use client";
+
+import React, { useCallback, useState } from "react";
+import { FacebookToast } from "@/components/ui/FacebookToast";
+
+const NOT_TWELVEE_MESSAGE = "you ain't Twelvee brotha, can't answer that";
 
 export function ChatComposer() {
+  const [toastMessage, setToastMessage] = useState<string | null>(null);
+
+  const showToast = useCallback(() => {
+    setToastMessage(NOT_TWELVEE_MESSAGE);
+  }, []);
+
+  const dismissToast = useCallback(() => {
+    setToastMessage(null);
+  }, []);
+
   return (
-    <div className="border-t border-gray-200 px-3 py-3">
-      <div className="flex items-center gap-2">
-        <input
-          type="text"
-          className="w-full rounded border border-gray-300 px-2 py-2 text-sm outline-none"
-          placeholder="Write a message…"
-          readOnly
-        />
-        <button
-          className="rounded bg-linkblue px-3 py-2 text-sm text-white opacity-60"
-          disabled
-        >
-          Send
-        </button>
+    <>
+      <FacebookToast message={toastMessage} onDismiss={dismissToast} />
+      <div className="border-t border-gray-200 px-3 py-3">
+        <div className="flex items-center gap-2">
+          <input
+            type="text"
+            className="w-full cursor-pointer rounded border border-gray-300 px-2 py-2 text-sm outline-none"
+            placeholder="Write a message…"
+            readOnly
+            onClick={showToast}
+            onFocus={showToast}
+          />
+          <button
+            type="button"
+            className="rounded bg-linkblue px-3 py-2 text-sm text-white opacity-60"
+            onClick={showToast}
+          >
+            Send
+          </button>
+        </div>
       </div>
-    </div>
+    </>
   );
 }
