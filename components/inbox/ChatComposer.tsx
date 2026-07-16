@@ -23,7 +23,7 @@ export function ChatComposer() {
         <div className="flex items-center gap-2">
           <button
             type="button"
-            className="w-full cursor-pointer rounded border border-gray-300 px-2 py-2 text-sm outline-none"
+            className="w-full cursor-text rounded border border-gray-300 bg-white px-2 py-2 text-left text-sm text-gray-400 outline-none"
             onClick={showToast}
           >
             Write a message…
