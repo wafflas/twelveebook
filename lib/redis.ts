@@ -52,6 +52,13 @@ function createInMemoryRedis(): Redis {
   } as unknown as Redis;
 }
 
+function isProductionRuntime(): boolean {
+  return (
+    process.env.NODE_ENV === "production" &&
+    process.env.NEXT_PHASE !== "phase-production-build"
+  );
+}
+
 function createRedis(): Redis {
   const hasUpstash =
     Boolean(process.env.UPSTASH_REDIS_REST_URL) &&
@@ -61,15 +68,22 @@ function createRedis(): Redis {
     return Redis.fromEnv();
   }
 
-  if (process.env.NODE_ENV === "production") {
+  if (isProductionRuntime()) {
     throw new Error(
       "Missing UPSTASH_REDIS_REST_URL or UPSTASH_REDIS_REST_TOKEN in production",
     );
   }
 
-  console.warn(
-    "[redis] Upstash env vars not set — using in-memory store (dev only)",
-  );
+  if (process.env.NODE_ENV === "production") {
+    console.warn(
+      "[redis] Upstash env vars not set — using in-memory stub during build",
+    );
+  } else {
+    console.warn(
+      "[redis] Upstash env vars not set — using in-memory store (dev only)",
+    );
+  }
+
   return createInMemoryRedis();
 }
 
