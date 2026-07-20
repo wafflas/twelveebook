@@ -21,7 +21,9 @@ export default function DinoRunner({ demos }: DinoRunnerProps) {
   const rootRef = useRef<HTMLDivElement>(null);
   const offlineResourcesRef = useRef<HTMLDivElement>(null);
   const runnerRef = useRef<{ destroy: () => void } | null>(null);
-  const [unlockedIds, setUnlockedIds] = useState<string[]>([]);
+  const [unlockedIds, setUnlockedIds] = useState<string[]>(() =>
+    getUnlockedDemoIds(),
+  );
   const [toastMessage, setToastMessage] = useState<string | null>(null);
   const [showPlayHint, setShowPlayHint] = useState(true);
 
@@ -42,10 +44,6 @@ export default function DinoRunner({ demos }: DinoRunnerProps) {
 
   const dismissToast = useCallback(() => {
     setToastMessage(null);
-  }, []);
-
-  useEffect(() => {
-    setUnlockedIds(getUnlockedDemoIds());
   }, []);
 
   useEffect(() => {
