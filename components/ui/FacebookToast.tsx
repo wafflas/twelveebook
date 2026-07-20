@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 interface FacebookToastProps {
   message: string | null;
@@ -8,24 +8,17 @@ interface FacebookToastProps {
 }
 
 export function FacebookToast({ message, onDismiss }: FacebookToastProps) {
-  const [visible, setVisible] = useState(false);
-
   useEffect(() => {
-    if (!message) {
-      setVisible(false);
-      return;
-    }
+    if (!message) return;
 
-    setVisible(true);
     const timer = window.setTimeout(() => {
-      setVisible(false);
       onDismiss();
     }, 3500);
 
     return () => window.clearTimeout(timer);
   }, [message, onDismiss]);
 
-  if (!message || !visible) {
+  if (!message) {
     return null;
   }
 
@@ -39,10 +32,7 @@ export function FacebookToast({ message, onDismiss }: FacebookToastProps) {
         type="button"
         className="absolute right-2 top-1/2 -translate-y-1/2 text-[#dd3c10] hover:text-[#c0350e]"
         aria-label="Dismiss"
-        onClick={() => {
-          setVisible(false);
-          onDismiss();
-        }}
+        onClick={onDismiss}
       >
         ×
       </button>

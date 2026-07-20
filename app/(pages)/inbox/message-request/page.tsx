@@ -6,7 +6,7 @@ import { getMessageRequests } from "@/lib/cms";
 import { formatTimestampFor2012 } from "@/lib/utils";
 import { createMetadata, pageTitle } from "@/lib/metadata";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 60;
 
 export async function generateMetadata(): Promise<Metadata> {
   const requests = await getMessageRequests("pending");

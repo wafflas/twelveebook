@@ -7,9 +7,8 @@ const inboxRateLimit = vi.hoisted(() => ({
 const getChats = vi.hoisted(() => vi.fn());
 
 vi.mock("@/lib/redis", async () => {
-  const { createInMemoryRedis } = await import(
-    "@/tests/helpers/in-memory-redis"
-  );
+  const { createInMemoryRedis } =
+    await import("@/tests/helpers/in-memory-redis");
   return {
     redis: createInMemoryRedis(),
     inboxRateLimit,

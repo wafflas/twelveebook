@@ -1,5 +1,6 @@
 import { MessageRequest } from "@/types/MessageRequest";
 import { client } from "@/sanity/lib/client";
+import { cmsFetchOptions } from "@/lib/cms/cache";
 import { devLog } from "@/lib/utils/logger";
 
 const DEFAULT_AVATAR = "/avatars/twelvee.png";
@@ -48,7 +49,7 @@ export async function getMessageRequests(
     const results = await client.fetch<MessageRequestResult[]>(
       REQUESTS_QUERY,
       { status: status ?? null },
-      { cache: "no-store" },
+      cmsFetchOptions(),
     );
     devLog("Total message requests fetched:", results?.length ?? 0);
     return (results ?? []).map(toMessageRequest);
@@ -66,7 +67,7 @@ export async function getMessageRequestById(
     const result = await client.fetch<MessageRequestResult | null>(
       REQUEST_BY_ID_QUERY,
       { id },
-      { cache: "no-store" },
+      cmsFetchOptions(),
     );
     if (!result) return null;
     return toMessageRequest(result);

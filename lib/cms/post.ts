@@ -1,5 +1,6 @@
 import { Post } from "@/types/Post";
 import { client } from "@/sanity/lib/client";
+import { cmsFetchOptions } from "@/lib/cms/cache";
 import { devLog } from "@/lib/utils/logger";
 
 const DEFAULT_AVATAR = "/avatars/twelvee.png";
@@ -77,7 +78,7 @@ export async function getPosts(): Promise<Post[]> {
     const posts = await client.fetch<PostResult[]>(
       POSTS_QUERY,
       {},
-      { cache: "no-store" },
+      cmsFetchOptions(),
     );
     devLog("Total posts fetched:", posts?.length ?? 0);
 

@@ -9,6 +9,7 @@ import { redis } from "@/lib/redis";
 import { getUnreadMessageRequestCount } from "@/lib/unreadMessageRequests";
 import { createMetadata, pageTitle } from "@/lib/metadata";
 
+// Per-visitor unread state uses cookies + Redis — must render on each request.
 export const dynamic = "force-dynamic";
 
 // Helper function to check if visitor has read a chat since it was marked unread

@@ -2,6 +2,8 @@ import Soundboard from "./Soundboard";
 import { getSoundboard } from "@/lib/cms";
 import { createMetadata, pageTitle } from "@/lib/metadata";
 
+export const revalidate = 300;
+
 export const metadata = createMetadata({
   title: pageTitle("Soundboard"),
 });

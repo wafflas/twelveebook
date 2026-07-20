@@ -2,7 +2,7 @@ import { PostCard } from "@/components/posts/PostCard";
 import { getPosts } from "@/lib/cms";
 import { createMetadata, pageTitle } from "@/lib/metadata";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 60;
 
 export const metadata = createMetadata({
   title: pageTitle("Home"),

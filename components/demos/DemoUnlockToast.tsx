@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 interface DemoUnlockToastProps {
   message: string | null;
@@ -11,24 +11,17 @@ export default function DemoUnlockToast({
   message,
   onDismiss,
 }: DemoUnlockToastProps) {
-  const [visible, setVisible] = useState(false);
-
   useEffect(() => {
-    if (!message) {
-      setVisible(false);
-      return;
-    }
+    if (!message) return;
 
-    setVisible(true);
     const timer = window.setTimeout(() => {
-      setVisible(false);
       onDismiss();
     }, 3200);
 
     return () => window.clearTimeout(timer);
   }, [message, onDismiss]);
 
-  if (!message || !visible) {
+  if (!message) {
     return null;
   }
 

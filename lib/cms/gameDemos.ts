@@ -1,5 +1,6 @@
 import type { GameDemo } from "@/types/GameDemo";
 import { client } from "@/sanity/lib/client";
+import { CMS_RARE_REVALIDATE_SECONDS, cmsFetchOptions } from "@/lib/cms/cache";
 import { devLog } from "@/lib/utils/logger";
 
 const GAME_DEMOS_QUERY = `*[_type == "gameDemo" && defined(audio.asset)] | order(order asc, unlockScore asc){
@@ -22,7 +23,7 @@ export async function getGameDemos(): Promise<GameDemo[]> {
     const results = await client.fetch<GameDemoResult[]>(
       GAME_DEMOS_QUERY,
       {},
-      { cache: "no-store" },
+      cmsFetchOptions(CMS_RARE_REVALIDATE_SECONDS),
     );
 
     const demos = (results ?? [])

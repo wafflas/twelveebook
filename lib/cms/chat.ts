@@ -1,6 +1,7 @@
 import { Chat } from "@/types/Chat";
 import { Message } from "@/types/Message";
 import { client } from "@/sanity/lib/client";
+import { cmsFetchOptions } from "@/lib/cms/cache";
 import { devLog, devWarn } from "@/lib/utils/logger";
 
 const DEFAULT_AVATAR = "/avatars/twelvee.png";
@@ -82,7 +83,7 @@ export async function getChats(): Promise<Chat[]> {
     const chats = await client.fetch<ChatListResult[]>(
       CHATS_QUERY,
       {},
-      { cache: "no-store" },
+      cmsFetchOptions(),
     );
 
     if (!chats) {
@@ -138,7 +139,7 @@ export async function getChatByContact(
     const result = await client.fetch<ChatDetailResult | null>(
       CHAT_BY_CONTACT_QUERY,
       { contactName },
-      { cache: "no-store" },
+      cmsFetchOptions(),
     );
 
     if (result) {

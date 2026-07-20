@@ -5,13 +5,9 @@ import { PostCard } from "@/components/posts/PostCard";
 import { CommentsList } from "@/components/comments/CommentsList";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import {
-  createMetadata,
-  pageTitle,
-  SITE_DESCRIPTION,
-} from "@/lib/metadata";
+import { createMetadata, pageTitle, SITE_DESCRIPTION } from "@/lib/metadata";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 60;
 
 interface PageProps {
   params: Promise<{ id: string }>;
@@ -25,9 +21,7 @@ export async function generateMetadata({
   const post = posts.find((p) => p.id === id);
 
   return createMetadata({
-    title: post
-      ? pageTitle(`${post.author.name}'s Post`)
-      : pageTitle("Post"),
+    title: post ? pageTitle(`${post.author.name}'s Post`) : pageTitle("Post"),
     description: post?.content?.slice(0, 160) || SITE_DESCRIPTION,
   });
 }

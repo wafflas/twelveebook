@@ -1,5 +1,6 @@
 import { Soundboard } from "@/types/Soundboard";
 import { client } from "@/sanity/lib/client";
+import { CMS_RARE_REVALIDATE_SECONDS, cmsFetchOptions } from "@/lib/cms/cache";
 import { devLog } from "@/lib/utils/logger";
 
 const SOUND_PADS_QUERY = `*[_type == "soundPad" && defined(audio.asset)] | order(order asc, _createdAt asc){
@@ -18,7 +19,7 @@ export async function getSoundboard(): Promise<Soundboard> {
     const results = await client.fetch<SoundPadResult[]>(
       SOUND_PADS_QUERY,
       {},
-      { cache: "no-store" },
+      cmsFetchOptions(CMS_RARE_REVALIDATE_SECONDS),
     );
 
     const pads = (results ?? [])

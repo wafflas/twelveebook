@@ -1,5 +1,6 @@
 import { Profile } from "@/types/Profile";
 import { client } from "@/sanity/lib/client";
+import { cmsFetchOptions } from "@/lib/cms/cache";
 import { devLog } from "@/lib/utils/logger";
 
 const DEFAULT_AVATAR = "/avatars/twelvee.png";
@@ -44,7 +45,7 @@ export async function getProfiles(): Promise<Profile[]> {
     const results = await client.fetch<ProfileResult[]>(
       PROFILES_QUERY,
       {},
-      { cache: "no-store" },
+      cmsFetchOptions(),
     );
     devLog("Profiles fetched:", results?.length ?? 0);
 

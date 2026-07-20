@@ -8,7 +8,7 @@ import { ChatReadMarker } from "@/components/inbox/ChatReadMarker";
 import type { Metadata } from "next";
 import { createMetadata, pageTitle } from "@/lib/metadata";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 60;
 
 type Message = {
   id: string;

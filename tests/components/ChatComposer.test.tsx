@@ -8,9 +8,7 @@ describe("ChatComposer", () => {
     const user = userEvent.setup();
     render(<ChatComposer />);
 
-    await user.click(
-      screen.getByRole("button", { name: /write a message/i }),
-    );
+    await user.click(screen.getByRole("button", { name: /write a message/i }));
 
     expect(screen.getByRole("alert")).toHaveTextContent(
       "you ain't Twelvee brotha, can't answer that",
@@ -21,9 +19,7 @@ describe("ChatComposer", () => {
     const user = userEvent.setup();
     const { container } = render(<ChatComposer />);
 
-    await user.click(
-      within(container).getByRole("button", { name: "Send" }),
-    );
+    await user.click(within(container).getByRole("button", { name: "Send" }));
 
     expect(screen.getByRole("alert")).toHaveTextContent(
       "you ain't Twelvee brotha, can't answer that",
@@ -34,9 +30,7 @@ describe("ChatComposer", () => {
     const user = userEvent.setup();
     const { container } = render(<ChatComposer />);
 
-    await user.click(
-      within(container).getByRole("button", { name: "Send" }),
-    );
+    await user.click(within(container).getByRole("button", { name: "Send" }));
     expect(screen.getByRole("alert")).toBeInTheDocument();
 
     await user.click(screen.getByRole("button", { name: "Dismiss" }));

@@ -7,9 +7,11 @@ const NOT_TWELVEE_MESSAGE = "you ain't Twelvee brotha, can't answer that";
 
 export function ChatComposer() {
   const [toastMessage, setToastMessage] = useState<string | null>(null);
+  const [toastKey, setToastKey] = useState(0);
 
   const showToast = useCallback(() => {
     setToastMessage(NOT_TWELVEE_MESSAGE);
+    setToastKey((key) => key + 1);
   }, []);
 
   const dismissToast = useCallback(() => {
@@ -18,7 +20,11 @@ export function ChatComposer() {
 
   return (
     <>
-      <FacebookToast message={toastMessage} onDismiss={dismissToast} />
+      <FacebookToast
+        key={toastKey}
+        message={toastMessage}
+        onDismiss={dismissToast}
+      />
       <div className="border-t border-gray-200 px-3 py-3">
         <div className="flex items-center gap-2">
           <button

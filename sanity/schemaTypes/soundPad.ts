@@ -8,7 +8,8 @@ export const soundPad = defineType({
     defineField({
       name: "title",
       title: "Title (internal)",
-      description: "Only used to identify the pad in the CMS, not shown on the site.",
+      description:
+        "Only used to identify the pad in the CMS, not shown on the site.",
       type: "string",
       validation: (rule) => rule.required(),
     }),

@@ -6,9 +6,8 @@ const inboxRateLimit = vi.hoisted(() => ({
 }));
 
 vi.mock("@/lib/redis", async () => {
-  const { createInMemoryRedis } = await import(
-    "@/tests/helpers/in-memory-redis"
-  );
+  const { createInMemoryRedis } =
+    await import("@/tests/helpers/in-memory-redis");
   return {
     redis: createInMemoryRedis(),
     inboxRateLimit,
@@ -42,12 +41,18 @@ describe("POST /api/inbox/[chatId]/read", () => {
   });
 
   it("returns 400 for an invalid chat ID", async () => {
-    const res = await POST(new Request("http://localhost"), routeParams("bad id"));
+    const res = await POST(
+      new Request("http://localhost"),
+      routeParams("bad id"),
+    );
     expect(res.status).toBe(400);
   });
 
   it("marks chat as read and sets visitor cookie on first visit", async () => {
-    const res = await POST(new Request("http://localhost"), routeParams(CHAT_ID));
+    const res = await POST(
+      new Request("http://localhost"),
+      routeParams(CHAT_ID),
+    );
 
     expect(res.status).toBe(200);
     const data = await res.json();

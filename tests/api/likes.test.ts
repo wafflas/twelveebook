@@ -6,9 +6,8 @@ const likeRateLimit = vi.hoisted(() => ({
 }));
 
 vi.mock("@/lib/redis", async () => {
-  const { createInMemoryRedis } = await import(
-    "@/tests/helpers/in-memory-redis"
-  );
+  const { createInMemoryRedis } =
+    await import("@/tests/helpers/in-memory-redis");
   return {
     redis: createInMemoryRedis(),
     likeRateLimit: likeRateLimit,
@@ -166,12 +165,18 @@ describe("GET /api/likes/[postId]", () => {
   });
 
   it("returns 400 for an invalid post ID", async () => {
-    const res = await GET(new Request("http://localhost"), routeParams("bad id"));
+    const res = await GET(
+      new Request("http://localhost"),
+      routeParams("bad id"),
+    );
     expect(res.status).toBe(400);
   });
 
   it("returns zero likes for a new visitor", async () => {
-    const res = await GET(new Request("http://localhost"), routeParams(POST_ID));
+    const res = await GET(
+      new Request("http://localhost"),
+      routeParams(POST_ID),
+    );
     const data = await res.json();
 
     expect(data).toEqual({ likes: 0, likedByVisitor: false });
@@ -182,7 +187,10 @@ describe("GET /api/likes/[postId]", () => {
     await redis.sadd(`likes:visitors:${POST_ID}`, "visitor-1");
     await redis.set(`likes:count:${POST_ID}`, 3);
 
-    const res = await GET(new Request("http://localhost"), routeParams(POST_ID));
+    const res = await GET(
+      new Request("http://localhost"),
+      routeParams(POST_ID),
+    );
     const data = await res.json();
 
     expect(data).toEqual({ likes: 3, likedByVisitor: true });
