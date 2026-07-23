@@ -19,7 +19,7 @@ const CHATS_QUERY = `*[_type == "chat"]{
   }
 }`;
 
-const CHAT_BY_CONTACT_QUERY = `*[_type == "chat" && contact->name == $contactName][0]{
+const CHAT_BY_CONTACT_QUERY = `*[_type == "chat" && lower(contact->name) == lower($contactName)][0]{
   "id": _id,
   name,
   "createdAt": _createdAt,
@@ -182,14 +182,17 @@ export async function getChatByContact(
     const { getMessageRequests } = await import("./messageRequest");
 
     const acceptedRequests = await getMessageRequests("accepted");
-    let messageRequest = acceptedRequests.find(
-      (req) => req.sender.name === contactName,
+    const nameMatches = (name: string) =>
+      name.toLowerCase() === contactName.toLowerCase();
+
+    let messageRequest = acceptedRequests.find((req) =>
+      nameMatches(req.sender.name),
     );
 
     if (!messageRequest) {
       const pendingRequests = await getMessageRequests("pending");
-      messageRequest = pendingRequests.find(
-        (req) => req.sender.name === contactName,
+      messageRequest = pendingRequests.find((req) =>
+        nameMatches(req.sender.name),
       );
     }
 

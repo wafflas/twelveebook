@@ -25,7 +25,11 @@ export async function generateMetadata({
   params,
 }: PageProps): Promise<Metadata> {
   const { slug } = await params;
-  const contactName = slugToName(slug);
+  const profiles = await getProfiles();
+  const contactProfile = profiles.find(
+    (p) => p.name.toLowerCase() === slug.toLowerCase(),
+  );
+  const contactName = contactProfile?.name || slugToName(slug);
 
   return createMetadata({
     title: pageTitle(`Conversation with ${contactName}`),
@@ -34,15 +38,16 @@ export async function generateMetadata({
 
 export default async function ChatPage({ params }: PageProps) {
   const { slug } = await params;
-  const contactName = slugToName(slug);
+  const slugName = slugToName(slug);
 
   const profiles = await getProfiles();
   const meProfile = profiles.find((p) => p.name.toLowerCase() === "twelvee");
   const myAvatar = meProfile?.avatar || "/avatars/twelvee.png";
 
   const contactProfile = profiles.find(
-    (p) => p.name.toLowerCase() === contactName.toLowerCase(),
+    (p) => p.name.toLowerCase() === slug.toLowerCase(),
   );
+  const contactName = contactProfile?.name || slugName;
   const contactAvatar = contactProfile?.avatar || `/avatars/${slug}.png`;
 
   const { chat } = await getChatByContact(contactName);
