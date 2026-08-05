@@ -2,7 +2,7 @@ import React from "react";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { ProfileLayout } from "@/components/profiles/ProfileLayout";
-import { getProfiles, getPosts } from "@/lib/cms";
+import { getProfiles, getWallPosts } from "@/lib/cms";
 import { nameToSlug, formatTimestampFor2012 } from "@/lib/utils";
 import { createMetadata, pageTitle, SITE_DESCRIPTION } from "@/lib/metadata";
 
@@ -45,19 +45,17 @@ export default async function ProfilePage({ params }: ProfilePageProps) {
     notFound();
   }
 
-  // Fetch all posts and filter for this profile's wall
-  const allPosts = await getPosts();
-  const wallPosts: WallPost[] = allPosts
-    .filter((post) => nameToSlug(post.author.name) === slug)
-    .map((post) => ({
-      id: post.id,
-      author: post.author.name,
-      content: post.content,
-      timestamp: formatTimestampFor2012(post.timestamp),
-      isPhoto: Boolean(post.photoUrl),
-      taggedPeople: post.taggedPeople,
-      location: post.location,
-    }));
+  // Wall includes posts authored by this profile and posts they're tagged in
+  const posts = await getWallPosts(profile.id);
+  const wallPosts: WallPost[] = posts.map((post) => ({
+    id: post.id,
+    author: post.author.name,
+    content: post.content,
+    timestamp: formatTimestampFor2012(post.timestamp),
+    isPhoto: Boolean(post.photoUrl),
+    taggedPeople: post.taggedPeople,
+    location: post.location,
+  }));
 
   return (
     <ProfileLayout

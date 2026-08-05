@@ -23,7 +23,7 @@ export const PostContent = memo(function PostContent({
             width={320}
             height={320}
             sizes="(max-width: 768px) 100vw, 320px"
-            className="aspect-square max-w-full object-cover"
+            className="post-photo aspect-square max-w-full object-cover"
           />
         </div>
       )}

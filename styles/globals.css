@@ -8,3 +8,18 @@
     --linkblue: #3b5998;
   }
 }
+
+/* lazy load animation for post photos */
+@keyframes dialUpLoad {
+  0% {
+    clip-path: inset(0 0 100% 0);
+  }
+  100% {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+.post-photo {
+  clip-path: inset(0 0 100% 0);
+  animation: dialUpLoad 4s steps(10) forwards;
+}
