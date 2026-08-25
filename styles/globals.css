@@ -21,5 +21,5 @@
 
 .post-photo {
   clip-path: inset(0 0 100% 0);
-  animation: dialUpLoad 4s steps(10) forwards;
+  animation: dialUpLoad 2s steps(5) forwards;
 }
