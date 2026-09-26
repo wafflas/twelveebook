@@ -38,7 +38,13 @@ describe("GET /api/inbox/unread-count", () => {
     cookieStore.clear();
     (redis as ReturnType<typeof createInMemoryRedis>).clear();
     getChats.mockReset();
-    vi.mocked(inboxRateLimitMock.limit).mockResolvedValue({ success: true });
+    vi.mocked(inboxRateLimitMock.limit).mockResolvedValue({
+      success: true,
+      limit: 30,
+      remaining: 29,
+      reset: 0,
+      pending: Promise.resolve(),
+    });
   });
 
   it("counts all CMS-unread chats when visitor has no cookie", async () => {
@@ -99,7 +105,13 @@ describe("GET /api/inbox/unread-count", () => {
 
   it("returns 429 when rate limited", async () => {
     getChats.mockResolvedValue([]);
-    vi.mocked(inboxRateLimitMock.limit).mockResolvedValue({ success: false });
+    vi.mocked(inboxRateLimitMock.limit).mockResolvedValue({
+      success: false,
+      limit: 30,
+      remaining: 0,
+      reset: 0,
+      pending: Promise.resolve(),
+    });
 
     const res = await GET(new Request("http://localhost"));
     expect(res.status).toBe(429);

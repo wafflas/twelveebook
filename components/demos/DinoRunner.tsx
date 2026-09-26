@@ -6,6 +6,7 @@ import { getUnlockedDemoIds, unlockDemoId } from "@/lib/demos/session";
 import DemoUnlockPanel from "./DemoUnlockPanel";
 import DemoUnlockToast from "./DemoUnlockToast";
 import DinoPlayHint from "./DinoPlayHint";
+import DinoLeaderboard from "./DinoLeaderboard";
 import "@/lib/dino/demos-scope.css";
 
 interface DinoRunnerProps {
@@ -21,9 +22,8 @@ export default function DinoRunner({ demos }: DinoRunnerProps) {
   const rootRef = useRef<HTMLDivElement>(null);
   const offlineResourcesRef = useRef<HTMLDivElement>(null);
   const runnerRef = useRef<{ destroy: () => void } | null>(null);
-  const [unlockedIds, setUnlockedIds] = useState<string[]>(() =>
-    getUnlockedDemoIds(),
-  );
+  // Match the server render; restore browser-only unlocks after hydration.
+  const [unlockedIds, setUnlockedIds] = useState<string[]>([]);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
   const [showPlayHint, setShowPlayHint] = useState(true);
 
@@ -83,6 +83,8 @@ export default function DinoRunner({ demos }: DinoRunnerProps) {
     if (!root) {
       return;
     }
+
+    setUnlockedIds(getUnlockedDemoIds());
 
     const onDemoUnlocked = (event: Event) => {
       const { demo } = (event as CustomEvent<DemoUnlockDetail>).detail;
@@ -157,6 +159,8 @@ export default function DinoRunner({ demos }: DinoRunnerProps) {
       {unlockedDemos.length > 0 ? (
         <DemoUnlockPanel demos={unlockedDemos} />
       ) : null}
+
+      <DinoLeaderboard gameRoot={rootRef} />
     </div>
   );
 }

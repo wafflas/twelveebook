@@ -42,6 +42,8 @@ describe("POST /api/likes/[postId]", () => {
       success: true,
       remaining: 49,
       reset: 0,
+      limit: 50,
+      pending: Promise.resolve(),
     });
   });
 
@@ -143,6 +145,8 @@ describe("POST /api/likes/[postId]", () => {
       success: false,
       remaining: 0,
       reset: 12345,
+      limit: 50,
+      pending: Promise.resolve(),
     });
 
     const res = await POST(

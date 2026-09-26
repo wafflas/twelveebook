@@ -38,7 +38,7 @@ export function ChatComposer() {
             type="button"
             className="rounded bg-linkblue px-3 py-2 text-sm text-white opacity-60"
             onClick={showToast}
-          > 
+          >
             Send
           </button>
         </div>
