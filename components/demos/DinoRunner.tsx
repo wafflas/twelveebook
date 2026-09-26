@@ -142,13 +142,13 @@ export default function DinoRunner({ demos }: DinoRunnerProps) {
             <img
               id="offline-resources-1x"
               alt=""
-              src="/dino/default_100_percent/100-twelvee-sprite5.png"
+              src="/dino/default_100_percent/100-twelvee-sprite8.png"
             />
             {/* eslint-disable-next-line @next/next/no-img-element -- sprite DOM contract */}
             <img
               id="offline-resources-2x"
               alt=""
-              src="/dino/default_200_percent/200-twelvee-sprite5.png"
+              src="/dino/default_200_percent/200-twelvee-sprite8.png"
             />
           </div>
         </div>
