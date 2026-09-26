@@ -300,7 +300,7 @@ export default function DinoLeaderboard({
             </h3>
             <p id="dino-submit-score" className="mb-4">
               Your score of {pending.score.toLocaleString()} could make the top
-              10!
+              12!
             </p>
             <label htmlFor="dino-nickname" className="mb-1 block">
               Public nickname
