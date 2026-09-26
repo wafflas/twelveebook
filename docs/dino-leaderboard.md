@@ -3,6 +3,7 @@
 The game and local HI work independently of this optional feature. Scores are
 stored in the existing Upstash database under `dino:v1:*`; likes/inbox keys are
 not changed. Only the twelve best public entries are retained. Removing a top-twelve
+entry does not promote an older thirteenth-place entry because it is not stored.
 
 ## Enable
 
