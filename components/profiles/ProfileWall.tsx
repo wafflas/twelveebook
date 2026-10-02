@@ -18,6 +18,7 @@ interface ProfileWallProps {
 }
 
 export function ProfileWall({ wallPosts }: ProfileWallProps) {
+  const [visiblePostCount, setVisiblePostCount] = useState(4);
   const [expandedPosts, setExpandedPosts] = useState<Set<number>>(new Set());
 
   const toggleTagExpansion = (postIndex: number) => {
@@ -40,7 +41,7 @@ export function ProfileWall({ wallPosts }: ProfileWallProps) {
     <div className="mb-6 border-b border-gray-200 pb-4">
       <h3 className="mb-3 text-lg font-bold">Wall</h3>
       <div className="space-y-4">
-        {wallPosts.map((post, index) => {
+        {wallPosts.slice(0, visiblePostCount).map((post, index) => {
           const showAllTags = expandedPosts.has(index);
           const taggedPeople = post.taggedPeople || [];
 
@@ -138,6 +139,15 @@ export function ProfileWall({ wallPosts }: ProfileWallProps) {
           );
         })}
       </div>
+      {visiblePostCount < wallPosts.length && (
+        <button
+          type="button"
+          onClick={() => setVisiblePostCount((count) => count + 4)}
+          className="mt-3 text-sm text-linkblue underline hover:text-linkblue/80"
+        >
+          Show more
+        </button>
+      )}
     </div>
   );
 }
