@@ -3,7 +3,7 @@
 import React, { useCallback, useState } from "react";
 import { FacebookToast } from "@/components/ui/FacebookToast";
 
-const NOT_TWELVEE_MESSAGE = "you ain't Twelvee brotha, can't answer that";
+const NOT_TWELVEE_MESSAGE = "you ain't 12 dawg, can't answer that";
 
 export function ChatComposer() {
   const [toastMessage, setToastMessage] = useState<string | null>(null);

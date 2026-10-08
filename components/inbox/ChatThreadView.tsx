@@ -24,19 +24,20 @@ export function ChatThreadView({
   myAvatar,
   contactAvatar,
 }: ChatThreadViewProps) {
-  const bottomRef = useRef<HTMLDivElement>(null);
+  const messagesRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: "instant" });
+    const container = messagesRef.current;
+    if (container) {
+      container.scrollTop = container.scrollHeight;
+    }
   }, [messages]);
 
   return (
-    <div className="flex h-full flex-col">
-      <div className="flex flex-1 flex-col-reverse space-y-4 space-y-reverse overflow-y-auto px-3 py-3">
-        {/* Invisible anchor for auto-scroll */}
-        <div ref={bottomRef} />
-        {messages
-          .map((m) => (
+    <div className="flex h-full min-h-0 flex-col">
+      <div ref={messagesRef} className="min-h-0 flex-1 overflow-y-auto">
+        <div className="flex min-h-full flex-col justify-end gap-4 px-3 py-3">
+          {messages.map((m) => (
             <ChatMessage
               key={m.id}
               id={m.id}
@@ -47,8 +48,8 @@ export function ChatThreadView({
               myAvatar={myAvatar}
               contactAvatar={contactAvatar}
             />
-          ))
-          .reverse()}
+          ))}
+        </div>
       </div>
 
       <ChatComposer />
