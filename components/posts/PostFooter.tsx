@@ -45,7 +45,7 @@ export function PostFooter({
             {likedByVisitor ? "Liked <3" : "Like"}
           </button>
         </div>
-        <p>{likes} people like this.</p>
+        <p>{likes} {likes === 1 ? "person" : "people"} {likes === 1 ? "likes" : "like"} this.</p>
       </div>
     </>
   );
