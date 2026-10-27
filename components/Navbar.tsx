@@ -10,6 +10,7 @@ import Container from "./ui/Container";
 export default function Navbar() {
   const pathname = usePathname();
   const { unreadCount } = useUnreadCount();
+  const normalizedPathname = pathname?.replace(/\/+$/, "") || "/";
 
   const navItems = useMemo(
     () => [
@@ -55,7 +56,7 @@ export default function Navbar() {
             <div className="flex items-center justify-between gap-4">
               <ul className="flex space-x-1">
                 {navItems.map((item) => {
-                  const isActive = pathname === item.href;
+                  const isActive = normalizedPathname === item.href;
                   const isInbox = item.href === "/inbox";
                   const displayLabel =
                     isInbox && unreadCount > 0
@@ -71,7 +72,8 @@ export default function Navbar() {
                       ) : (
                         <Link
                           href={item.href}
-                          className={`p-0.5 ${isActive ? "bg-white/20" : "text-white/80 hover:bg-white/10 hover:text-white"}`}
+                          aria-current={isActive ? "page" : undefined}
+                          className={`p-0.5 ${isActive ? "bg-white/20 text-white" : "text-white/80 hover:bg-white/10 hover:text-white"}`}
                         >
                           {displayLabel}
                         </Link>
