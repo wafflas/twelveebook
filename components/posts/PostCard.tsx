@@ -23,6 +23,8 @@ interface PostCardProps {
   taggedPeople?: { name: string; avatar: string }[];
   location?: string;
   photoUrl?: string;
+  videoUrl?: string;
+  videoThumbnailUrl?: string;
 }
 
 export function PostCard({
@@ -35,6 +37,8 @@ export function PostCard({
   taggedPeople = [],
   location,
   photoUrl,
+  videoUrl,
+  videoThumbnailUrl,
 }: PostCardProps) {
   const { likes, likedByVisitor, loading, toggleLike } = useLikes({
     itemId: id,
@@ -61,14 +65,19 @@ export function PostCard({
           />
         </Link>
 
-        <div className="flex min-h-[96px] flex-1 flex-col gap-1 text-xs">
+        <div className="flex min-h-[96px] min-w-0 flex-1 flex-col gap-1 text-xs">
           <PostHeader
             author={author}
             taggedPeople={taggedPeople}
             location={location}
           />
 
-          <PostContent content={content} photoUrl={photoUrl} />
+          <PostContent
+            content={content}
+            photoUrl={photoUrl}
+            videoUrl={videoUrl}
+            videoThumbnailUrl={videoThumbnailUrl}
+          />
 
           <PostFooter
             postId={id}

@@ -162,7 +162,7 @@ export function CommentsList({ comments, commentsCount }: CommentsListProps) {
       {/* Comments list */}
       {comments.length > 0 ? (
         <>
-          <div className="space-y-3">
+          <div className="divide-y divide-gray-200">
             {displayedComments.map((comment) => {
               const commentLikeState = getCommentLikeState(comment.id);
               return (

@@ -2,11 +2,15 @@ import React, { memo } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { nameToSlug } from "@/lib/utils";
+import { VideoPlayer } from "@/components/shared/VideoPlayer";
 
 interface ChatMessageProps {
   id: string;
   from: "me" | "them";
   text: string;
+  photoUrl?: string;
+  videoUrl?: string;
+  videoThumbnailUrl?: string;
   when: string;
   contactName: string;
   myAvatar: string;
@@ -16,6 +20,9 @@ interface ChatMessageProps {
 export const ChatMessage = memo(function ChatMessage({
   from,
   text,
+  photoUrl,
+  videoUrl,
+  videoThumbnailUrl,
   when,
   contactName,
   myAvatar,
@@ -49,6 +56,27 @@ export const ChatMessage = memo(function ChatMessage({
           <div className="whitespace-pre-wrap break-words bg-white text-[14px] leading-5 text-black">
             {text}
           </div>
+          {photoUrl && (
+            <div className="mt-2">
+              <Image
+                src={photoUrl}
+                alt="Message photo"
+                width={320}
+                height={320}
+                sizes="(max-width: 768px) 100vw, 320px"
+                className="aspect-square max-w-full object-contain"
+              />
+            </div>
+          )}
+          {videoUrl && (
+            <div className="mt-2">
+              <VideoPlayer
+                src={videoUrl}
+                poster={videoThumbnailUrl}
+                label="Message video"
+              />
+            </div>
+          )}
           <div className="flex items-center gap-1">
             <div className="mt-1 text-[11px] text-gray-500">{when} ·</div>
             <div className="mt-1 text-[11px] text-linkblue">

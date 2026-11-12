@@ -30,7 +30,7 @@ export function Reply({
   onToggleLike,
 }: ReplyProps) {
   return (
-    <div className="flex gap-2">
+    <div className="flex items-start gap-2 py-3">
       <Link href={`/profile/${nameToSlug(author.name)}`} prefetch={true}>
         <Image
           src={author.avatar}
@@ -42,38 +42,33 @@ export function Reply({
           loading="lazy"
         />
       </Link>
-      <div className="flex-1">
-        <div className="rounded px-3 py-2">
-          <div className="mb-1">
-            <Link
-              href={`/profile/${nameToSlug(author.name)}`}
-              className="text-sm font-semibold text-linkblue hover:text-linkblue/80"
-            >
-              {author.name}
-            </Link>
-          </div>
-          <TextWithMentions
-            text={text}
-            className="break-words text-sm text-black"
-          />
-          {photoUrl && (
-            <div className="mt-2">
-              <Image
-                src={photoUrl}
-                alt="Reply photo"
-                width={200}
-                height={200}
-                sizes="(max-width: 768px) 100vw, 200px"
-                className="aspect-square max-w-full rounded object-cover"
-                loading="lazy"
-              />
-            </div>
-          )}
-          <div className="mt-2 text-xs text-gray-500">
-            {formatTimestampFor2012(timestamp)}
-          </div>
+      <div className="flex min-w-0 flex-1 flex-col gap-1 text-xs">
+        <div className="text-sm">
+          <Link
+            href={`/profile/${nameToSlug(author.name)}`}
+            className="text-linkblue hover:text-linkblue/80"
+          >
+            {author.name}
+          </Link>
         </div>
-        <div className="mt-1 flex items-center gap-2 px-3 text-xs">
+        <TextWithMentions text={text} className="break-words text-black" />
+        {photoUrl && (
+          <div className="mt-2">
+            <Image
+              src={photoUrl}
+              alt="Reply photo"
+              width={200}
+              height={200}
+              sizes="(max-width: 768px) 100vw, 200px"
+              className="aspect-square max-w-full rounded object-cover"
+              loading="lazy"
+            />
+          </div>
+        )}
+        <div className="text-timestampgray">
+          {formatTimestampFor2012(timestamp)}
+        </div>
+        <div className="flex flex-wrap items-center gap-2">
           <button
             onClick={onToggleLike}
             disabled={loading}

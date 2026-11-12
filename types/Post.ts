@@ -32,5 +32,7 @@ export interface Post {
   taggedPeople?: PostAuthor[];
   location?: string;
   photoUrl?: string;
+  videoUrl?: string;
+  videoThumbnailUrl?: string;
   commentsData?: PostComment[];
 }

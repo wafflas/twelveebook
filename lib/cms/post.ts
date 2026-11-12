@@ -14,6 +14,8 @@ const POST_PROJECTION = `{
   "timestamp": _createdAt,
   location,
   "photoUrl": photos.asset->url,
+  "videoUrl": video.asset->url,
+  "videoThumbnailUrl": videoThumbnail.asset->url,
   "author": author->${AUTHOR_PROJECTION},
   "taggedPeople": taggedPeople[]->${AUTHOR_PROJECTION},
   "commentsData": comments[]->{
@@ -70,6 +72,8 @@ interface PostResult {
   timestamp: string;
   location: string | null;
   photoUrl: string | null;
+  videoUrl: string | null;
+  videoThumbnailUrl: string | null;
   author: AuthorResult | null;
   taggedPeople: AuthorResult[] | null;
   commentsData: CommentResult[] | null;
@@ -91,6 +95,8 @@ function toPost(p: PostResult): Post {
     timestamp: p.timestamp,
     comments: p.commentsData?.length || 0,
     photoUrl: p.photoUrl ?? undefined,
+    videoUrl: p.videoUrl ?? undefined,
+    videoThumbnailUrl: p.videoThumbnailUrl ?? undefined,
     taggedPeople: p.taggedPeople?.map(toAuthor) ?? [],
     location: p.location ?? undefined,
     commentsData:

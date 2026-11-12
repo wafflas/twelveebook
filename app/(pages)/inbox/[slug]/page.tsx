@@ -14,6 +14,9 @@ type Message = {
   id: string;
   from: "me" | "them";
   text: string;
+  photoUrl?: string;
+  videoUrl?: string;
+  videoThumbnailUrl?: string;
   when: string; // already formatted (e.g., "2 min ago")
 };
 
@@ -68,6 +71,9 @@ export default async function ChatPage({ params }: PageProps) {
       id: msg.id,
       from: isFromMe ? "me" : "them",
       text: msg.text,
+      photoUrl: msg.photoUrl,
+      videoUrl: msg.videoUrl,
+      videoThumbnailUrl: msg.videoThumbnailUrl,
       when: formatTimestampFor2012(msg.createdAt),
     };
   });

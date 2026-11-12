@@ -8,6 +8,9 @@ type Message = {
   id: string;
   from: "me" | "them";
   text: string;
+  photoUrl?: string;
+  videoUrl?: string;
+  videoThumbnailUrl?: string;
   when: string;
 };
 
@@ -43,6 +46,9 @@ export function ChatThreadView({
               id={m.id}
               from={m.from}
               text={m.text}
+              photoUrl={m.photoUrl}
+              videoUrl={m.videoUrl}
+              videoThumbnailUrl={m.videoThumbnailUrl}
               when={m.when}
               contactName={contactName}
               myAvatar={myAvatar}

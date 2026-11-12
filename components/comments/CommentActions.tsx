@@ -21,7 +21,7 @@ export function CommentActions({
   onToggleReplies,
 }: CommentActionsProps) {
   return (
-    <div className="mt-1 flex items-center justify-between px-3 text-xs">
+    <div className="flex flex-wrap items-center gap-2 text-xs">
       <div className="flex items-center gap-2">
         <button
           onClick={onToggleLike}

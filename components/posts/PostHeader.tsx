@@ -21,7 +21,7 @@ export const PostHeader = memo(function PostHeader({
     <div className="text-sm">
       <Link
         href={`/profile/${nameToSlug(author.name)}`}
-        className="text-linkblue hover:text-linkblue/80"
+        className="font-semibold text-linkblue hover:text-linkblue/80"
         prefetch={true}
       >
         {author.name}

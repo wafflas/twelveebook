@@ -13,6 +13,7 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "test": "vitest run",
+    "test:sanity": "vitest run tests/unit/sanity-media-schema.test.ts tests/unit/sanity-media-queries.test.ts tests/components/SanityMessageMedia.test.tsx tests/components/VideoAttachments.test.tsx",
     "test:watch": "vitest",
     "test:e2e": "playwright test"
   },
@@ -45,6 +46,7 @@
     "eslint-config-next": "^16.1.6",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-prettier": "^5.5.4",
+    "groq-js": "^1.30.3",
     "jsdom": "^29.1.1",
     "postcss": "^8.5.6",
     "prettier": "^3.6.2",

@@ -60,48 +60,43 @@ export function Comment({
 }: CommentProps) {
   return (
     <div>
-      <div className="flex gap-2">
+      <div className="flex items-start gap-2 py-3">
         <Link href={`/profile/${nameToSlug(author.name)}`} prefetch={true}>
           <Image
             src={author.avatar}
             alt={`${author.name}'s avatar`}
-            width={40}
-            height={40}
-            sizes="40px"
-            className="aspect-square h-[40px] w-[40px] min-w-[40px] shrink-0 object-cover"
+            width={48}
+            height={48}
+            sizes="48px"
+            className="aspect-square h-[48px] w-[48px] min-w-[48px] shrink-0 object-cover"
             loading="lazy"
           />
         </Link>
-        <div className="flex-1">
-          <div className="rounded px-3 py-2">
-            <div className="mb-1">
-              <Link
-                href={`/profile/${nameToSlug(author.name)}`}
-                className="text-sm font-semibold text-linkblue hover:text-linkblue/80"
-              >
-                {author.name}
-              </Link>
+        <div className="flex min-w-0 flex-1 flex-col gap-1 text-xs">
+          <div className="text-sm">
+            <Link
+              href={`/profile/${nameToSlug(author.name)}`}
+              className="font-semibold text-linkblue hover:text-linkblue/80"
+            >
+              {author.name}
+            </Link>
+          </div>
+          <TextWithMentions text={text} className="break-words text-black" />
+          {photoUrl && (
+            <div className="mt-2">
+              <Image
+                src={photoUrl}
+                alt="Comment photo"
+                width={200}
+                height={200}
+                sizes="(max-width: 768px) 100vw, 200px"
+                className="aspect-square max-w-full rounded object-cover"
+                loading="lazy"
+              />
             </div>
-            <TextWithMentions
-              text={text}
-              className="break-words text-sm text-black"
-            />
-            {photoUrl && (
-              <div className="mt-2">
-                <Image
-                  src={photoUrl}
-                  alt="Comment photo"
-                  width={200}
-                  height={200}
-                  sizes="(max-width: 768px) 100vw, 200px"
-                  className="aspect-square max-w-full rounded object-cover"
-                  loading="lazy"
-                />
-              </div>
-            )}
-            <div className="mt-2 text-xs text-gray-500">
-              {formatTimestampFor2012(timestamp)}
-            </div>
+          )}
+          <div className="text-timestampgray">
+            {formatTimestampFor2012(timestamp)}
           </div>
           <CommentActions
             likes={likes}
@@ -116,7 +111,7 @@ export function Comment({
       </div>
 
       {showReplies && replies.length > 0 && (
-        <div className="ml-12 mt-2 space-y-2">
+        <div className="ml-14">
           {replies.map((reply) => {
             const replyLikeState = getReplyLikeState(reply.id);
             return (

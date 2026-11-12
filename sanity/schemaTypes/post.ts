@@ -26,6 +26,23 @@ export const post = defineType({
       options: { hotspot: true },
     }),
     defineField({
+      name: "video",
+      title: "Video",
+      description:
+        "Upload an MP4, WebM, or MOV video to display below the post text.",
+      type: "file",
+      options: {
+        accept: "video/mp4,video/webm,video/quicktime,.mp4,.webm,.mov",
+      },
+    }),
+    defineField({
+      name: "videoThumbnail",
+      title: "Video thumbnail",
+      description:
+        "Optional preview image shown before playback, including on mobile.",
+      type: "image",
+    }),
+    defineField({
       name: "author",
       title: "Author",
       type: "reference",

@@ -25,6 +25,29 @@ export const messageRequest = defineType({
       validation: (rule) => rule.required(),
     }),
     defineField({
+      name: "photos",
+      title: "Photo",
+      description: "Upload an image to display below the message text.",
+      type: "image",
+    }),
+    defineField({
+      name: "video",
+      title: "Video",
+      description:
+        "Upload an MP4, WebM, or MOV video to display below the message text.",
+      type: "file",
+      options: {
+        accept: "video/mp4,video/webm,video/quicktime,.mp4,.webm,.mov",
+      },
+    }),
+    defineField({
+      name: "videoThumbnail",
+      title: "Video thumbnail",
+      description:
+        "Optional preview image shown before playback, including on mobile.",
+      type: "image",
+    }),
+    defineField({
       name: "createdAt",
       title: "Created at",
       type: "datetime",

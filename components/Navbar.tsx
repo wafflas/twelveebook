@@ -10,7 +10,10 @@ import Container from "./ui/Container";
 export default function Navbar() {
   const pathname = usePathname();
   const { unreadCount } = useUnreadCount();
-  const normalizedPathname = pathname?.replace(/\/+$/, "") || "/";
+  const trimmedPathname = pathname?.replace(/\/+$/, "") || "/";
+  // Vercel can prerender the homepage with /index as its internal pathname.
+  const normalizedPathname =
+    trimmedPathname === "/index" ? "/" : trimmedPathname;
 
   const navItems = useMemo(
     () => [

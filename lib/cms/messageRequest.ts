@@ -10,6 +10,9 @@ const REQUEST_PROJECTION = `{
   name,
   "sender": sender->{ "name": name, "avatar": avatar.asset->url },
   "text": text,
+  "photoUrl": photos.asset->url,
+  "videoUrl": video.asset->url,
+  "videoThumbnailUrl": videoThumbnail.asset->url,
   "createdAt": coalesce(createdAt, _createdAt),
   status
 }`;
@@ -23,6 +26,9 @@ interface MessageRequestResult {
   name?: string | null;
   sender: { name: string | null; avatar: string | null } | null;
   text: string;
+  photoUrl: string | null;
+  videoUrl: string | null;
+  videoThumbnailUrl: string | null;
   createdAt: string;
   status: string;
 }
@@ -36,6 +42,9 @@ function toMessageRequest(r: MessageRequestResult): MessageRequest {
       avatar: r.sender?.avatar || DEFAULT_AVATAR,
     },
     text: r.text,
+    photoUrl: r.photoUrl ?? undefined,
+    videoUrl: r.videoUrl ?? undefined,
+    videoThumbnailUrl: r.videoThumbnailUrl ?? undefined,
     createdAt: r.createdAt,
     status: r.status as "pending" | "accepted" | "declined" | "ignored",
   };

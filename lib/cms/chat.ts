@@ -31,6 +31,9 @@ const CHAT_BY_CONTACT_QUERY = `*[_type == "chat" && lower(contact->name) == lowe
     name,
     "sender": sender->{ "name": name, "avatar": avatar.asset->url },
     "text": text,
+    "photoUrl": photos.asset->url,
+    "videoUrl": video.asset->url,
+    "videoThumbnailUrl": videoThumbnail.asset->url,
     "createdAt": coalesce(createdAt, _createdAt)
   }
 }`;
@@ -55,6 +58,9 @@ interface ChatMessageResult {
   name?: string | null;
   sender: ContactResult | null;
   text: string | null;
+  photoUrl: string | null;
+  videoUrl: string | null;
+  videoThumbnailUrl: string | null;
   createdAt: string;
 }
 
@@ -153,6 +159,9 @@ export async function getChatByContact(
             avatar: msg.sender?.avatar || DEFAULT_AVATAR,
           },
           text: msg.text || "",
+          photoUrl: msg.photoUrl ?? undefined,
+          videoUrl: msg.videoUrl ?? undefined,
+          videoThumbnailUrl: msg.videoThumbnailUrl ?? undefined,
           createdAt: msg.createdAt,
         }))
         .sort(
@@ -223,6 +232,9 @@ export async function getChatByContact(
         avatar: messageRequest.sender.avatar,
       },
       text: messageRequest.text,
+      photoUrl: messageRequest.photoUrl,
+      videoUrl: messageRequest.videoUrl,
+      videoThumbnailUrl: messageRequest.videoThumbnailUrl,
       createdAt: messageRequest.createdAt,
     };
 

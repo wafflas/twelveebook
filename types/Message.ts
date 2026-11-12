@@ -7,5 +7,8 @@ export interface Message {
     avatar: string;
   };
   text: string;
+  photoUrl?: string;
+  videoUrl?: string;
+  videoThumbnailUrl?: string;
   createdAt: string;
 }
